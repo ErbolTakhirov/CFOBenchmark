@@ -1,0 +1,31 @@
+{
+  "cache_key": "1dec69ed02e54d990a9503cb54e90c4b2883c82f9c64bc8812c0c475be5121d9",
+  "written_at": "2026-07-11T07:18:40.898421Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"numeric_value\": 19200,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The double-declining balance method is calculated by applying a depreciation rate that is twice the straight-line rate to the asset's book value at the beginning of each period.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"numeric_value\": 19200,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The double-declining balance method is calculated by applying a depreciation rate that is twice the straight-line rate to the asset's book value at the beginning of each period.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 331,
+      "completion_tokens": 91,
+      "total_tokens": 422
+    },
+    "latency_ms": 19655.964523999955,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-12",
+      "finish_reason": "stop"
+    }
+  }
+}

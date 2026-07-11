@@ -1,0 +1,31 @@
+{
+  "cache_key": "11760debdc7463c25c16b8e76ccb99a6bf4946ccd38de6330d28856510da8b6b",
+  "written_at": "2026-07-11T07:09:42.154422Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"45.5\", \"numeric_value\": 45.5, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": false, \"confidence\": 0.96, \"brief_explanation\": \"There are approximately 455 destinations on all seven continents combined. Assuming each continent has the same number of destinations, we divide this total by 7.\"}",
+    "financial_answer": {
+      "answer": "45.5",
+      "numeric_value": 45.5,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 0.96,
+      "brief_explanation": "There are approximately 455 destinations on all seven continents combined. Assuming each continent has the same number of destinations, we divide this total by 7."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1361,
+      "completion_tokens": 90,
+      "total_tokens": 1451
+    },
+    "latency_ms": 35287.671762000005,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-679",
+      "finish_reason": "stop"
+    }
+  }
+}

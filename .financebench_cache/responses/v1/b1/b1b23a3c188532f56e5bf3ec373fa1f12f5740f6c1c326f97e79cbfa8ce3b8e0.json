@@ -1,0 +1,31 @@
+{
+  "cache_key": "b1b23a3c188532f56e5bf3ec373fa1f12f5740f6c1c326f97e79cbfa8ce3b8e0",
+  "written_at": "2026-07-11T07:16:11.413948Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"592\",\n  \"numeric_value\": 592,\n  \"unit\": \"usd\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The value added tax receivables, net, noncurrent amount in 2019 is listed directly in the table provided.\"\n}",
+    "financial_answer": {
+      "answer": "592",
+      "numeric_value": 592.0,
+      "unit": "usd",
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The value added tax receivables, net, noncurrent amount in 2019 is listed directly in the table provided."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 449,
+      "completion_tokens": 93,
+      "total_tokens": 542
+    },
+    "latency_ms": 18799.569451000025,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-452",
+      "finish_reason": "stop"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "cache_key": "8abe6a277a4cfeb70ff0a817b0ab1ec0759f53816ab69c774b668441eb140136",
+  "written_at": "2026-07-11T07:18:03.575796Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"7.00%\",\n  \"numeric_value\": 7,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The WACC is calculated using the formula: (E/V * Re) + ((D/V * Rd * (1 - Tc))), where E is market value of equity, D is market value of debt, V = E + D, Re is cost of equity, Rd is after-tax cost of debt, and Tc is corporate tax rate. Plugging in the provided values gives us a WACC of 7%.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"7.00%\",\n  \"numeric_value\": 7,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The WACC is calculated using the formula: (E/V * Re) + ((D/V * Rd * (1 - Tc))), where E is market value of equity, D is market value of debt, V = E + D, Re is cost of equity, Rd is after-tax cost of debt, and Tc is corporate tax rate. Plugging in the provided values gives us a WACC of 7%.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 346,
+      "completion_tokens": 150,
+      "total_tokens": 496
+    },
+    "latency_ms": 16389.529891999926,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-106",
+      "finish_reason": "stop"
+    }
+  }
+}

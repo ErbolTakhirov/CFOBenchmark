@@ -1,0 +1,31 @@
+{
+  "cache_key": "1bae767a8960f105d7e3e503159c3c7ca2b31f71e7d9a9d8d51d4139f772a1bb",
+  "written_at": "2026-07-11T07:11:29.316655Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"numeric_value\": 5.8,\n  \"unit\": \"millions\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The impairment costs for the years 2004, 2003, and prior to 2003 are provided in the context: $0.5 million in 2004, $0.6 million in 2003, and $4.7 million before 2003.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"numeric_value\": 5.8,\n  \"unit\": \"millions\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The impairment costs for the years 2004, 2003, and prior to 2003 are provided in the context: $0.5 million in 2004, $0.6 million in 2003, and $4.7 million before 2003.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1298,
+      "completion_tokens": 126,
+      "total_tokens": 1424
+    },
+    "latency_ms": 37674.964552000005,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-64",
+      "finish_reason": "stop"
+    }
+  }
+}

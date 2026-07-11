@@ -1,0 +1,31 @@
+{
+  "cache_key": "cd70dd45c7ed234d117ca02d30155587c823b127254d6154b6e7366be4757693",
+  "written_at": "2026-07-11T07:13:42.646952Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"2018\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The year with the largest total sales is 2018, as indicated by the table where the total sales for that year (1,202.9 million) are higher than those of 2017 and 2019.\"\n}",
+    "financial_answer": {
+      "answer": "2018",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The year with the largest total sales is 2018, as indicated by the table where the total sales for that year (1,202.9 million) are higher than those of 2017 and 2019."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 510,
+      "completion_tokens": 115,
+      "total_tokens": 625
+    },
+    "latency_ms": 13676.487028999985,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-596",
+      "finish_reason": "stop"
+    }
+  }
+}

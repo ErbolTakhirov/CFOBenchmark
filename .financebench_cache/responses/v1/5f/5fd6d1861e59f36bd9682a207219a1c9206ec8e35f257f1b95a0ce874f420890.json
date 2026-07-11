@@ -1,0 +1,31 @@
+{
+  "cache_key": "5fd6d1861e59f36bd9682a207219a1c9206ec8e35f257f1b95a0ce874f420890",
+  "written_at": "2026-07-11T07:13:34.335771Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"$1,496.5\",\n  \"numeric_value\": 1496.5,\n  \"unit\": null,\n  \"period\": \"Years Ended September 30\",\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The total sales amount for the year 2019 is directly provided in the table as $1,496.5 million.\"\n}",
+    "financial_answer": {
+      "answer": "$1,496.5",
+      "numeric_value": 1496.5,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The total sales amount for the year 2019 is directly provided in the table as $1,496.5 million."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 512,
+      "completion_tokens": 106,
+      "total_tokens": 618
+    },
+    "latency_ms": 5366.094643999986,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-495",
+      "finish_reason": "stop"
+    }
+  }
+}

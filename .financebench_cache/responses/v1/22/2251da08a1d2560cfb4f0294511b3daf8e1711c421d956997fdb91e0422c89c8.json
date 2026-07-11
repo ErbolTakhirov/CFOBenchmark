@@ -1,0 +1,38 @@
+{
+  "cache_key": "2251da08a1d2560cfb4f0294511b3daf8e1711c421d956997fdb91e0422c89c8",
+  "written_at": "2026-07-11T07:14:01.781878Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n\"Heat\": \"percent\",\n\"answer\": \"Industry end market information is presented consistently with our internal management reporting and may be revised periodically as management deems necessary.\",\n\"citations\": [\n    {\n        \"document_id\": \"...\",\n        \"page\": null,\n        \"table\": \"Table\",\n        \"row\": \"1\"\n    }\n],\n\"insufficient_information\": false,\n\"confidence\": 1.0,\n\"brief_explanation\": \"The answer is directly stated in the provided context.\"\n}",
+    "financial_answer": {
+      "answer": "Industry end market information is presented consistently with our internal management reporting and may be revised periodically as management deems necessary.",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table",
+          "row": "1"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The answer is directly stated in the provided context."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 621,
+      "completion_tokens": 103,
+      "total_tokens": 724
+    },
+    "latency_ms": 19134.258240999996,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-552",
+      "finish_reason": "stop"
+    }
+  }
+}

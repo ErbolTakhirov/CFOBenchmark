@@ -1,0 +1,31 @@
+{
+  "cache_key": "01e2069c95d0230023e70cdc1dc30702b711d5a8ccec08622ae9c3c577cfd8c6",
+  "written_at": "2026-07-11T07:15:57.758798Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"2.95\", \"numeric_value\": 2.95, \"unit\": \"ratio\", \"period\": \"2019\", \"citations\": [], \"insufficient_information\": null, \"confidence\": 1, \"brief_explanation\": \"To calculate the ratio of IMFT's total assets to total liabilities in 2019: Total Assets (2019) = $2,664; Total Liabilities (2019) = $909. Ratio = Total Assets / Total Liabilities = $2,664 / $909 \u2248 2.95\"}",
+    "financial_answer": {
+      "answer": "{\"answer\": \"2.95\", \"numeric_value\": 2.95, \"unit\": \"ratio\", \"period\": \"2019\", \"citations\": [], \"insufficient_information\": null, \"confidence\": 1, \"brief_explanation\": \"To calculate the ratio of IMFT's total assets to total liabilities in 2019: Total Assets (2019) = $2,664; Total Liabilities (2019) = $909. Ratio = Total Assets / Total Liabilities = $2,664 / $909 \u2248 2.95\"}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1365,
+      "completion_tokens": 138,
+      "total_tokens": 1503
+    },
+    "latency_ms": 20761.715551999943,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-810",
+      "finish_reason": "stop"
+    }
+  }
+}

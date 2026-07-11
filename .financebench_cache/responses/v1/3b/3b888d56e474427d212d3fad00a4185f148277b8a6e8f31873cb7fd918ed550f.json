@@ -1,0 +1,31 @@
+{
+  "cache_key": "3b888d56e474427d212d3fad00a4185f148277b8a6e8f31873cb7fd918ed550f",
+  "written_at": "2026-07-11T07:19:17.235026Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"-4.76%\",\n  \"numeric_value\": -4.76,\n  \"unit\": \"percentage_points\",\n  \"period\": \"years\",\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The geometric mean return is calculated by taking the nth root of the product of (1 + each annual return in decimal form), then subtracting one, where n is the number of years. For this data, we calculate ((1+20/100) * (1-30/100) * (1+15/100))^(1/3)-1 = -4.76%\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"-4.76%\",\n  \"numeric_value\": -4.76,\n  \"unit\": \"percentage_points\",\n  \"period\": \"years\",\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The geometric mean return is calculated by taking the nth root of the product of (1 + each annual return in decimal form), then subtracting one, where n is the number of years. For this data, we calculate ((1+20/100) * (1-30/100) * (1+15/100))^(1/3)-1 = -4.76%\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 304,
+      "completion_tokens": 158,
+      "total_tokens": 462
+    },
+    "latency_ms": 21607.169148000026,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-231",
+      "finish_reason": "stop"
+    }
+  }
+}

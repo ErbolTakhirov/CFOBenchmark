@@ -1,0 +1,31 @@
+{
+  "cache_key": "b1c283cae878133310366a6bae1111559f2c43eeab93e85eb6fde910b110b9e6",
+  "written_at": "2026-07-11T07:18:55.627266Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"numeric_value\": 7.5,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The worth of Superior's common equity can be calculated using the dividend discount model, considering both the current dividends and their expected growth.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"numeric_value\": 7.5,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The worth of Superior's common equity can be calculated using the dividend discount model, considering both the current dividends and their expected growth.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 287,
+      "completion_tokens": 81,
+      "total_tokens": 368
+    },
+    "latency_ms": 18545.39650100003,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-457",
+      "finish_reason": "stop"
+    }
+  }
+}

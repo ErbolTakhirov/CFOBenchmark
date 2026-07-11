@@ -1,0 +1,31 @@
+{
+  "cache_key": "fef0d411417f4fafe2671a413cc23bf33149c609694f2b957da075ba727481ac",
+  "written_at": "2026-07-11T07:08:26.992775Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"30.4%\", \"numeric_value\": null, \"unit\": \"%\", \"period\": \"2018\", \"citations\": [], \"insufficient_information\": null, \"confidence\": 1, \"brief_explanation\": \"The total future minimum rental payments as of december 2015 are $2,575 million. The amount due in 2018 is $301 million. To find the percentage, divide $301 by $2,575 and multiply by 100: ($301 / $2,575) * 100 = 30.4%.\"}",
+    "financial_answer": {
+      "answer": "{\"answer\": \"30.4%\", \"numeric_value\": null, \"unit\": \"%\", \"period\": \"2018\", \"citations\": [], \"insufficient_information\": null, \"confidence\": 1, \"brief_explanation\": \"The total future minimum rental payments as of december 2015 are $2,575 million. The amount due in 2018 is $301 million. To find the percentage, divide $301 by $2,575 and multiply by 100: ($301 / $2,575) * 100 = 30.4%.\"}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1265,
+      "completion_tokens": 144,
+      "total_tokens": 1409
+    },
+    "latency_ms": 39558.072899000006,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-966",
+      "finish_reason": "stop"
+    }
+  }
+}

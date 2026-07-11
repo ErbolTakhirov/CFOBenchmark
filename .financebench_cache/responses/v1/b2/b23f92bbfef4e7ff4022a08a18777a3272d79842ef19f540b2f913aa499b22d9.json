@@ -1,0 +1,31 @@
+{
+  "cache_key": "b23f92bbfef4e7ff4022a08a18777a3272d79842ef19f540b2f913aa499b22d9",
+  "written_at": "2026-07-11T07:14:44.295904Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"negative\", \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": null, \"confidence\": 1.0, \"brief_explanation\": \"The table does not provide the expected return on plan assets for 2018 and 2019 to calculate a year-on-year percentage change.\"}",
+    "financial_answer": {
+      "answer": "{\"answer\": \"negative\", \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": null, \"confidence\": 1.0, \"brief_explanation\": \"The table does not provide the expected return on plan assets for 2018 and 2019 to calculate a year-on-year percentage change.\"}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 521,
+      "completion_tokens": 82,
+      "total_tokens": 603
+    },
+    "latency_ms": 15043.525445999932,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-455",
+      "finish_reason": "stop"
+    }
+  }
+}

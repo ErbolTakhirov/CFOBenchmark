@@ -16,11 +16,14 @@ import html
 import json
 from collections import defaultdict
 from collections.abc import Mapping
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 from financebench.evaluation.capability_map import CapabilityDimension
+from financebench.evaluation.failures import FailureRecord, failure_distribution
 from financebench.evaluation.metrics.base import aggregate_metric
+from financebench.evaluation.scoring import FinanceScores
+from financebench.evaluation.stats import bootstrap_ci
 from financebench.execution.engine import RunResult
 from financebench.models.base import ProviderCapabilities
 from financebench.prompts.profiles import create_prompt_profile
@@ -77,6 +80,11 @@ class ArtifactInputs:
     metric_results: tuple[MetricResult, ...]
     capability_aggregates: Mapping[CapabilityDimension, MetricAggregate]
     run_type: RunType = RunType.REAL
+    failures: tuple[FailureRecord, ...] = ()
+    gates: GatesReport = field(default_factory=GatesReport)
+    scores: FinanceScores | None = None
+    verdict: str = "NOT_EVALUATED"
+    verdict_reasons: tuple[str, ...] = ()
 
     @property
     def eligible_for_leaderboard(self) -> bool:
@@ -117,10 +125,10 @@ def write_run_artifacts(out_dir: str | Path, inputs: ArtifactInputs) -> None:
     write_jsonl(
         out / "errors.jsonl", (p for p in inputs.run_result.predictions if p.response is None)
     )
-    write_jsonl(out / "failures.jsonl", (r for r in inputs.metric_results if r.passed is False))
+    write_jsonl(out / "failures.jsonl", inputs.failures)
     metrics_by_name = _write_metrics(out, inputs)
     _write_capabilities(out, inputs)
-    write_model_json(out / "gates.json", GatesReport())
+    write_model_json(out / "gates.json", inputs.gates)
     _write_confidence_intervals(out, inputs, metrics_by_name)
     _write_costs(out, inputs)
     coverage = _compute_coverage(inputs)
@@ -205,9 +213,15 @@ def _write_metrics(out: Path, inputs: ArtifactInputs) -> dict[str, MetricAggrega
 
 
 def _write_capabilities(out: Path, inputs: ArtifactInputs) -> None:
-    payload = {
-        dimension.value: aggregate.model_dump(mode="json")
-        for dimension, aggregate in inputs.capability_aggregates.items()
+    payload: dict[str, object] = {
+        "dimensions": {
+            dimension.value: aggregate.model_dump(mode="json")
+            for dimension, aggregate in inputs.capability_aggregates.items()
+        },
+        "scores": inputs.scores.to_json() if inputs.scores else None,
+        "verdict": inputs.verdict,
+        "verdict_reasons": list(inputs.verdict_reasons),
+        "failure_distribution": failure_distribution(inputs.failures),
     }
     (out / "capabilities.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
@@ -215,13 +229,31 @@ def _write_capabilities(out: Path, inputs: ArtifactInputs) -> None:
 def _write_confidence_intervals(
     out: Path, inputs: ArtifactInputs, metrics_by_name: Mapping[str, MetricAggregate]
 ) -> None:
-    payload = {name: agg.model_dump(mode="json") for name, agg in metrics_by_name.items()}
-    payload.update(
-        {
-            f"capability:{dimension.value}": agg.model_dump(mode="json")
-            for dimension, agg in inputs.capability_aggregates.items()
+    """Bootstrap 95% confidence intervals for every metric.
+
+    A score without an interval invites a ranking that the evidence does not support. 45% vs 50%
+    on 40 samples is noise, and the interval is what says so.
+    """
+    by_metric: dict[str, list[float]] = defaultdict(list)
+    for result in inputs.metric_results:
+        if isinstance(result.value, bool):
+            by_metric[result.metric_name].append(1.0 if result.value else 0.0)
+        elif isinstance(result.value, int | float):
+            by_metric[result.metric_name].append(float(result.value))
+
+    payload: dict[str, object] = {}
+    for name, values in sorted(by_metric.items()):
+        ci = bootstrap_ci(values)
+        if ci is None:
+            continue
+        payload[name] = {
+            "mean": round(ci.mean, 4),
+            "ci_low": round(ci.ci_low, 4),
+            "ci_high": round(ci.ci_high, 4),
+            "n": ci.n,
+            "underpowered": ci.underpowered,
+            "method": "percentile bootstrap, 2000 iterations, seed 42",
         }
-    )
     (out / "confidence_intervals.json").write_text(
         json.dumps(payload, indent=2) + "\n", encoding="utf-8"
     )
@@ -304,6 +336,26 @@ def _html_watermark(inputs: ArtifactInputs) -> str:
     )
 
 
+def _scores_lines(inputs: ArtifactInputs) -> list[str]:
+    scores = inputs.scores
+    if scores is None:
+        return []
+    lines = ["### Top-level scores", ""]
+    for label, value in (
+        ("Financial Core Score (context_given)", scores.core_score),
+        ("Financial RAG Score (retrieval_required)", scores.rag_score),
+        ("Financial Agent Score (tool_assisted)", scores.agent_score),
+    ):
+        lines.append(f"- {label}: {value:.3f}" if value is not None else f"- {label}: not measured")
+    if scores.fci is not None:
+        lines.append(f"- **Finance Capability Index: {scores.fci:.3f}**")
+    else:
+        lines.append(f"- Finance Capability Index: **withheld** — {scores.fci_withheld_because}")
+    lines.append(f"- Reliability penalty applied: x{scores.reliability_penalty:.3f}")
+    lines.append("")
+    return lines
+
+
 def _write_summary_md(
     out: Path,
     inputs: ArtifactInputs,
@@ -324,6 +376,13 @@ def _write_summary_md(
         f"- **Created at:** {inputs.created_at}",
         f"- **FinanceBecnh version:** {inputs.financebench_version}",
         "",
+        "## Verdict",
+        "",
+        f"### `{inputs.verdict}`",
+        "",
+        *[f"- {reason}" for reason in inputs.verdict_reasons],
+        "",
+        *_scores_lines(inputs),
         "## Metrics",
         "",
         "| Metric | n | Mean |",
@@ -334,6 +393,43 @@ def _write_summary_md(
     lines += ["", "## Capability dimensions", "", "| Dimension | n | Mean |", "|---|---|---|"]
     for dimension, agg in sorted(inputs.capability_aggregates.items(), key=lambda kv: kv[0].value):
         lines.append(f"| {dimension.value} | {agg.n} | {_format_mean(agg)} |")
+    # -- critical gates
+    if inputs.gates.evaluated:
+        lines += [
+            "",
+            "## Critical gates",
+            "",
+            "| Gate | Threshold | Observed | Result |",
+            "|---|---|---|---|",
+        ]
+        for gate in inputs.gates.gates:
+            mark = "PASS" if gate.passed else "**FAIL**"
+            lines.append(f"| {gate.gate_name} | {gate.threshold} | {gate.observed} | {mark} |")
+        if inputs.gates.any_critical_gate_failed:
+            lines += [
+                "",
+                "> A **critical** gate failed. However good the average above looks, this model "
+                "makes the kind of error that is not a near-miss in a financial context.",
+            ]
+
+    # -- failure distribution: *how* it fails, which the mean cannot tell you
+    distribution = failure_distribution(inputs.failures)
+    if distribution:
+        lines += ["", "## How it failed", "", "| Failure | Count |", "|---|---|"]
+        for name, count in distribution.items():
+            lines.append(f"| {name} | {count} |")
+
+    # -- worst examples, with the model's own words
+    worst = [f for f in inputs.failures if f.catastrophic][:5] or list(inputs.failures)[:5]
+    if worst:
+        lines += ["", "## Representative failures", ""]
+        for failure in worst:
+            lines += [
+                f"- **{failure.sample_id}** ({failure.failure_type.value})",
+                f"  - Q: {failure.question[:160]}",
+                f"  - gold: `{failure.gold[:80]}` · model: `{failure.predicted[:80]}`",
+            ]
+
     lines += [
         "",
         "## Coverage",
@@ -341,20 +437,47 @@ def _write_summary_md(
         f"- Requested benchmarks: {', '.join(coverage.requested_benchmarks) or 'none'}",
         f"- Supported benchmarks: {', '.join(coverage.supported_benchmarks) or 'none'}",
         f"- Unavailable benchmarks: {', '.join(coverage.unavailable_benchmarks) or 'none'}",
+        f"- Samples scored: {coverage.evaluated_samples}",
         "",
         "## Reproduce this run",
         "",
         "```bash",
-        f"python -m financebench.cli eval --group {inputs.benchmark_or_group} "
-        f"--model-config <config used> --seed {inputs.config.seed}",
+        f"python -m financebench.cli eval --benchmark {inputs.benchmark_or_group} "
+        f"--model-config <config used> --seed {inputs.config.seed} "
+        f"--prompt-profile {inputs.config.prompt_profile} "
+        f"--eval-mode {inputs.config.eval_mode.value}",
         "```",
         "",
-        "_The Finance Capability Index, critical gates, and confidence intervals are not yet "
-        "computed (Milestone 6) — `gates.json` and `confidence_intervals.json` are valid but "
-        "empty placeholders in this release._",
+        "_A benchmark measures a benchmark. It cannot tell you what this model does on data it has "
+        "never seen, in a workflow it was not tested in._",
         "",
     ]
     (out / "summary.md").write_text("\n".join(lines), encoding="utf-8")
+
+
+def _scores_html(inputs: ArtifactInputs) -> str:
+    scores = inputs.scores
+    if scores is None:
+        return ""
+    items = []
+    for label, value in (
+        ("Financial Core Score (context_given)", scores.core_score),
+        ("Financial RAG Score (retrieval_required)", scores.rag_score),
+        ("Financial Agent Score (tool_assisted)", scores.agent_score),
+    ):
+        items.append(
+            f"<li>{html.escape(label)}: <strong>{value:.3f}</strong></li>"
+            if value is not None
+            else f"<li>{html.escape(label)}: <em>not measured</em></li>"
+        )
+    if scores.fci is not None:
+        items.append(f"<li><strong>Finance Capability Index: {scores.fci:.3f}</strong></li>")
+    else:
+        items.append(
+            "<li>Finance Capability Index: <strong>withheld</strong> — "
+            f"{html.escape(scores.fci_withheld_because or '')}</li>"
+        )
+    return f"<h3>Top-level scores</h3><ul>{''.join(items)}</ul>"
 
 
 def _write_report_html(
@@ -384,6 +507,22 @@ def _write_report_html(
         )
         or "<tr><td colspan='3'>No capability dimensions mapped.</td></tr>"
     )
+    gate_rows = (
+        "\n".join(
+            f"<tr><td>{esc(g.gate_name)}</td><td>{g.threshold}</td><td>{g.observed}</td>"
+            f"<td class='{'pass' if g.passed else 'fail'}'>{'PASS' if g.passed else 'FAIL'}</td></tr>"
+            for g in inputs.gates.gates
+        )
+        or "<tr><td colspan='4'>Gates not evaluated (no samples scored).</td></tr>"
+    )
+    distribution = failure_distribution(inputs.failures)
+    failure_rows = (
+        "\n".join(
+            f"<tr><td>{esc(name)}</td><td>{count}</td></tr>" for name, count in distribution.items()
+        )
+        or "<tr><td colspan='2'>No failures.</td></tr>"
+    )
+
     error_predictions = [p for p in result.predictions if p.response is None][:20]
     error_rows = (
         "\n".join(
@@ -411,6 +550,10 @@ def _write_report_html(
   .mock-watermark {{ border: 3px solid #b91c1c; background: #fef2f2; color: #7f1d1d;
                      padding: 1rem 1.25rem; margin: 1.5rem 0; border-radius: 6px; }}
   .mock-watermark h2 {{ margin-top: 0; }}
+  .verdict {{ font-size: 1.3rem; padding: 0.75rem 1rem; background: #f0f9ff; border-left: 5px solid #0369a1; }}
+  .verdict code {{ background: none; font-weight: 700; }}
+  td.pass {{ color: #166534; font-weight: 600; }}
+  td.fail {{ color: #b91c1c; font-weight: 700; }}
 </style>
 </head>
 <body>
@@ -425,6 +568,25 @@ def _write_report_html(
         (errors: {result.n_errors}, cache hits: {result.n_cache_hits})</li>
     <li><strong>Created at:</strong> {esc(inputs.created_at)}</li>
   </ul>
+
+  <h2>Verdict</h2>
+  <div class="verdict"><code>{esc(inputs.verdict)}</code></div>
+  <ul>{"".join(f"<li>{esc(r)}</li>" for r in inputs.verdict_reasons)}</ul>
+  {_scores_html(inputs)}
+
+  <h2>Critical gates</h2>
+  <p class="note">Evaluated independently of the average. A failed critical gate caps the verdict
+     no matter how good the mean looks — because being off by 1000x is not a near-miss.</p>
+  <table>
+    <tr><th>Gate</th><th>Threshold</th><th>Observed</th><th>Result</th></tr>
+    {gate_rows}
+  </table>
+
+  <h2>How it failed</h2>
+  <table>
+    <tr><th>Failure type</th><th>Count</th></tr>
+    {failure_rows}
+  </table>
 
   <h2>Metrics</h2>
   <table>

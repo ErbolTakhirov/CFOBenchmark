@@ -1,0 +1,31 @@
+{
+  "cache_key": "29bbbd8d55d9b49f2d0a5b08e3818dbc39b37c3b1a614b80e821256ab48df3b6",
+  "written_at": "2026-07-11T07:17:32.841624Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"36000\",\n  \"numeric_value\": 36000,\n  \"unit\": \"usd\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The total interest paid on the mortgage is $36,000 and there are no restrictions mentioned that would limit this deduction.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"36000\",\n  \"numeric_value\": 36000,\n  \"unit\": \"usd\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The total interest paid on the mortgage is $36,000 and there are no restrictions mentioned that would limit this deduction.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 334,
+      "completion_tokens": 97,
+      "total_tokens": 431
+    },
+    "latency_ms": 15216.51211699998,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-829",
+      "finish_reason": "stop"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "cache_key": "9ead57005ef164a6c56745e3c1c0d23cb08964739dbf3bd77e95283c7a14fe86",
+  "written_at": "2026-07-11T06:59:14.949027Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"5.8\", \"numeric_value\": 5.8, \"unit\": \"million\", \"period\": \"2003-2005\", \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table\", \"row\": \"...\"}], \"insufficient_information\": false, \"confidence\": 1, \"brief_explanation\": \"The total impairment costs recorded from 2003 to 2005 is the sum of $0.5 million in 2004, $0.6 million in 2005, and $4.7 million prior to 2003.\"}",
+    "financial_answer": {
+      "answer": "5.8",
+      "numeric_value": 5.8,
+      "unit": "million",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table",
+          "row": "..."
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The total impairment costs recorded from 2003 to 2005 is the sum of $0.5 million in 2004, $0.6 million in 2005, and $4.7 million prior to 2003."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1298,
+      "completion_tokens": 144,
+      "total_tokens": 1442
+    },
+    "latency_ms": 60321.67021400073,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-661",
+      "finish_reason": "stop"
+    }
+  }
+}

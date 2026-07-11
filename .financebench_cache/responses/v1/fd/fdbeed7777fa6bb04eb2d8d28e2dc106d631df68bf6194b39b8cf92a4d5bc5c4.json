@@ -1,0 +1,31 @@
+{
+  "cache_key": "fdbeed7777fa6bb04eb2d8d28e2dc106d631df68bf6194b39b8cf92a4d5bc5c4",
+  "written_at": "2026-07-11T07:08:58.197467Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": null, \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": true, \"confidence\": null, \"brief_explanation\": \"The question asks for the debt-to-asset ratio but does not provide enough information about total assets and total liabilities. The given table only includes total stockholders' equity, which is not sufficient to calculate this financial ratio.\"}",
+    "financial_answer": {
+      "answer": "{\"answer\": null, \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": true, \"confidence\": null, \"brief_explanation\": \"The question asks for the debt-to-asset ratio but does not provide enough information about total assets and total liabilities. The given table only includes total stockholders' equity, which is not sufficient to calculate this financial ratio.\"}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 673,
+      "completion_tokens": 90,
+      "total_tokens": 763
+    },
+    "latency_ms": 31204.036425,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-418",
+      "finish_reason": "stop"
+    }
+  }
+}

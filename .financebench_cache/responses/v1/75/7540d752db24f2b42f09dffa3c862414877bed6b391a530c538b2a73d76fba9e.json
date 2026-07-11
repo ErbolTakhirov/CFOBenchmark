@@ -1,0 +1,31 @@
+{
+  "cache_key": "7540d752db24f2b42f09dffa3c862414877bed6b391a530c538b2a73d76fba9e",
+  "written_at": "2026-07-11T07:14:08.821700Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"Transportation Solutions, Industrial Solutions, Communications Solutions\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The table headers clearly indicate the three segments: Transportation Solutions, Industrial Solutions, and Communications Solutions.\"\n}",
+    "financial_answer": {
+      "answer": "Transportation Solutions, Industrial Solutions, Communications Solutions",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The table headers clearly indicate the three segments: Transportation Solutions, Industrial Solutions, and Communications Solutions."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 624,
+      "completion_tokens": 86,
+      "total_tokens": 710
+    },
+    "latency_ms": 17629.864107,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-531",
+      "finish_reason": "stop"
+    }
+  }
+}

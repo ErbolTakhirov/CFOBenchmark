@@ -1,0 +1,31 @@
+{
+  "cache_key": "2ff11923d7b27ec61b69b32c03ab115efb83e50c1b4042699afc1df9ced20b8c",
+  "written_at": "2026-07-11T07:10:51.641010Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"1.14\",\n  \"numeric_value\": 1.14,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 0.95,\n  \"brief_explanation\": \"The ratio of total flight attendants (26,900) to total maintenance personnel (16,900) is approximately 1.14.\"\n}",
+    "financial_answer": {
+      "answer": "1.14",
+      "numeric_value": 1.14,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The ratio of total flight attendants (26,900) to total maintenance personnel (16,900) is approximately 1.14."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1204,
+      "completion_tokens": 102,
+      "total_tokens": 1306
+    },
+    "latency_ms": 33031.07548200001,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-439",
+      "finish_reason": "stop"
+    }
+  }
+}

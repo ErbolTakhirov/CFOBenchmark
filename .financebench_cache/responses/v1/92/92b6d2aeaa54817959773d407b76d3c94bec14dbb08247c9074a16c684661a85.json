@@ -1,0 +1,31 @@
+{
+  "cache_key": "92b6d2aeaa54817959773d407b76d3c94bec14dbb08247c9074a16c684661a85",
+  "written_at": "2026-07-11T07:15:22.036998Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"795 and 772\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The net deferred tax asset amount for both years is directly provided in the table.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"795 and 772\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The net deferred tax asset amount for both years is directly provided in the table.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 508,
+      "completion_tokens": 82,
+      "total_tokens": 590
+    },
+    "latency_ms": 16530.96642799994,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-437",
+      "finish_reason": "stop"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "cache_key": "b4f2935ab932bad2cc894d6aa90df61c9f9fa9aeebf813f030926a620ad005ca",
+  "written_at": "2026-07-11T07:17:17.624589Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"247500\",\n  \"numeric_value\": 247500,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The updated Accumulation/Distribution line value is calculated by adding the product of traded volume and (closing price - previous day's closing price) to the previous day's Accumulation/Distribution line value.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"247500\",\n  \"numeric_value\": 247500,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The updated Accumulation/Distribution line value is calculated by adding the product of traded volume and (closing price - previous day's closing price) to the previous day's Accumulation/Distribution line value.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 354,
+      "completion_tokens": 110,
+      "total_tokens": 464
+    },
+    "latency_ms": 17482.32468799995,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-846",
+      "finish_reason": "stop"
+    }
+  }
+}

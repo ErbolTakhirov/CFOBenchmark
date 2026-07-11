@@ -1,0 +1,31 @@
+{
+  "cache_key": "26c94ca4da31de4f1bf3313c65b20b719bab8c3d747cda5083d008556e18b4b5",
+  "written_at": "2026-07-11T07:11:42.186864Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"42.8\", \"numeric_value\": 42.8, \"unit\": \"%\", \"period\": null, \"citations\": [], \"insufficient_information\": false, \"confidence\": 1, \"brief_explanation\": \"The term loan facility amount is $3081 and the total contractual maturities of long-term debt obligations due subsequent to December 31, 2016 are as follows: 2017 - $2014, 2018 - $150, 2019 - $175, 2020 - $2756. The percentage is calculated by dividing the term loan facility amount ($3081) by the total contractual maturities for all years (2017-2020), which equals approximately 42.8%.\"}",
+    "financial_answer": {
+      "answer": "42.8",
+      "numeric_value": 42.8,
+      "unit": "%",
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The term loan facility amount is $3081 and the total contractual maturities of long-term debt obligations due subsequent to December 31, 2016 are as follows: 2017 - $2014, 2018 - $150, 2019 - $175, 2020 - $2756. The percentage is calculated by dividing the term loan facility amount ($3081) by the total contractual maturities for all years (2017-2020), which equals approximately 42.8%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1423,
+      "completion_tokens": 189,
+      "total_tokens": 1612
+    },
+    "latency_ms": 40676.84683599998,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-294",
+      "finish_reason": "stop"
+    }
+  }
+}

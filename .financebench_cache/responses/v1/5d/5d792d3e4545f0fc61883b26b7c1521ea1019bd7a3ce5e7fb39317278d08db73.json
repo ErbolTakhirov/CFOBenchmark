@@ -1,0 +1,31 @@
+{
+  "cache_key": "5d792d3e4545f0fc61883b26b7c1521ea1019bd7a3ce5e7fb39317278d08db73",
+  "written_at": "2026-07-11T07:18:52.428950Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"1.28\",\n  \"numeric_value\": 1.28,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 0.95,\n  \"brief_explanation\": \"The beta of Portfolio A is calculated using the formula for Beta, which involves calculating the covariance between Portfolio A's returns and the market returns divided by the variance of the market returns.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"1.28\",\n  \"numeric_value\": 1.28,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 0.95,\n  \"brief_explanation\": \"The beta of Portfolio A is calculated using the formula for Beta, which involves calculating the covariance between Portfolio A's returns and the market returns divided by the variance of the market returns.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 466,
+      "completion_tokens": 103,
+      "total_tokens": 569
+    },
+    "latency_ms": 24406.162983999933,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-515",
+      "finish_reason": "stop"
+    }
+  }
+}

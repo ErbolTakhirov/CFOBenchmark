@@ -1,0 +1,31 @@
+{
+  "cache_key": "6698e478f179ce16ca0d05c9678e8688a95b6ddc546bc590fd95674c11c9c89a",
+  "written_at": "2026-07-11T07:15:49.412689Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"IMFT's capital requirements are generally determined based on an annual plan approved by the members, and capital contributions to IMFT are requested as needed.\", \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": false, \"confidence\": 1.0, \"brief_explanation\": \"The provided context directly states that 'IMFT's capital requirements are generally determined based on an annual plan approved by the members, and capital contributions to IMFT are requested as needed.'\"}",
+    "financial_answer": {
+      "answer": "IMFT's capital requirements are generally determined based on an annual plan approved by the members, and capital contributions to IMFT are requested as needed.",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The provided context directly states that 'IMFT's capital requirements are generally determined based on an annual plan approved by the members, and capital contributions to IMFT are requested as needed.'"
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1355,
+      "completion_tokens": 113,
+      "total_tokens": 1468
+    },
+    "latency_ms": 22059.097156999997,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-228",
+      "finish_reason": "stop"
+    }
+  }
+}

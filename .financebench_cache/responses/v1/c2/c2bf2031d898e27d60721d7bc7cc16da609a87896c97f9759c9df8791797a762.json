@@ -1,0 +1,31 @@
+{
+  "cache_key": "c2bf2031d898e27d60721d7bc7cc16da609a87896c97f9759c9df8791797a762",
+  "written_at": "2026-07-11T07:14:37.078067Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"2.1\",\n  \"numeric_value\": 2.1,\n  \"unit\": \"%\",\n  \"period\": \"September 30, 2019\",\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The difference between the domestic and international discount rates as at September 30, 2019 is calculated by subtracting the international rate (1.9%) from the domestic rate (4.0%). The result is 2.1 percentage points.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"2.1\",\n  \"numeric_value\": 2.1,\n  \"unit\": \"%\",\n  \"period\": \"September 30, 2019\",\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The difference between the domestic and international discount rates as at September 30, 2019 is calculated by subtracting the international rate (1.9%) from the domestic rate (4.0%). The result is 2.1 percentage points.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 517,
+      "completion_tokens": 127,
+      "total_tokens": 644
+    },
+    "latency_ms": 17440.462432000062,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-392",
+      "finish_reason": "stop"
+    }
+  }
+}

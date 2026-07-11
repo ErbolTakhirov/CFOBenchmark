@@ -1,0 +1,31 @@
+{
+  "cache_key": "697b60b9c3520b2bf9e51795debbf0f679f6de4ef710a1277a4508f8664aa73e",
+  "written_at": "2026-07-11T07:08:46.254651Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"-18\",\n  \"numeric_value\": -18,\n  \"unit\": \"millions\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1,\n  \"brief_explanation\": \"The change in unrecognized tax benefits from the end of 2014 to the end of 2015 is calculated by subtracting the balance at December 31, 2015 (which is $1171 million) from the balance at January 1, 2015 (which is $1171 million). The result is a reduction of $18 million.\"\n}",
+    "financial_answer": {
+      "answer": "-18",
+      "numeric_value": -18.0,
+      "unit": "millions",
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The change in unrecognized tax benefits from the end of 2014 to the end of 2015 is calculated by subtracting the balance at December 31, 2015 (which is $1171 million) from the balance at January 1, 2015 (which is $1171 million). The result is a reduction of $18 million."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1276,
+      "completion_tokens": 148,
+      "total_tokens": 1424
+    },
+    "latency_ms": 37985.87874699999,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-740",
+      "finish_reason": "stop"
+    }
+  }
+}

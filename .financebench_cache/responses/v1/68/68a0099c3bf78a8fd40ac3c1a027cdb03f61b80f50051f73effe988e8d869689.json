@@ -1,0 +1,31 @@
+{
+  "cache_key": "68a0099c3bf78a8fd40ac3c1a027cdb03f61b80f50051f73effe988e8d869689",
+  "written_at": "2026-07-11T07:18:37.081212Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"16250\",\n  \"numeric_value\": 16250,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"Sarah's salary is taxed as follows: $75,000 - $10,000 (not taxed) = $65,000 to be taxed. The first $20,000 at 10% equals $2,000; the next $30,000 at 15% equals $4,500; and the remaining $15,000 (since she earns $75,000 - $65,000) at 25% equals $3,750. Adding these amounts together gives a total federal tax of $2,000 + $4,500 + $3,750 = $16,250.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"16250\",\n  \"numeric_value\": 16250,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"Sarah's salary is taxed as follows: $75,000 - $10,000 (not taxed) = $65,000 to be taxed. The first $20,000 at 10% equals $2,000; the next $30,000 at 15% equals $4,500; and the remaining $15,000 (since she earns $75,000 - $65,000) at 25% equals $3,750. Adding these amounts together gives a total federal tax of $2,000 + $4,500 + $3,750 = $16,250.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 393,
+      "completion_tokens": 233,
+      "total_tokens": 626
+    },
+    "latency_ms": 22076.703112000017,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-704",
+      "finish_reason": "stop"
+    }
+  }
+}

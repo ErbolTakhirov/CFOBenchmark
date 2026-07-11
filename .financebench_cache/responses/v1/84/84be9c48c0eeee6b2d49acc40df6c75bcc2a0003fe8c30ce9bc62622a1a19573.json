@@ -1,0 +1,31 @@
+{
+  "cache_key": "84be9c48c0eeee6b2d49acc40df6c75bcc2a0003fe8c30ce9bc62622a1a19573",
+  "written_at": "2026-07-11T07:08:52.628183Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"8.4%\", \"numeric_value\": 8.35, \"unit\": \"%\", \"period\": \"percentage_points\", \"citations\": [], \"insufficient_information\": null, \"confidence\": 1}",
+    "financial_answer": {
+      "answer": "{\"answer\": \"8.4%\", \"numeric_value\": 8.35, \"unit\": \"%\", \"period\": \"percentage_points\", \"citations\": [], \"insufficient_information\": null, \"confidence\": 1}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1118,
+      "completion_tokens": 49,
+      "total_tokens": 1167
+    },
+    "latency_ms": 36085.52665400001,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-643",
+      "finish_reason": "stop"
+    }
+  }
+}

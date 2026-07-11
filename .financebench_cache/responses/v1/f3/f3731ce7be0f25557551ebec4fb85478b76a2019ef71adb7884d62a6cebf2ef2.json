@@ -1,0 +1,31 @@
+{
+  "cache_key": "f3731ce7be0f25557551ebec4fb85478b76a2019ef71adb7884d62a6cebf2ef2",
+  "written_at": "2026-07-11T07:16:18.401844Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"2018 and 2019\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The table provided shows Deferred charges and other assets for the years 2018 and 2019.\"\n}",
+    "financial_answer": {
+      "answer": "2018 and 2019",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The table provided shows Deferred charges and other assets for the years 2018 and 2019."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 437,
+      "completion_tokens": 92,
+      "total_tokens": 529
+    },
+    "latency_ms": 15955.529017999994,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-488",
+      "finish_reason": "stop"
+    }
+  }
+}

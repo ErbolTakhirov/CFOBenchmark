@@ -1,0 +1,31 @@
+{
+  "cache_key": "3609d0a17c34b0427627b2e6683acd0ec0ad02ffb2547e3268967fb18e13579a",
+  "written_at": "2026-07-11T07:19:23.401589Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"400\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"Lemon's basis in the 800 shares of stock sold is $400, calculated by taking the original purchase price per share ($10.50) and multiplying it by the number of shares (2000 total shares). Then, dividing this amount by the total number of shares after receiving the non-taxable dividend (which increased the total to 2080 shares), and finally multiplying that result by the number of shares sold (800).\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"400\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"Lemon's basis in the 800 shares of stock sold is $400, calculated by taking the original purchase price per share ($10.50) and multiplying it by the number of shares (2000 total shares). Then, dividing this amount by the total number of shares after receiving the non-taxable dividend (which increased the total to 2080 shares), and finally multiplying that result by the number of shares sold (800).\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 319,
+      "completion_tokens": 161,
+      "total_tokens": 480
+    },
+    "latency_ms": 21695.226434000004,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-673",
+      "finish_reason": "stop"
+    }
+  }
+}

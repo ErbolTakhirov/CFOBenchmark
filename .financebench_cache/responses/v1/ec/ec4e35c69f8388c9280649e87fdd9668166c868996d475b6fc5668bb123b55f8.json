@@ -1,0 +1,31 @@
+{
+  "cache_key": "ec4e35c69f8388c9280649e87fdd9668166c868996d475b6fc5668bb123b55f8",
+  "written_at": "2026-07-11T07:14:29.251684Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"The discount rate for international plans was determined by comparison against country specific AA corporate indices, adjusted for duration of the obligation.\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The information provided in the table and context clearly states how the discount rate for international plans is determined.\"\n}",
+    "financial_answer": {
+      "answer": "The discount rate for international plans was determined by comparison against country specific AA corporate indices, adjusted for duration of the obligation.",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The information provided in the table and context clearly states how the discount rate for international plans is determined."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 503,
+      "completion_tokens": 101,
+      "total_tokens": 604
+    },
+    "latency_ms": 15924.31966800001,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-54",
+      "finish_reason": "stop"
+    }
+  }
+}

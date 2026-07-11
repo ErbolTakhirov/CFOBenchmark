@@ -1,0 +1,31 @@
+{
+  "cache_key": "885aadfb571d4b3a4e1f2c60a63d7252811a73bb9a2a9e40be09e4a36a5e7bcd",
+  "written_at": "2026-07-11T07:15:02.811554Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": null,\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": true,\n  \"confidence\": null,\n  \"brief_explanation\": \"The provided data does not contain the average for defined contribution schemes in 2019.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": null,\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": true,\n  \"confidence\": null,\n  \"brief_explanation\": \"The provided data does not contain the average for defined contribution schemes in 2019.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1285,
+      "completion_tokens": 74,
+      "total_tokens": 1359
+    },
+    "latency_ms": 18515.13037299992,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-624",
+      "finish_reason": "stop"
+    }
+  }
+}

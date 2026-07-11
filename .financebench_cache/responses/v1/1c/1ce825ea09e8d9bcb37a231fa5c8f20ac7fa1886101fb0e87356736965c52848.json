@@ -1,0 +1,31 @@
+{
+  "cache_key": "1ce825ea09e8d9bcb37a231fa5c8f20ac7fa1886101fb0e87356736965c52848",
+  "written_at": "2026-07-11T07:13:18.320739Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"1.83\", \"numeric_value\": 1.83, \"unit\": \"millions\", \"period\": null, \"citations\": [], \"insufficient_information\": false, \"confidence\": 1, \"brief_explanation\": \"The total amount of stock options cancelled in millions during the specified years is calculated by summing up the values from each year: $1.09 billion (2017), $1.11 billion (2016) and $406 million (2015). This equals 1.83 billion or 1.83 millions.\"}",
+    "financial_answer": {
+      "answer": "1.83",
+      "numeric_value": 1.83,
+      "unit": "millions",
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The total amount of stock options cancelled in millions during the specified years is calculated by summing up the values from each year: $1.09 billion (2017), $1.11 billion (2016) and $406 million (2015). This equals 1.83 billion or 1.83 millions."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1482,
+      "completion_tokens": 134,
+      "total_tokens": 1616
+    },
+    "latency_ms": 39783.532337,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-338",
+      "finish_reason": "stop"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "cache_key": "8493ba01466035440ef5ed9b4072b7f96c1e8b1d13d9d6bccb0c83bcc51c4ed8",
+  "written_at": "2026-07-11T07:19:01.705775Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"-5.368%\",\n  \"numeric_value\": -5.368,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The calculation for the percentage price alteration due to a change in yield is based on modified duration and can be approximated using the formula: Price Change % \u2248 -Modified Duration * (Change in Yield / 100). Here, Modified Duration = 10.3829 and Change in Yield = -50 bps (or -0.005 as a decimal), leading to a price change of approximately -5.368%.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"-5.368%\",\n  \"numeric_value\": -5.368,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The calculation for the percentage price alteration due to a change in yield is based on modified duration and can be approximated using the formula: Price Change % \u2248 -Modified Duration * (Change in Yield / 100). Here, Modified Duration = 10.3829 and Change in Yield = -50 bps (or -0.005 as a decimal), leading to a price change of approximately -5.368%.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 295,
+      "completion_tokens": 164,
+      "total_tokens": 459
+    },
+    "latency_ms": 20806.829321999998,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-735",
+      "finish_reason": "stop"
+    }
+  }
+}

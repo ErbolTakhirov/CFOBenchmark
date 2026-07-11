@@ -1,0 +1,31 @@
+{
+  "cache_key": "15aefbc0555d606b9c49fd43c6fd94668ae0765c342b43e7ddcfc6554ba20fa6",
+  "written_at": "2026-07-11T07:09:14.711761Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"greater\",\n  \"numeric_value\": 27,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The five year cumulative total return of the 2019 peer group (281.09%) was greater than that of the 2018 peer group (286.22%).\"\n}",
+    "financial_answer": {
+      "answer": "greater",
+      "numeric_value": 27.0,
+      "unit": "%",
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The five year cumulative total return of the 2019 peer group (281.09%) was greater than that of the 2018 peer group (286.22%)."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1032,
+      "completion_tokens": 106,
+      "total_tokens": 1138
+    },
+    "latency_ms": 28456.453931,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-144",
+      "finish_reason": "stop"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "cache_key": "01ef4f1c077b38b374c624479aa76b4c94799920deb6ca2566073eec6713fefe",
+  "written_at": "2026-07-11T07:12:11.792994Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"829\",\n  \"numeric_value\": 829,\n  \"unit\": \"millions\",\n  \"period\": \"2006\",\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The greatest provision for income taxes, as stated in the table provided, was $829 million in 2006.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"829\",\n  \"numeric_value\": 829,\n  \"unit\": \"millions\",\n  \"period\": \"2006\",\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The greatest provision for income taxes, as stated in the table provided, was $829 million in 2006.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1006,
+      "completion_tokens": 97,
+      "total_tokens": 1103
+    },
+    "latency_ms": 42475.68225399999,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-74",
+      "finish_reason": "stop"
+    }
+  }
+}

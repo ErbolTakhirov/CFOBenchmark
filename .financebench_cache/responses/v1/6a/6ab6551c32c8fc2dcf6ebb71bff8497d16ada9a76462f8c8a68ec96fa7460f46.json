@@ -1,0 +1,31 @@
+{
+  "cache_key": "6ab6551c32c8fc2dcf6ebb71bff8497d16ada9a76462f8c8a68ec96fa7460f46",
+  "written_at": "2026-07-11T07:17:47.185773Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"10500\",\n  \"numeric_value\": 10500,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The taxable income is calculated by considering the discount Jane received on her stock purchase and the capital gain from selling the shares.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"10500\",\n  \"numeric_value\": 10500,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The taxable income is calculated by considering the discount Jane received on her stock purchase and the capital gain from selling the shares.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 343,
+      "completion_tokens": 92,
+      "total_tokens": 435
+    },
+    "latency_ms": 18413.63668100007,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-71",
+      "finish_reason": "stop"
+    }
+  }
+}

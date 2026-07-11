@@ -1,0 +1,31 @@
+{
+  "cache_key": "4ea80c4c43ea3a1001aacc7d6b6ca081c9f020de1dc83b023700e19a0679a86a",
+  "written_at": "2026-07-11T07:17:43.347205Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"numeric_value\": 20.54,\n  \"unit\": \"%\",\n  \"period\": \"annually\",\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The overall annual standard deviation of the portfolio is calculated using the formula for portfolio variance, which takes into account the weights and covariances of each asset in the portfolio.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"numeric_value\": 20.54,\n  \"unit\": \"%\",\n  \"period\": \"annually\",\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The overall annual standard deviation of the portfolio is calculated using the formula for portfolio variance, which takes into account the weights and covariances of each asset in the portfolio.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 419,
+      "completion_tokens": 93,
+      "total_tokens": 512
+    },
+    "latency_ms": 17816.27282599993,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-367",
+      "finish_reason": "stop"
+    }
+  }
+}

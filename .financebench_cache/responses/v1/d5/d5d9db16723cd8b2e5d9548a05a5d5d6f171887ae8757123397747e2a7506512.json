@@ -1,0 +1,31 @@
+{
+  "cache_key": "d5d9db16723cd8b2e5d9548a05a5d5d6f171887ae8757123397747e2a7506512",
+  "written_at": "2026-07-11T07:19:45.899291Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"20.14%\",\n  \"numeric_value\": 20.14,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The specific reserves for the total TDR portfolio were $587 million at December 31, 2012, and the total TDR portfolio was $2,859 million. To calculate the percentage, divide the specific reserves by the total TDRs and multiply by 100: ($587 / $2,859) * 100 = 20.14%\"\n}",
+    "financial_answer": {
+      "answer": "20.14%",
+      "numeric_value": 20.14,
+      "unit": "%",
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The specific reserves for the total TDR portfolio were $587 million at December 31, 2012, and the total TDR portfolio was $2,859 million. To calculate the percentage, divide the specific reserves by the total TDRs and multiply by 100: ($587 / $2,859) * 100 = 20.14%"
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1315,
+      "completion_tokens": 158,
+      "total_tokens": 1473
+    },
+    "latency_ms": 28663.66141499998,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-725",
+      "finish_reason": "stop"
+    }
+  }
+}

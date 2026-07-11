@@ -1,0 +1,31 @@
+{
+  "cache_key": "dbf777dcc3f1fa3438a306391d6b73518cda6fe9e44359dd338df1d108e1cd6f",
+  "written_at": "2026-07-11T07:17:54.665450Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"1250.00\",\n  \"numeric_value\": 1250,\n  \"unit\": \"\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The Volume Price Trend (VPT) is calculated by summing the daily trading volumes and multiplying by the price at the end of the period.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"1250.00\",\n  \"numeric_value\": 1250,\n  \"unit\": \"\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The Volume Price Trend (VPT) is calculated by summing the daily trading volumes and multiplying by the price at the end of the period.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 385,
+      "completion_tokens": 97,
+      "total_tokens": 482
+    },
+    "latency_ms": 15714.828705999935,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-542",
+      "finish_reason": "stop"
+    }
+  }
+}

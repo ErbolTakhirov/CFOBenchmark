@@ -1,0 +1,31 @@
+{
+  "cache_key": "60d7c6fd7a81deff362a3a1bd01666fea073acea8aaeab7c5fbb20648eaf28a1",
+  "written_at": "2026-07-11T07:19:29.274236Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"8.47\",\n  \"numeric_value\": 8.47,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The weighted-average cost of capital (WACC) is calculated using the formula: WACC = w * r, where w is the weight and r is the rate. For common equity, the WACC is 20% * 10%, for debt it's 80% * (5% - 21% * 0.21). The total WACC is then calculated as a weighted average of these two components.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"8.47\",\n  \"numeric_value\": 8.47,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The weighted-average cost of capital (WACC) is calculated using the formula: WACC = w * r, where w is the weight and r is the rate. For common equity, the WACC is 20% * 10%, for debt it's 80% * (5% - 21% * 0.21). The total WACC is then calculated as a weighted average of these two components.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 294,
+      "completion_tokens": 157,
+      "total_tokens": 451
+    },
+    "latency_ms": 22814.67179399999,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-239",
+      "finish_reason": "stop"
+    }
+  }
+}

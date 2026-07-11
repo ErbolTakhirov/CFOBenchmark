@@ -1,0 +1,31 @@
+{
+  "cache_key": "9f4544daefe043aef146625950b788042458f93f7b59b646378986fb1a68db8c",
+  "written_at": "2026-07-11T07:10:43.043232Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"1.76%\", \"numeric_value\": null, \"unit\": \"%\", \"period\": null, \"citations\": [], \"insufficient_information\": false, \"confidence\": 0.95, \"brief_explanation\": \"The total contractual obligations are $13208 million and the capital lease obligations amount to $230 million. The percentage is calculated as (230 / 13208) * 100 = 1.76%.\"}",
+    "financial_answer": {
+      "answer": "1.76%",
+      "numeric_value": null,
+      "unit": "%",
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The total contractual obligations are $13208 million and the capital lease obligations amount to $230 million. The percentage is calculated as (230 / 13208) * 100 = 1.76%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1568,
+      "completion_tokens": 109,
+      "total_tokens": 1677
+    },
+    "latency_ms": 34179.56005699997,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-142",
+      "finish_reason": "stop"
+    }
+  }
+}

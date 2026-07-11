@@ -1,0 +1,31 @@
+{
+  "cache_key": "639e05161c8a44f630e5fa943c1fc2dd3a2dc57e29c08d5efabff9bb8ca9bfec",
+  "written_at": "2026-07-11T07:09:56.627651Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"92.7%\", \"numeric_value\": null, \"unit\": \"%\", \"period\": null, \"citations\": [], \"insufficient_information\": true, \"confidence\": null, \"brief_explanation\": \"The provided information does not contain the required percentages or ratios to calculate this value.\"}",
+    "financial_answer": {
+      "answer": "92.7%",
+      "numeric_value": null,
+      "unit": "%",
+      "citations": [],
+      "insufficient_information": true,
+      "confidence": null,
+      "brief_explanation": "The provided information does not contain the required percentages or ratios to calculate this value."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1210,
+      "completion_tokens": 66,
+      "total_tokens": 1276
+    },
+    "latency_ms": 31165.76052899998,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-354",
+      "finish_reason": "stop"
+    }
+  }
+}

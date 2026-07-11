@@ -1,0 +1,31 @@
+{
+  "cache_key": "843ce3c1f475783360754ddf7bcdacb7a4ff34d75b41c12b757f2a4ee72caa25",
+  "written_at": "2026-07-11T07:17:08.418279Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"-25\",\n  \"numeric_value\": -25,\n  \"unit\": \"\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The investor's profit or loss is calculated by the formula: (Yield on bond at expiration - Strike price) * Multiplier - Option premium paid. Plugging in the values, we get (-2.5% * 100) - 1.5% = -25.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"-25\",\n  \"numeric_value\": -25,\n  \"unit\": \"\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The investor's profit or loss is calculated by the formula: (Yield on bond at expiration - Strike price) * Multiplier - Option premium paid. Plugging in the values, we get (-2.5% * 100) - 1.5% = -25.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 327,
+      "completion_tokens": 122,
+      "total_tokens": 449
+    },
+    "latency_ms": 15807.847824000077,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-942",
+      "finish_reason": "stop"
+    }
+  }
+}

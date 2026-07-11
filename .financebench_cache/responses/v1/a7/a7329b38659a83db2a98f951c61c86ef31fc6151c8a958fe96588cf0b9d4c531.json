@@ -1,0 +1,31 @@
+{
+  "cache_key": "a7329b38659a83db2a98f951c61c86ef31fc6151c8a958fe96588cf0b9d4c531",
+  "written_at": "2026-07-11T07:16:15.032924Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"5687\",\n  \"numeric_value\": 5687,\n  \"unit\": null,\n  \"period\": \"2018\",\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The value of Rent and other deposits in the year 2018 is provided directly in the table as $5,687.\"\n}",
+    "financial_answer": {
+      "answer": "5687",
+      "numeric_value": 5687.0,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The value of Rent and other deposits in the year 2018 is provided directly in the table as $5,687."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 444,
+      "completion_tokens": 99,
+      "total_tokens": 543
+    },
+    "latency_ms": 17273.488955999936,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-545",
+      "finish_reason": "stop"
+    }
+  }
+}

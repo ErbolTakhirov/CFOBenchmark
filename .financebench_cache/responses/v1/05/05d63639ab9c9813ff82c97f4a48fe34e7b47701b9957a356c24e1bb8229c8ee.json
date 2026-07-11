@@ -1,0 +1,31 @@
+{
+  "cache_key": "05d63639ab9c9813ff82c97f4a48fe34e7b47701b9957a356c24e1bb8229c8ee",
+  "written_at": "2026-07-11T07:14:56.016662Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"Germany, Ghana, India, Ireland, Italy, the UK, Greece and Turkey\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The provided context lists countries where the Group operates defined benefit schemes: Germany, Ghana, India, Ireland, Italy, the UK, Greece and Turkey.\"\n}",
+    "financial_answer": {
+      "answer": "Germany, Ghana, India, Ireland, Italy, the UK, Greece and Turkey",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The provided context lists countries where the Group operates defined benefit schemes: Germany, Ghana, India, Ireland, Italy, the UK, Greece and Turkey."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1283,
+      "completion_tokens": 104,
+      "total_tokens": 1387
+    },
+    "latency_ms": 18937.946987000032,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-426",
+      "finish_reason": "stop"
+    }
+  }
+}

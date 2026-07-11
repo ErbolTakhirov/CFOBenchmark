@@ -1,0 +1,31 @@
+{
+  "cache_key": "793c95cb24e39d18443bcae17529b52f48c1e3051c8a3c82274f79b4f7e86998",
+  "written_at": "2026-07-11T07:09:49.282947Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"704.25\",\n  \"numeric_value\": 704.25,\n  \"unit\": \"millions\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1,\n  \"brief_explanation\": \"The average net revenue between 2016 and 2017 was calculated by adding the net revenues of both years (2016: $705.4 million, 2017: $703.1 million) and dividing by 2.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"704.25\",\n  \"numeric_value\": 704.25,\n  \"unit\": \"millions\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1,\n  \"brief_explanation\": \"The average net revenue between 2016 and 2017 was calculated by adding the net revenues of both years (2016: $705.4 million, 2017: $703.1 million) and dividing by 2.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 695,
+      "completion_tokens": 130,
+      "total_tokens": 825
+    },
+    "latency_ms": 34570.56069399999,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-514",
+      "finish_reason": "stop"
+    }
+  }
+}

@@ -25,7 +25,7 @@ from financebench.models import create_provider
 from financebench.models.base import ModelProvider
 from financebench.prompts.profiles import RetrievedChunk, create_prompt_profile
 from financebench.schemas.common import EvalMode
-from financebench.schemas.model_io import ModelRequest, ModelResponse, ModelSpec
+from financebench.schemas.model_io import FinancialAnswer, ModelRequest, ModelResponse, ModelSpec
 from financebench.schemas.prediction import Prediction
 from financebench.schemas.run import RunConfig
 from financebench.schemas.sample import CanonicalSample
@@ -67,6 +67,28 @@ def build_request(
         sample_id=sample.sample_id,
         timeout_s=config.timeout_seconds,
     )
+
+
+def _reparse(response: ModelResponse) -> ModelResponse:
+    """Re-derive the structured answer from the provider's **raw** content.
+
+    ``ModelResponse.content`` is ground truth — it is exactly what the model said.
+    ``financial_answer`` is a *parse* of that, and a parse is a derived value that our code owns
+    and keeps improving.
+
+    Caching the parse alongside the content froze old parses in place: a fix to the extractor would
+    only take effect for samples that had never been run, and applying it to everything else would
+    mean paying for the inference all over again. Worse, it *hid* the bug — a cached run kept
+    reporting the broken parse no matter how many times it was re-scored, so the fix looked like it
+    had done nothing.
+
+    So the parse is redone on every cache read. Inference is the expensive, cacheable part;
+    interpreting what came back is cheap, and must always reflect today's code.
+    """
+    answer = FinancialAnswer.from_text(response.content)
+    if answer == response.financial_answer:
+        return response
+    return response.model_copy(update={"financial_answer": answer, "parsed": answer is not None})
 
 
 @dataclass(frozen=True)
@@ -191,7 +213,9 @@ class RunEngine:
 
         cached = ctx.cache.get(request)
         if cached is not None:
-            return self._prediction(sample, request, response=cached, attempts=0, cache_hit=True)
+            return self._prediction(
+                sample, request, response=_reparse(cached), attempts=0, cache_hit=True
+            )
 
         response, error, attempts, retry_wait_ms = await self._call_with_retries(ctx, request)
         if response is not None:

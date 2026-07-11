@@ -1,0 +1,31 @@
+{
+  "cache_key": "abda251b6d2cacb526b0245b41d8b753286008d0564ca4bd4b55b69efdebef9e",
+  "written_at": "2026-07-11T07:18:21.241979Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"6.34\",\n  \"numeric_value\": 6.34,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The expected return of the technology fund is calculated using a multi-factor model, which includes an intercept, market return, and exposures to other factors such as the technology index and interest rate sensitivity. The formula for calculating the expected return (E[R]) is: E[R] = Intercept + Beta_Market * Market_Return + Beta_Tech_Index * Tech_Index_Return - Beta_Interest_Rate * Interest_Rate_Sensitivity\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"6.34\",\n  \"numeric_value\": 6.34,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The expected return of the technology fund is calculated using a multi-factor model, which includes an intercept, market return, and exposures to other factors such as the technology index and interest rate sensitivity. The formula for calculating the expected return (E[R]) is: E[R] = Intercept + Beta_Market * Market_Return + Beta_Tech_Index * Tech_Index_Return - Beta_Interest_Rate * Interest_Rate_Sensitivity\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 383,
+      "completion_tokens": 151,
+      "total_tokens": 534
+    },
+    "latency_ms": 23647.012814999925,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-22",
+      "finish_reason": "stop"
+    }
+  }
+}

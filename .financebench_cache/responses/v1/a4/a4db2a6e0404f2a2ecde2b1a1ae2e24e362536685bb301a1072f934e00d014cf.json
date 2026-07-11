@@ -1,0 +1,31 @@
+{
+  "cache_key": "a4db2a6e0404f2a2ecde2b1a1ae2e24e362536685bb301a1072f934e00d014cf",
+  "written_at": "2026-07-11T07:17:38.949976Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"64.00%\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The top two causes are Delayed Transactions (120 occurrences) and Incorrect Statements (80 occurrences). The total number of complaints is 370. The percentage accounted for by the top two causes is calculated as ((120 + 80) / 370) * 100 = 64.00%\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"64.00%\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The top two causes are Delayed Transactions (120 occurrences) and Incorrect Statements (80 occurrences). The total number of complaints is 370. The percentage accounted for by the top two causes is calculated as ((120 + 80) / 370) * 100 = 64.00%\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 392,
+      "completion_tokens": 136,
+      "total_tokens": 528
+    },
+    "latency_ms": 18321.673983999972,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-380",
+      "finish_reason": "stop"
+    }
+  }
+}

@@ -35,6 +35,7 @@ from financebench.evaluation.metrics.base import Metric, register_metric
 from financebench.evaluation.numeric import numeric_match, parse_numeric_answer
 from financebench.prompts.profiles import create_prompt_profile
 from financebench.schemas.metric import MetricResult
+from financebench.schemas.model_io import FinancialAnswer
 from financebench.schemas.prediction import Prediction
 from financebench.schemas.sample import CanonicalSample
 
@@ -419,6 +420,14 @@ def _no_answer(sample: CanonicalSample, metric: str, reason: str) -> MetricResul
     )
 
 
+def _looks_like_percent(answer: FinancialAnswer) -> bool:
+    """Did the model present its number as a percentage?"""
+    unit = (answer.unit or "").strip().lower()
+    if unit in {"%", "percent", "percentage", "pct", "percentage_points"}:
+        return True
+    return "%" in (answer.answer or "")
+
+
 def _table(sample: CanonicalSample) -> list[list[str]]:
     if not sample.context.tables:
         return []
@@ -554,17 +563,29 @@ class FinQAAnswerAccuracy(Metric):
         if predicted_value is None:
             return _no_answer(sample, self.name, "predicted answer has no extractable number")
 
-        is_match = numeric_match(
-            predicted_value, sample.gold.numeric_value, absolute_tolerance=1e-3
-        )
+        gold_value: float = sample.gold.numeric_value
+        is_match = numeric_match(predicted_value, gold_value, absolute_tolerance=1e-3)
+        mode = "numeric"
+
+        # FinQA's exe_ans for a percentage question is the raw division result — a FRACTION
+        # (0.16417), not a percentage (16.417). A model asked for a percentage answers "16.4%",
+        # which is *correct*, and would otherwise be scored as wrong by a factor of 100. So a
+        # percent-flagged answer is also compared against the gold read as a percentage.
+        #
+        # This cannot rescue a genuinely wrong answer: 41% against a gold of 14.46% still fails,
+        # because 0.41 != 0.1446 either way. It reconciles a unit convention, nothing more.
+        if (
+            not is_match
+            and _looks_like_percent(answer)
+            and numeric_match(predicted_value / 100.0, gold_value, absolute_tolerance=1e-3)
+        ):
+            is_match = True
+            mode = "numeric_percent_reconciled"
+
         return MetricResult(
             sample_id=sample.sample_id,
             metric_name=self.name,
             value=is_match,
             passed=is_match,
-            details={
-                "predicted": predicted_value,
-                "gold": sample.gold.numeric_value,
-                "mode": "numeric",
-            },
+            details={"predicted": predicted_value, "gold": gold_value, "mode": mode},
         )

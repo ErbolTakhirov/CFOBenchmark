@@ -1,0 +1,31 @@
+{
+  "cache_key": "8a7ee7beabf834009387fe29e3ab901acb7fdc6512dc62499a62d9c51310dd1e",
+  "written_at": "2026-07-11T07:15:14.744534Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"73260 and 57768\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The operating loss carryforward amounts for the years 2019 and 2018 are directly provided in the table as 73,260 and 57,768 respectively.\"\n}",
+    "financial_answer": {
+      "answer": "73260 and 57768",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The operating loss carryforward amounts for the years 2019 and 2018 are directly provided in the table as 73,260 and 57,768 respectively."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 508,
+      "completion_tokens": 114,
+      "total_tokens": 622
+    },
+    "latency_ms": 14699.897359000033,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-477",
+      "finish_reason": "stop"
+    }
+  }
+}

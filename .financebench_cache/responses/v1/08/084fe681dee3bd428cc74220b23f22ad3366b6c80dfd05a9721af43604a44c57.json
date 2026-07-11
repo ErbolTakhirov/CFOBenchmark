@@ -1,0 +1,31 @@
+{
+  "cache_key": "084fe681dee3bd428cc74220b23f22ad3366b6c80dfd05a9721af43604a44c57",
+  "written_at": "2026-07-11T07:16:30.804148Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"368\", \"numeric_value\": 368, \"unit\": \"percent\", \"period\": null, \"citations\": [], \"insufficient_information\": null, \"confidence\": 1, \"brief_explanation\": \"The annualized return for CME Group from 2012 to 2017 was calculated by taking the final value of $370.32 and dividing it by the initial investment of $100, which gives a total return of 270.32%. This is then converted into an annualized percentage growth over the five-year period.\"}",
+    "financial_answer": {
+      "answer": "{\"answer\": \"368\", \"numeric_value\": 368, \"unit\": \"percent\", \"period\": null, \"citations\": [], \"insufficient_information\": null, \"confidence\": 1, \"brief_explanation\": \"The annualized return for CME Group from 2012 to 2017 was calculated by taking the final value of $370.32 and dividing it by the initial investment of $100, which gives a total return of 270.32%. This is then converted into an annualized percentage growth over the five-year period.\"}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 768,
+      "completion_tokens": 132,
+      "total_tokens": 900
+    },
+    "latency_ms": 7512.2275280000395,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-298",
+      "finish_reason": "stop"
+    }
+  }
+}

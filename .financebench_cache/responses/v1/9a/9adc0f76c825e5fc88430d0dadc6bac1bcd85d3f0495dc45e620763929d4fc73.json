@@ -1,0 +1,31 @@
+{
+  "cache_key": "9adc0f76c825e5fc88430d0dadc6bac1bcd85d3f0495dc45e620763929d4fc73",
+  "written_at": "2026-07-11T07:08:08.268109Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"17.3%\", \"numeric_value\": 17.3, \"unit\": \"%\", \"period\": null, \"citations\": [], \"insufficient_information\": false, \"confidence\": 1, \"brief_explanation\": \"Total rental expense under operating leases in fiscal 2006 was $100690000 and in fiscal 2005 it was $92710000. The percentage change is calculated as ((100690000 - 92710000) / 92710000) * 100 = 17.3%.\"}",
+    "financial_answer": {
+      "answer": "17.3%",
+      "numeric_value": 17.3,
+      "unit": "%",
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "Total rental expense under operating leases in fiscal 2006 was $100690000 and in fiscal 2005 it was $92710000. The percentage change is calculated as ((100690000 - 92710000) / 92710000) * 100 = 17.3%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1644,
+      "completion_tokens": 150,
+      "total_tokens": 1794
+    },
+    "latency_ms": 29183.590982000012,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-843",
+      "finish_reason": "stop"
+    }
+  }
+}

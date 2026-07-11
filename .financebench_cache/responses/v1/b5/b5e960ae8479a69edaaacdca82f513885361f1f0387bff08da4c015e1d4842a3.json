@@ -1,0 +1,31 @@
+{
+  "cache_key": "b5e960ae8479a69edaaacdca82f513885361f1f0387bff08da4c015e1d4842a3",
+  "written_at": "2026-07-11T07:18:28.022310Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"396.52\",\n  \"numeric_value\": 396.52,\n  \"unit\": \"usd\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The monthly payment required for Emily to fully repay the loan is calculated using the formula for an annuity, which takes into account the principal amount ($35,000), annual interest rate (5%), and repayment period (10 years). The result is rounded to the nearest cent.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"396.52\",\n  \"numeric_value\": 396.52,\n  \"unit\": \"usd\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The monthly payment required for Emily to fully repay the loan is calculated using the formula for an annuity, which takes into account the principal amount ($35,000), annual interest rate (5%), and repayment period (10 years). The result is rounded to the nearest cent.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 341,
+      "completion_tokens": 131,
+      "total_tokens": 472
+    },
+    "latency_ms": 20191.852444999997,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-749",
+      "finish_reason": "stop"
+    }
+  }
+}

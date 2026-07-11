@@ -1,0 +1,31 @@
+{
+  "cache_key": "57c970d03d1c91779fb1390ce1e46cbeda7da1a3489b8a6e314e2aedea43ed93",
+  "written_at": "2026-07-11T07:08:35.764813Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"yes\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"Altria's cumulative total shareholder return outperformed the S&P 500 over the five-year period from December 2011 to December 2016, as indicated by the table showing Altria's stock value increasing more than the S&P 500 index during this time.\"\n}",
+    "financial_answer": {
+      "answer": "yes",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "Altria's cumulative total shareholder return outperformed the S&P 500 over the five-year period from December 2011 to December 2016, as indicated by the table showing Altria's stock value increasing more than the S&P 500 index during this time."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1092,
+      "completion_tokens": 124,
+      "total_tokens": 1216
+    },
+    "latency_ms": 40124.577205999994,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-416",
+      "finish_reason": "stop"
+    }
+  }
+}

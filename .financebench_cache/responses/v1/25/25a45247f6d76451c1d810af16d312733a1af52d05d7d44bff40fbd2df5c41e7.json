@@ -1,0 +1,31 @@
+{
+  "cache_key": "25a45247f6d76451c1d810af16d312733a1af52d05d7d44bff40fbd2df5c41e7",
+  "written_at": "2026-07-11T07:13:28.269964Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"387687\",\n  \"numeric_value\": 387687,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The total shares of common stock issued to employees in 2004 and 2003 were calculated by adding the shares issued in each year: 1937141 (2004) + 1939734 (2003) = 387687\"\n}",
+    "financial_answer": {
+      "answer": "387687",
+      "numeric_value": 387687.0,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The total shares of common stock issued to employees in 2004 and 2003 were calculated by adding the shares issued in each year: 1937141 (2004) + 1939734 (2003) = 387687"
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1202,
+      "completion_tokens": 140,
+      "total_tokens": 1342
+    },
+    "latency_ms": 40850.26258799996,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-703",
+      "finish_reason": "stop"
+    }
+  }
+}

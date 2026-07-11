@@ -1,0 +1,31 @@
+{
+  "cache_key": "eceff41a9e54517e44bc0d504ebe2fed2e439b75ed8133a4a715198deb2e7306",
+  "written_at": "2026-07-11T07:17:28.771651Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": null, \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": true, \"confidence\": null, \"brief_explanation\": \"The provided context does not contain any information about the spread of BYYP stock transactions.\"}",
+    "financial_answer": {
+      "answer": "{\"answer\": null, \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": true, \"confidence\": null, \"brief_explanation\": \"The provided context does not contain any information about the spread of BYYP stock transactions.\"}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 420,
+      "completion_tokens": 63,
+      "total_tokens": 483
+    },
+    "latency_ms": 15719.834313999967,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-605",
+      "finish_reason": "stop"
+    }
+  }
+}

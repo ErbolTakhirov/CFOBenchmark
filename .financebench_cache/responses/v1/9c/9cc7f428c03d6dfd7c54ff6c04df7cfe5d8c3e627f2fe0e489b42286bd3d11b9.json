@@ -1,0 +1,31 @@
+{
+  "cache_key": "9cc7f428c03d6dfd7c54ff6c04df7cfe5d8c3e627f2fe0e489b42286bd3d11b9",
+  "written_at": "2026-07-11T07:15:09.180126Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"14\", \"numeric_value\": 14, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": null, \"confidence\": 1, \"brief_explanation\": \"The difference between the 2019 average defined contribution schemes (166 \u20acm) and defined benefit schemes (57 \u20acm) is calculated as 166 - 57 = 14.\"}",
+    "financial_answer": {
+      "answer": "{\"answer\": \"14\", \"numeric_value\": 14, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": null, \"confidence\": 1, \"brief_explanation\": \"The difference between the 2019 average defined contribution schemes (166 \u20acm) and defined benefit schemes (57 \u20acm) is calculated as 166 - 57 = 14.\"}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1297,
+      "completion_tokens": 97,
+      "total_tokens": 1394
+    },
+    "latency_ms": 13162.921481000012,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-242",
+      "finish_reason": "stop"
+    }
+  }
+}

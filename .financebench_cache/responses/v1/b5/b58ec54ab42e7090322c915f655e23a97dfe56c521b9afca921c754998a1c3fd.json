@@ -1,0 +1,31 @@
+{
+  "cache_key": "b58ec54ab42e7090322c915f655e23a97dfe56c521b9afca921c754998a1c3fd",
+  "written_at": "2026-07-11T07:14:32.420286Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"annually\", \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": null, \"confidence\": 1.0, \"brief_explanation\": \"The provided table and context indicate that the Company revises these assumptions based on an annual evaluation of long-term trends, as well as market conditions.\"}",
+    "financial_answer": {
+      "answer": "{\"answer\": \"annually\", \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": null, \"confidence\": 1.0, \"brief_explanation\": \"The provided table and context indicate that the Company revises these assumptions based on an annual evaluation of long-term trends, as well as market conditions.\"}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 524,
+      "completion_tokens": 80,
+      "total_tokens": 604
+    },
+    "latency_ms": 16835.011588999976,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-270",
+      "finish_reason": "stop"
+    }
+  }
+}

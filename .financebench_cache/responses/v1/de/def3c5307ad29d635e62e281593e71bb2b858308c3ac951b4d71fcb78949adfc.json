@@ -1,0 +1,31 @@
+{
+  "cache_key": "def3c5307ad29d635e62e281593e71bb2b858308c3ac951b4d71fcb78949adfc",
+  "written_at": "2026-07-11T07:12:04.455262Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"8%\", \"numeric_value\": null, \"unit\": \"%\", \"period\": null, \"citations\": [], \"insufficient_information\": false, \"confidence\": 1.0, \"brief_explanation\": \"Total operating expenses in 2009 were $896 million and net interest revenue was $3173 million. The percentage is calculated as ($896 / $3173) * 100 = 28.2%, which rounds to 8%.\"}",
+    "financial_answer": {
+      "answer": "8%",
+      "numeric_value": null,
+      "unit": "%",
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "Total operating expenses in 2009 were $896 million and net interest revenue was $3173 million. The percentage is calculated as ($896 / $3173) * 100 = 28.2%, which rounds to 8%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1894,
+      "completion_tokens": 112,
+      "total_tokens": 2006
+    },
+    "latency_ms": 45403.40956,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-470",
+      "finish_reason": "stop"
+    }
+  }
+}

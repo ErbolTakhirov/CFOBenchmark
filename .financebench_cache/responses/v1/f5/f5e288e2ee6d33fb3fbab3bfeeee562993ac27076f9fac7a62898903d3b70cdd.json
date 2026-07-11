@@ -1,0 +1,31 @@
+{
+  "cache_key": "f5e288e2ee6d33fb3fbab3bfeeee562993ac27076f9fac7a62898903d3b70cdd",
+  "written_at": "2026-07-11T07:10:08.862955Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"34.7\",\n  \"numeric_value\": 34.7,\n  \"unit\": \"billions\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The question asks for the total fair value of assets segregated for securities and futures brokerage customers in 2010 and 2009, which is provided in the table as $25.0 billion (2010) and $24.0 billion (2009). The sum of these values is 34.0 billion, rounded to 34.7 billions.\"\n}",
+    "financial_answer": {
+      "answer": "34.7",
+      "numeric_value": 34.7,
+      "unit": "billions",
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The question asks for the total fair value of assets segregated for securities and futures brokerage customers in 2010 and 2009, which is provided in the table as $25.0 billion (2010) and $24.0 billion (2009). The sum of these values is 34.0 billion, rounded to 34.7 billions."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1562,
+      "completion_tokens": 152,
+      "total_tokens": 1714
+    },
+    "latency_ms": 35584.25568500002,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-351",
+      "finish_reason": "stop"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "cache_key": "6cf04c926a9c0bf067e658e7e43626a6bac5e8812ed293840e86484ef6969e2f",
+  "written_at": "2026-07-11T07:16:06.930119Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"Negative 361\", \"numeric_value\": -361, \"unit\": \"\", \"period\": null, \"citations\": [], \"insufficient_information\": null, \"confidence\": 1.0, \"brief_explanation\": \"Total assets in 2019: $2,664 million Total assets in 2018: $3,025 million Change = 2018 - 2019 = $2,664 - $3,025 = -$361\"}",
+    "financial_answer": {
+      "answer": "{\"answer\": \"Negative 361\", \"numeric_value\": -361, \"unit\": \"\", \"period\": null, \"citations\": [], \"insufficient_information\": null, \"confidence\": 1.0, \"brief_explanation\": \"Total assets in 2019: $2,664 million Total assets in 2018: $3,025 million Change = 2018 - 2019 = $2,664 - $3,025 = -$361\"}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1368,
+      "completion_tokens": 120,
+      "total_tokens": 1488
+    },
+    "latency_ms": 17516.89309599999,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-643",
+      "finish_reason": "stop"
+    }
+  }
+}

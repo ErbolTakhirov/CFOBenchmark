@@ -1,0 +1,31 @@
+{
+  "cache_key": "726d1b86780f96c2f64ba17cbdfb99050f266721cc0210d5a6c284977a44f731",
+  "written_at": "2026-07-11T07:07:55.639507Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"10%\", \"numeric_value\": null, \"unit\": \"%\", \"period\": null, \"citations\": [], \"insufficient_information\": null, \"confidence\": null, \"brief_explanation\": \"The question asks for the percentage of current recourse debt out of total recourse debt. The table provided shows annual maturities in millions of dollars but does not specify what constitutes 'current'. Without knowing how to categorize these maturing debts as current or non-current, it's impossible to calculate this percentage.\"}",
+    "financial_answer": {
+      "answer": "{\"answer\": \"10%\", \"numeric_value\": null, \"unit\": \"%\", \"period\": null, \"citations\": [], \"insufficient_information\": null, \"confidence\": null, \"brief_explanation\": \"The question asks for the percentage of current recourse debt out of total recourse debt. The table provided shows annual maturities in millions of dollars but does not specify what constitutes 'current'. Without knowing how to categorize these maturing debts as current or non-current, it's impossible to calculate this percentage.\"}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1089,
+      "completion_tokens": 109,
+      "total_tokens": 1198
+    },
+    "latency_ms": 16554.658302999997,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-850",
+      "finish_reason": "stop"
+    }
+  }
+}

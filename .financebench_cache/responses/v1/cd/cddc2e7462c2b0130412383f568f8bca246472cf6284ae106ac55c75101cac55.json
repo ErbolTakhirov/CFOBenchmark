@@ -1,0 +1,31 @@
+{
+  "cache_key": "cddc2e7462c2b0130412383f568f8bca246472cf6284ae106ac55c75101cac55",
+  "written_at": "2026-07-11T07:15:18.969235Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"795 and 772\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The net deferred tax asset before valuation allowance for the years 2019 and 2018 are provided in the table as 795 thousand U.S. $ and 772 thousand U.S. $ respectively.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"795 and 772\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The net deferred tax asset before valuation allowance for the years 2019 and 2018 are provided in the table as 795 thousand U.S. $ and 772 thousand U.S. $ respectively.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 511,
+      "completion_tokens": 115,
+      "total_tokens": 626
+    },
+    "latency_ms": 16149.571218000005,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-792",
+      "finish_reason": "stop"
+    }
+  }
+}

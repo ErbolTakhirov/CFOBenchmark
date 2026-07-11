@@ -111,6 +111,16 @@ class FinancialAnswer(BaseModel):
     (real models are messy); an answer that cannot be parsed at all is recorded as
     ``parsed=False`` on :class:`ModelResponse` rather than silently defaulted, and unstructured
     text models are still supported through the same best-effort parse.
+
+    **Tolerance here is load-bearing, and its absence was a real bug.** Models routinely emit
+    ``"insufficient_information": null`` for a field the schema asked for as a boolean. A strict
+    ``bool`` rejects that, the whole ``model_validate`` fails, and :meth:`from_text` silently falls
+    back to treating the entire raw JSON blob as the answer *string* — throwing away a perfectly
+    good ``"numeric_value": 29.3`` sitting right next to it. On a live qwen2.5:3b run that
+    destroyed roughly half of all valid answers and made the model look far worse than it was. The
+    lesson generalises: every optional field here must survive an explicit ``null``, because a
+    model writing ``null`` where it means "no" is not a wrong answer, it is a wrong *type*, and
+    grading it as a financial failure is a lie about the model.
     """
 
     model_config = ConfigDict(extra="ignore", frozen=True)
@@ -118,10 +128,25 @@ class FinancialAnswer(BaseModel):
     answer: str
     numeric_value: float | None = None
     unit: str | None = None
+    period: str | None = None
     citations: tuple[Citation, ...] = Field(default_factory=tuple)
     insufficient_information: bool = False
     confidence: float | None = None
     brief_explanation: str | None = None
+
+    @field_validator("insufficient_information", mode="before")
+    @classmethod
+    def _null_means_no(cls, value: Any) -> Any:
+        """``null`` for a boolean means "not flagged", not "invalid response"."""
+        return False if value is None else value
+
+    @field_validator("answer", mode="before")
+    @classmethod
+    def _answer_is_always_a_string(cls, value: Any) -> Any:
+        """Models sometimes put a bare number in ``answer``. That is an answer, not a type error."""
+        if value is None:
+            return ""
+        return value if isinstance(value, str) else str(value)
 
     @classmethod
     def from_text(cls, text: str) -> FinancialAnswer | None:

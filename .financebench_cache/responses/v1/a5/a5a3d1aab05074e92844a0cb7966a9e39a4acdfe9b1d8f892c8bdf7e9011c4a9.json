@@ -1,0 +1,31 @@
+{
+  "cache_key": "a5a3d1aab05074e92844a0cb7966a9e39a4acdfe9b1d8f892c8bdf7e9011c4a9",
+  "written_at": "2026-07-11T07:11:19.051316Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"null\", \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": true, \"confidence\": null, \"brief_explanation\": \"The provided context does not contain the necessary information to calculate the percentage change in the gross liability for unrecognized tax benefits from 2007 to 2008.\"}",
+    "financial_answer": {
+      "answer": "null",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": true,
+      "confidence": null,
+      "brief_explanation": "The provided context does not contain the necessary information to calculate the percentage change in the gross liability for unrecognized tax benefits from 2007 to 2008."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1193,
+      "completion_tokens": 82,
+      "total_tokens": 1275
+    },
+    "latency_ms": 36007.61161899999,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-775",
+      "finish_reason": "stop"
+    }
+  }
+}

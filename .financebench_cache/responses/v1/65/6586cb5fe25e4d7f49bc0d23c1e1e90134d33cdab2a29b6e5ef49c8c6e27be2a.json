@@ -1,0 +1,31 @@
+{
+  "cache_key": "6586cb5fe25e4d7f49bc0d23c1e1e90134d33cdab2a29b6e5ef49c8c6e27be2a",
+  "written_at": "2026-07-11T07:18:07.829871Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"8.75%\",\n  \"numeric_value\": 8.75,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The WACC is calculated by taking the weighted average of the cost of equity and the after-tax cost of debt, based on their respective market values.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"8.75%\",\n  \"numeric_value\": 8.75,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The WACC is calculated by taking the weighted average of the cost of equity and the after-tax cost of debt, based on their respective market values.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 396,
+      "completion_tokens": 96,
+      "total_tokens": 492
+    },
+    "latency_ms": 17559.227220000026,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-226",
+      "finish_reason": "stop"
+    }
+  }
+}

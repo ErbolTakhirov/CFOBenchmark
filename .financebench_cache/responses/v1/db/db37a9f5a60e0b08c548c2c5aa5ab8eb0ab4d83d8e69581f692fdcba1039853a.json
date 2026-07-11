@@ -1,0 +1,31 @@
+{
+  "cache_key": "db37a9f5a60e0b08c548c2c5aa5ab8eb0ab4d83d8e69581f692fdcba1039853a",
+  "written_at": "2026-07-11T07:14:41.254427Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"-12.5%\",\n  \"numeric_value\": -12.5,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The domestic discount rate decreased from 3.75% in 2018 to 4.00% in 2019, resulting in a year-on-year percentage change of -12.5%. \"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"-12.5%\",\n  \"numeric_value\": -12.5,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The domestic discount rate decreased from 3.75% in 2018 to 4.00% in 2019, resulting in a year-on-year percentage change of -12.5%. \"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 518,
+      "completion_tokens": 114,
+      "total_tokens": 632
+    },
+    "latency_ms": 15970.627181999987,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-360",
+      "finish_reason": "stop"
+    }
+  }
+}

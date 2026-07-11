@@ -1,0 +1,31 @@
+{
+  "cache_key": "ffb0b3000cb4cf20f9cb74acd1b377cb516b860b4d44d61182fc0cdb0c900f87",
+  "written_at": "2026-07-11T07:16:22.512048Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"2018\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The table shows that Value added tax receivables, net, noncurrent was $592 in 2019 and $519 in 2018. Therefore, it was larger in 2018.\"\n}",
+    "financial_answer": {
+      "answer": "2018",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The table shows that Value added tax receivables, net, noncurrent was $592 in 2019 and $519 in 2018. Therefore, it was larger in 2018."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 443,
+      "completion_tokens": 112,
+      "total_tokens": 555
+    },
+    "latency_ms": 15573.760604999961,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-940",
+      "finish_reason": "stop"
+    }
+  }
+}

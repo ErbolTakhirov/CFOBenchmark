@@ -1,0 +1,31 @@
+{
+  "cache_key": "85598c59e1068fe5520260d1cf86007bda4ac3d51d3ffad13c522a32809c4658",
+  "written_at": "2026-07-11T07:13:55.743158Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"-18.3%\",\n  \"numeric_value\": -18.3,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The percentage change in Other from 2018 to 2019 is calculated as follows: ((56.7 - 44.1) / 56.7) * 100 = -18.3%\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"-18.3%\",\n  \"numeric_value\": -18.3,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The percentage change in Other from 2018 to 2019 is calculated as follows: ((56.7 - 44.1) / 56.7) * 100 = -18.3%\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 518,
+      "completion_tokens": 119,
+      "total_tokens": 637
+    },
+    "latency_ms": 17262.481809999997,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-636",
+      "finish_reason": "stop"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "cache_key": "0237084a390f2c38f1d7deaea5b8337cee210cc0d3073fa07558d623326b170c",
+  "written_at": "2026-07-11T07:18:47.591629Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"32500\",\n  \"numeric_value\": 32500,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"Alice's tax liability is calculated by applying the progressive tax rates to her income: 10% on $10,000, 15% on $40,000 (income over $10,000 and up to $50,000), and 20% on $25,000 (income over $90,000). The total tax is the sum of these amounts.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"32500\",\n  \"numeric_value\": 32500,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"Alice's tax liability is calculated by applying the progressive tax rates to her income: 10% on $10,000, 15% on $40,000 (income over $10,000 and up to $50,000), and 20% on $25,000 (income over $90,000). The total tax is the sum of these amounts.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 398,
+      "completion_tokens": 164,
+      "total_tokens": 562
+    },
+    "latency_ms": 24795.33286499998,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-701",
+      "finish_reason": "stop"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "cache_key": "82099bf50e6db62f0c6ed14fb6898d9d02b4342a1f22d5ac2f1716845ab59a15",
+  "written_at": "2026-07-11T07:14:13.326800Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"2017\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The table shows the amount for Sensors in millions for each year: $914 million in 2017, $918 million in 2018, and $814 million in 2019. The largest amount is therefore from 2017.\"\n}",
+    "financial_answer": {
+      "answer": "2017",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The table shows the amount for Sensors in millions for each year: $914 million in 2017, $918 million in 2018, and $814 million in 2019. The largest amount is therefore from 2017."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 624,
+      "completion_tokens": 124,
+      "total_tokens": 748
+    },
+    "latency_ms": 17582.987500999992,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-88",
+      "finish_reason": "stop"
+    }
+  }
+}

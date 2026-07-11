@@ -1,0 +1,31 @@
+{
+  "cache_key": "574de416cc062045d93a564bac65d746b3a5f92937e9dbd8fe5fc1f588a33b1a",
+  "written_at": "2026-07-11T07:15:45.212284Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"2018\", \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": false, \"confidence\": 1.0, \"brief_explanation\": \"The context states that IMFT discontinued production of NAND in 2018.\"}",
+    "financial_answer": {
+      "answer": "2018",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The context states that IMFT discontinued production of NAND in 2018."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1355,
+      "completion_tokens": 70,
+      "total_tokens": 1425
+    },
+    "latency_ms": 23174.76060499996,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-380",
+      "finish_reason": "stop"
+    }
+  }
+}

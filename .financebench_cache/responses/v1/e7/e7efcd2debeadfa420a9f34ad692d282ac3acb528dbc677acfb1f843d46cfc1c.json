@@ -1,0 +1,31 @@
+{
+  "cache_key": "e7efcd2debeadfa420a9f34ad692d282ac3acb528dbc677acfb1f843d46cfc1c",
+  "written_at": "2026-07-11T07:12:38.536564Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": null,\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": true,\n  \"confidence\": null,\n  \"brief_explanation\": \"The provided data does not include the fair value of securities classified as corporate stocks, which is necessary to calculate the fair value of total securities available for sale without this classification.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": null,\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": true,\n  \"confidence\": null,\n  \"brief_explanation\": \"The provided data does not include the fair value of securities classified as corporate stocks, which is necessary to calculate the fair value of total securities available for sale without this classification.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1461,
+      "completion_tokens": 89,
+      "total_tokens": 1550
+    },
+    "latency_ms": 46741.127162,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-336",
+      "finish_reason": "stop"
+    }
+  }
+}

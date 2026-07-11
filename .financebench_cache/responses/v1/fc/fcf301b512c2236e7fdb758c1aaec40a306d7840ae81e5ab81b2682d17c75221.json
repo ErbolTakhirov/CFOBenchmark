@@ -1,0 +1,31 @@
+{
+  "cache_key": "fcf301b512c2236e7fdb758c1aaec40a306d7840ae81e5ab81b2682d17c75221",
+  "written_at": "2026-07-11T07:10:18.609391Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": null,\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": true,\n  \"confidence\": null,\n  \"brief_explanation\": \"The question cannot be answered with the provided context as it does not contain information about commercial mortgage loans designated for sale from 2008 to 2009.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": null,\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": true,\n  \"confidence\": null,\n  \"brief_explanation\": \"The question cannot be answered with the provided context as it does not contain information about commercial mortgage loans designated for sale from 2008 to 2009.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1516,
+      "completion_tokens": 90,
+      "total_tokens": 1606
+    },
+    "latency_ms": 36454.20917200002,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-935",
+      "finish_reason": "stop"
+    }
+  }
+}

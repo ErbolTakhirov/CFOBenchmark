@@ -1,0 +1,31 @@
+{
+  "cache_key": "40252b825e038e37645309c1797f283ff761d1365474eb292725285ffd1cd090",
+  "written_at": "2026-07-11T07:13:51.191162Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"28.3\",\n  \"numeric_value\": 28.3,\n  \"unit\": \"\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The change in 'Other' from 2018 to 2019 is calculated as follows: (44.1 - 56.7) = -12.6, and then (-12.6 / 56.7) * 100 = -22.1%, but since the question asks for a change in value rather than percentage, we take the absolute difference which is 12.6.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"28.3\",\n  \"numeric_value\": 28.3,\n  \"unit\": \"\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The change in 'Other' from 2018 to 2019 is calculated as follows: (44.1 - 56.7) = -12.6, and then (-12.6 / 56.7) * 100 = -22.1%, but since the question asks for a change in value rather than percentage, we take the absolute difference which is 12.6.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 517,
+      "completion_tokens": 160,
+      "total_tokens": 677
+    },
+    "latency_ms": 16854.53533200001,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-116",
+      "finish_reason": "stop"
+    }
+  }
+}

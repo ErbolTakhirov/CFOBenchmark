@@ -1,0 +1,31 @@
+{
+  "cache_key": "403eee51c368ffeb35c2a8959d2fe8b1d61adddb8c7f170a772538fcfef316fe",
+  "written_at": "2026-07-11T07:12:47.419067Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": null,\n  \"numeric_value\": null,\n  \"unit\": \"millions\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": true,\n  \"confidence\": null,\n  \"brief_explanation\": \"The provided information does not include the level of settlements or any details about how such settlements would affect the unrecognized tax benefits for fiscal year 2008.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": null,\n  \"numeric_value\": null,\n  \"unit\": \"millions\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": true,\n  \"confidence\": null,\n  \"brief_explanation\": \"The provided information does not include the level of settlements or any details about how such settlements would affect the unrecognized tax benefits for fiscal year 2008.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1345,
+      "completion_tokens": 89,
+      "total_tokens": 1434
+    },
+    "latency_ms": 42963.110131999994,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-954",
+      "finish_reason": "stop"
+    }
+  }
+}

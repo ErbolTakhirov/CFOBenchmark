@@ -1,0 +1,31 @@
+{
+  "cache_key": "741db9cfcd572f735e9f96fc13249f1b2aecaca2db43c752e422c14361762aa2",
+  "written_at": "2026-07-11T07:19:11.322500Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": null, \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": true, \"confidence\": 0.95, \"brief_explanation\": \"The table provided does not contain the necessary information to calculate the anticipated annual equity return using the Grinold\u2013Kroner model. The required data such as the number of outstanding shares and historical returns are missing.\"}",
+    "financial_answer": {
+      "answer": "{\"answer\": null, \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": true, \"confidence\": 0.95, \"brief_explanation\": \"The table provided does not contain the necessary information to calculate the anticipated annual equity return using the Grinold\u2013Kroner model. The required data such as the number of outstanding shares and historical returns are missing.\"}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 531,
+      "completion_tokens": 93,
+      "total_tokens": 624
+    },
+    "latency_ms": 18892.897798000035,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-706",
+      "finish_reason": "stop"
+    }
+  }
+}

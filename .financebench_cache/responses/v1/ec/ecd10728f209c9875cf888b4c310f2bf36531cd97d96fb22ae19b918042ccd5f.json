@@ -1,0 +1,31 @@
+{
+  "cache_key": "ecd10728f209c9875cf888b4c310f2bf36531cd97d96fb22ae19b918042ccd5f",
+  "written_at": "2026-07-11T07:09:06.866051Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"24.6%\", \"numeric_value\": null, \"unit\": \"%\", \"period\": \"fiscal year of 2019\", \"citations\": [], \"insufficient_information\": false, \"confidence\": 0.85, \"brief_explanation\": \"The total noncancelable future lease commitments are $559.3 million in fiscal 2019. The portion due in fiscal 2019 is calculated as ($137.4 / $559.3) * 100 = 24.6%.\"}",
+    "financial_answer": {
+      "answer": "24.6%",
+      "numeric_value": null,
+      "unit": "%",
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 0.85,
+      "brief_explanation": "The total noncancelable future lease commitments are $559.3 million in fiscal 2019. The portion due in fiscal 2019 is calculated as ($137.4 / $559.3) * 100 = 24.6%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1018,
+      "completion_tokens": 127,
+      "total_tokens": 1145
+    },
+    "latency_ms": 31100.578568000004,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-250",
+      "finish_reason": "stop"
+    }
+  }
+}

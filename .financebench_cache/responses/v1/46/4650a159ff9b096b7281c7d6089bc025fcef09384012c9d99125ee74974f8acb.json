@@ -1,0 +1,31 @@
+{
+  "cache_key": "4650a159ff9b096b7281c7d6089bc025fcef09384012c9d99125ee74974f8acb",
+  "written_at": "2026-07-11T07:17:03.663186Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n\"NotAvailable\": true,\n\"insufficient_information\": false,\n\"citations\": [],\n\"brief_explanation\": \"The calculation for the 5-day moving average requires data from the last 5 days, but only the last 10 days' closing prices are provided.\",\n\"answer\": null,\n\"numeric_value\": null,\n\"unit\": null,\n\"period\": null\n}",
+    "financial_answer": {
+      "answer": "{\n\"NotAvailable\": true,\n\"insufficient_information\": false,\n\"citations\": [],\n\"brief_explanation\": \"The calculation for the 5-day moving average requires data from the last 5 days, but only the last 10 days' closing prices are provided.\",\n\"answer\": null,\n\"numeric_value\": null,\n\"unit\": null,\n\"period\": null\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 369,
+      "completion_tokens": 78,
+      "total_tokens": 447
+    },
+    "latency_ms": 17910.387024999978,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-753",
+      "finish_reason": "stop"
+    }
+  }
+}

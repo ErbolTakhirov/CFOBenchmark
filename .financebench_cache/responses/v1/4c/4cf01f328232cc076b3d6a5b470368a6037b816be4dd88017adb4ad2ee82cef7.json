@@ -1,0 +1,31 @@
+{
+  "cache_key": "4cf01f328232cc076b3d6a5b470368a6037b816be4dd88017adb4ad2ee82cef7",
+  "written_at": "2026-07-11T07:11:01.509373Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"1.58\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": null,\n  \"brief_explanation\": \"The square footage in Alpharetta, Georgia is 219000 and in Charlotte, North Carolina is 83000. The ratio of the two is calculated as 219000 / 83000 = 1.58\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"1.58\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": null,\n  \"brief_explanation\": \"The square footage in Alpharetta, Georgia is 219000 and in Charlotte, North Carolina is 83000. The ratio of the two is calculated as 219000 / 83000 = 1.58\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1293,
+      "completion_tokens": 120,
+      "total_tokens": 1413
+    },
+    "latency_ms": 38349.38659100004,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-587",
+      "finish_reason": "stop"
+    }
+  }
+}

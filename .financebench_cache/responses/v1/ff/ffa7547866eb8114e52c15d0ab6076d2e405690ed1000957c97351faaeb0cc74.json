@@ -1,0 +1,31 @@
+{
+  "cache_key": "ffa7547866eb8114e52c15d0ab6076d2e405690ed1000957c97351faaeb0cc74",
+  "written_at": "2026-07-11T07:19:06.459120Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"123.457\",\n  \"numeric_value\": 123.457,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 0.98,\n  \"brief_explanation\": \"The Paasche index is calculated by dividing the sum of (quantity * price) for December by the sum of (quantity * price) for November, then multiplying by 100 to get a percentage.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"123.457\",\n  \"numeric_value\": 123.457,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 0.98,\n  \"brief_explanation\": \"The Paasche index is calculated by dividing the sum of (quantity * price) for December by the sum of (quantity * price) for November, then multiplying by 100 to get a percentage.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 370,
+      "completion_tokens": 116,
+      "total_tokens": 486
+    },
+    "latency_ms": 18866.82397200002,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-309",
+      "finish_reason": "stop"
+    }
+  }
+}

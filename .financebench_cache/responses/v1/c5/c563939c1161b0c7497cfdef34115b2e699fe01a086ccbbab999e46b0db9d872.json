@@ -1,0 +1,31 @@
+{
+  "cache_key": "c563939c1161b0c7497cfdef34115b2e699fe01a086ccbbab999e46b0db9d872",
+  "written_at": "2026-07-11T07:16:02.445775Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"77.6%\", \"numeric_value\": 77.6, \"unit\": \"%\", \"period\": \"2018\", \"citations\": [], \"insufficient_information\": null, \"confidence\": 1, \"brief_explanation\": \"To calculate the proportion of IMFT's property, plant, and equipment over total assets in 2018: (Property, plant, and equipment / Total assets) * 100 = (2641 / 3025) * 100 = 87.4%\"}",
+    "financial_answer": {
+      "answer": "{\"answer\": \"77.6%\", \"numeric_value\": 77.6, \"unit\": \"%\", \"period\": \"2018\", \"citations\": [], \"insufficient_information\": null, \"confidence\": 1, \"brief_explanation\": \"To calculate the proportion of IMFT's property, plant, and equipment over total assets in 2018: (Property, plant, and equipment / Total assets) * 100 = (2641 / 3025) * 100 = 87.4%\"}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1369,
+      "completion_tokens": 124,
+      "total_tokens": 1493
+    },
+    "latency_ms": 17233.005009999943,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-817",
+      "finish_reason": "stop"
+    }
+  }
+}

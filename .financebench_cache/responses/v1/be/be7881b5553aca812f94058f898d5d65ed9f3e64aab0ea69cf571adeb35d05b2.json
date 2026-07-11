@@ -1,0 +1,31 @@
+{
+  "cache_key": "be7881b5553aca812f94058f898d5d65ed9f3e64aab0ea69cf571adeb35d05b2",
+  "written_at": "2026-07-11T07:15:27.352980Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"24.3%\",\n  \"numeric_value\": 24.3,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The operating loss carryforward increased from $57,768 thousand in 2018 to $73,260 thousand in 2019. The percentage change is calculated as ((73,260 - 57,768) / 57,768) * 100 = 24.3%\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"24.3%\",\n  \"numeric_value\": 24.3,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The operating loss carryforward increased from $57,768 thousand in 2018 to $73,260 thousand in 2019. The percentage change is calculated as ((73,260 - 57,768) / 57,768) * 100 = 24.3%\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 510,
+      "completion_tokens": 146,
+      "total_tokens": 656
+    },
+    "latency_ms": 18172.320123000078,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-332",
+      "finish_reason": "stop"
+    }
+  }
+}

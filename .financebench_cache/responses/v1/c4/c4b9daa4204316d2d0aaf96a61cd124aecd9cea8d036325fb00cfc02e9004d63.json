@@ -1,0 +1,31 @@
+{
+  "cache_key": "c4b9daa4204316d2d0aaf96a61cd124aecd9cea8d036325fb00cfc02e9004d63",
+  "written_at": "2026-07-11T07:16:52.609945Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"5.00%\",\n  \"numeric_value\": 5,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1,\n  \"brief_explanation\": \"The after-tax real rate of return is calculated by first adjusting the nominal return for taxes and then subtracting the inflation rate. The formula used here is: (nominal rate - tax rate) * (1 + inflation rate). Plugging in the values, we get: (8% - 20%) * (1 + 2.5%) = -12% * 1.025 = -12.3%. Then subtracting this from the nominal return gives us an after-tax real rate of return of 5%, as inflation is a negative growth factor.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"5.00%\",\n  \"numeric_value\": 5,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1,\n  \"brief_explanation\": \"The after-tax real rate of return is calculated by first adjusting the nominal return for taxes and then subtracting the inflation rate. The formula used here is: (nominal rate - tax rate) * (1 + inflation rate). Plugging in the values, we get: (8% - 20%) * (1 + 2.5%) = -12% * 1.025 = -12.3%. Then subtracting this from the nominal return gives us an after-tax real rate of return of 5%, as inflation is a negative growth factor.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 320,
+      "completion_tokens": 181,
+      "total_tokens": 501
+    },
+    "latency_ms": 21805.313819000046,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-813",
+      "finish_reason": "stop"
+    }
+  }
+}

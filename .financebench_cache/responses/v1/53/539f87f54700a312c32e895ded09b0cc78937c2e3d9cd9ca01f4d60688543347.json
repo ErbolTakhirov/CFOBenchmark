@@ -1,0 +1,31 @@
+{
+  "cache_key": "539f87f54700a312c32e895ded09b0cc78937c2e3d9cd9ca01f4d60688543347",
+  "written_at": "2026-07-11T07:13:38.480126Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"allowable incurred costs plus a profit\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The information provided in the table and context clearly states that on a cost-plus type contract, we are paid our allowable incurred costs plus a profit which can be fixed or variable depending on the contract's fee arrangement up to predetermined funding levels determined by the customer.\"\n}",
+    "financial_answer": {
+      "answer": "allowable incurred costs plus a profit",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The information provided in the table and context clearly states that on a cost-plus type contract, we are paid our allowable incurred costs plus a profit which can be fixed or variable depending on the contract's fee arrangement up to predetermined funding levels determined by the customer."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 510,
+      "completion_tokens": 116,
+      "total_tokens": 626
+    },
+    "latency_ms": 9536.54442499999,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-126",
+      "finish_reason": "stop"
+    }
+  }
+}

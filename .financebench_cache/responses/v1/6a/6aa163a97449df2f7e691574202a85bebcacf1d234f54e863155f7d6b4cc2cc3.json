@@ -1,0 +1,31 @@
+{
+  "cache_key": "6aa163a97449df2f7e691574202a85bebcacf1d234f54e863155f7d6b4cc2cc3",
+  "written_at": "2026-07-11T07:09:33.278166Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"4648\",\n  \"numeric_value\": 4648,\n  \"unit\": \"millions\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The average net annual change in discounted future net cash flows for the years 2011, 2010, and 2009 is calculated by taking the sum of these values (4648 + 3625 + 1620) and dividing it by the number of years (3). The result is 4648 millions.\"\n}",
+    "financial_answer": {
+      "answer": "4648",
+      "numeric_value": 4648.0,
+      "unit": "millions",
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The average net annual change in discounted future net cash flows for the years 2011, 2010, and 2009 is calculated by taking the sum of these values (4648 + 3625 + 1620) and dividing it by the number of years (3). The result is 4648 millions."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 742,
+      "completion_tokens": 148,
+      "total_tokens": 890
+    },
+    "latency_ms": 35080.105072000006,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-15",
+      "finish_reason": "stop"
+    }
+  }
+}

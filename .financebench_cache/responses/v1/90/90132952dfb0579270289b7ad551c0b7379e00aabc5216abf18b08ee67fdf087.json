@@ -1,0 +1,31 @@
+{
+  "cache_key": "90132952dfb0579270289b7ad551c0b7379e00aabc5216abf18b08ee67fdf087",
+  "written_at": "2026-07-11T07:15:36.996399Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"-10.4%\",\n  \"numeric_value\": -10.4,\n  \"unit\": \"percentage_points\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1,\n  \"brief_explanation\": \"The net deferred tax asset in 2019 was $795 thousand, and in 2018 it was $772 thousand. The percentage change is calculated as ((772 - 795) / 772) * 100 = -10.4%\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"-10.4%\",\n  \"numeric_value\": -10.4,\n  \"unit\": \"percentage_points\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1,\n  \"brief_explanation\": \"The net deferred tax asset in 2019 was $795 thousand, and in 2018 it was $772 thousand. The percentage change is calculated as ((772 - 795) / 772) * 100 = -10.4%\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 510,
+      "completion_tokens": 133,
+      "total_tokens": 643
+    },
+    "latency_ms": 18026.565214000017,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-398",
+      "finish_reason": "stop"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "cache_key": "7d84e34c6668ab248c063ff1b87787031d9b1f41dcfe7f877c8b03d5afc2cd91",
+  "written_at": "2026-07-11T07:12:53.917230Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": null,\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": true,\n  \"confidence\": null,\n  \"brief_explanation\": \"The provided context does not contain information about the total square footage in alpharetta, Georgia or any details regarding leased versus unleased space.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": null,\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": true,\n  \"confidence\": null,\n  \"brief_explanation\": \"The provided context does not contain information about the total square footage in alpharetta, Georgia or any details regarding leased versus unleased space.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 942,
+      "completion_tokens": 83,
+      "total_tokens": 1025
+    },
+    "latency_ms": 42123.571755,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-128",
+      "finish_reason": "stop"
+    }
+  }
+}

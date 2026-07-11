@@ -1,0 +1,31 @@
+{
+  "cache_key": "56fbfc75a8934386279932617e202a8e2e40a0d1503af3a4dce1ecce844fa457",
+  "written_at": "2026-07-11T07:11:51.794754Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"16.4\",\n  \"numeric_value\": 16.4,\n  \"unit\": \"\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 0.95,\n  \"brief_explanation\": \"To calculate the percent of total operating revenues associated with agricultural products in 2015, we divide the agricultural products revenue by the total operating revenues and multiply by 100: ($3581 / $21813) * 100 = 16.4%\"\n}",
+    "financial_answer": {
+      "answer": "16.4",
+      "numeric_value": 16.4,
+      "unit": "",
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "To calculate the percent of total operating revenues associated with agricultural products in 2015, we divide the agricultural products revenue by the total operating revenues and multiply by 100: ($3581 / $21813) * 100 = 16.4%"
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1192,
+      "completion_tokens": 129,
+      "total_tokens": 1321
+    },
+    "latency_ms": 40672.41240099997,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-377",
+      "finish_reason": "stop"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "cache_key": "bd594ec5317eff74da88a9b027c96ae655536ad0ea6927130d265fafe4a01a77",
+  "written_at": "2026-07-11T07:14:19.637044Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"-7.6%\",\n  \"numeric_value\": -7.6,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The percentage change in Appliances from 2018 to 2019 is calculated as ((774 - 680) / 680) * 100 = -7.6%\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"-7.6%\",\n  \"numeric_value\": -7.6,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The percentage change in Appliances from 2018 to 2019 is calculated as ((774 - 680) / 680) * 100 = -7.6%\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 636,
+      "completion_tokens": 111,
+      "total_tokens": 747
+    },
+    "latency_ms": 13932.22425800002,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-285",
+      "finish_reason": "stop"
+    }
+  }
+}

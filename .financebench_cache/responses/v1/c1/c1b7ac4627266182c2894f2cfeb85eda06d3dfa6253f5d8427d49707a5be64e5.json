@@ -1,0 +1,31 @@
+{
+  "cache_key": "c1b7ac4627266182c2894f2cfeb85eda06d3dfa6253f5d8427d49707a5be64e5",
+  "written_at": "2026-07-11T07:15:52.613883Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"909\", \"numeric_value\": 909, \"unit\": null, \"period\": \"2018\", \"citations\": [], \"insufficient_information\": false, \"confidence\": 1.0, \"brief_explanation\": \"The total liabilities of IMFT in the provided table for the year 2018 are listed as $909.\"}",
+    "financial_answer": {
+      "answer": "909",
+      "numeric_value": 909.0,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The total liabilities of IMFT in the provided table for the year 2018 are listed as $909."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1360,
+      "completion_tokens": 85,
+      "total_tokens": 1445
+    },
+    "latency_ms": 20480.421111000054,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-415",
+      "finish_reason": "stop"
+    }
+  }
+}

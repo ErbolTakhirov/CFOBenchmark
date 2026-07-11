@@ -1,0 +1,31 @@
+{
+  "cache_key": "feb00a1e284030d62d27dbc7e372fb0c2ebec95a9212afd00d51d56550799d29",
+  "written_at": "2026-07-11T07:15:32.132840Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"-13.4%\",\n  \"numeric_value\": -13.4,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1,\n  \"brief_explanation\": \"The valuation allowance decreased from $15,916 in 2018 to $795 in 2019. The percentage change is calculated as ((795 - 15916) / 15916) * 100 = -13.4%\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"-13.4%\",\n  \"numeric_value\": -13.4,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1,\n  \"brief_explanation\": \"The valuation allowance decreased from $15,916 in 2018 to $795 in 2019. The percentage change is calculated as ((795 - 15916) / 15916) * 100 = -13.4%\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 508,
+      "completion_tokens": 132,
+      "total_tokens": 640
+    },
+    "latency_ms": 17387.763416999973,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-371",
+      "finish_reason": "stop"
+    }
+  }
+}

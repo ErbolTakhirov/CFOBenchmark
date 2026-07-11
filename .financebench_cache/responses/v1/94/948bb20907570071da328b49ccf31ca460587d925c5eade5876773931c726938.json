@@ -1,0 +1,31 @@
+{
+  "cache_key": "948bb20907570071da328b49ccf31ca460587d925c5eade5876773931c726938",
+  "written_at": "2026-07-11T07:17:13.051196Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"25000\",\n  \"numeric_value\": 25000,\n  \"unit\": \"BRL\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The profit from the carry trade is calculated by first converting the borrowed Japanese Yen to Brazilian Reals, investing at a higher interest rate in Brazil for one year, and then calculating the return on investment.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"25000\",\n  \"numeric_value\": 25000,\n  \"unit\": \"BRL\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The profit from the carry trade is calculated by first converting the borrowed Japanese Yen to Brazilian Reals, investing at a higher interest rate in Brazil for one year, and then calculating the return on investment.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 354,
+      "completion_tokens": 111,
+      "total_tokens": 465
+    },
+    "latency_ms": 17709.354934999967,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-538",
+      "finish_reason": "stop"
+    }
+  }
+}

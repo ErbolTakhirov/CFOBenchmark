@@ -1,0 +1,31 @@
+{
+  "cache_key": "efa885781e3178c70bea3d66e4d81dbb5604c5af51ca5b72e9953d09429f97f7",
+  "written_at": "2026-07-11T07:09:25.461204Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"11.6%\",\n  \"numeric_value\": 11.6,\n  \"unit\": \"percentage_points\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 0.95,\n  \"brief_explanation\": \"The regulatory assets decreased by $6241 from 2013 to 2014, while deferred tax assets increased by $6348 during the same period. The percentage change is calculated as ((Final - Initial) / Initial) * 100 = (($6348 - (-$6241)) / (-$6241)) * 100 \u2248 11.6%\"\n}",
+    "financial_answer": {
+      "answer": "11.6%",
+      "numeric_value": 11.6,
+      "unit": "percentage_points",
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The regulatory assets decreased by $6241 from 2013 to 2014, while deferred tax assets increased by $6348 during the same period. The percentage change is calculated as ((Final - Initial) / Initial) * 100 = (($6348 - (-$6241)) / (-$6241)) * 100 \u2248 11.6%"
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1239,
+      "completion_tokens": 162,
+      "total_tokens": 1401
+    },
+    "latency_ms": 32832.24611,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-418",
+      "finish_reason": "stop"
+    }
+  }
+}

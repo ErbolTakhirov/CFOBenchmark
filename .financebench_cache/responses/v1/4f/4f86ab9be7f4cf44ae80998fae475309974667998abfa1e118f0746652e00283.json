@@ -1,0 +1,38 @@
+{
+  "cache_key": "4f86ab9be7f4cf44ae80998fae475309974667998abfa1e118f0746652e00283",
+  "written_at": "2026-07-11T06:58:46.953868Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"percentage_change\", \"numeric_value\": -30.6, \"unit\": \"percent\", \"period\": \"2008\", \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"beginning balance as of december 1 2007 and ending balance as of november 28 2008\", \"row\": \"...\"}], \"insufficient_information\": false, \"confidence\": 0.95, \"brief_explanation\": \"The beginning balance in 2007 was $201,808 thousand and the ending balance in 2008 was $139,549 thousand. The percentage change is calculated as ((139549 - 201808) / 201808) * 100 = -30.6%.\"}",
+    "financial_answer": {
+      "answer": "percentage_change",
+      "numeric_value": -30.6,
+      "unit": "percent",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "beginning balance as of december 1 2007 and ending balance as of november 28 2008",
+          "row": "..."
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The beginning balance in 2007 was $201,808 thousand and the ending balance in 2008 was $139,549 thousand. The percentage change is calculated as ((139549 - 201808) / 201808) * 100 = -30.6%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1193,
+      "completion_tokens": 193,
+      "total_tokens": 1386
+    },
+    "latency_ms": 59105.55998400014,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-457",
+      "finish_reason": "stop"
+    }
+  }
+}

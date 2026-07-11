@@ -1,0 +1,31 @@
+{
+  "cache_key": "8c7a525d1c0aa58a3622d3f8771929a6fec98eeb291de587039abbcd14c561f8",
+  "written_at": "2026-07-11T07:16:55.341239Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": true,\n  \"confidence\": null,\n  \"brief_explanation\": \"The provided information does not contain enough details to calculate the anticipated percentage change in price.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": true,\n  \"confidence\": null,\n  \"brief_explanation\": \"The provided information does not contain enough details to calculate the anticipated percentage change in price.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 286,
+      "completion_tokens": 66,
+      "total_tokens": 352
+    },
+    "latency_ms": 18188.82357299992,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-837",
+      "finish_reason": "stop"
+    }
+  }
+}

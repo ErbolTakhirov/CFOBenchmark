@@ -1,0 +1,31 @@
+{
+  "cache_key": "0b4b48f3c9a23cd224d79be5d8bc66e8ce13bc65afa30cbb8d6918faabe281ab",
+  "written_at": "2026-07-11T07:12:29.052322Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"56%\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": null,\n  \"brief_explanation\": \"The provided data does not contain the percentage of CIB markets net interest income as part of managed interest income for 2018. The table only shows the total net interest income and the lessed amount due to CIB markets, but no division or calculation is shown.\"\n}",
+    "financial_answer": {
+      "answer": "56%",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": "The provided data does not contain the percentage of CIB markets net interest income as part of managed interest income for 2018. The table only shows the total net interest income and the lessed amount due to CIB markets, but no division or calculation is shown."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 2699,
+      "completion_tokens": 113,
+      "total_tokens": 2812
+    },
+    "latency_ms": 46864.868560000046,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-797",
+      "finish_reason": "stop"
+    }
+  }
+}

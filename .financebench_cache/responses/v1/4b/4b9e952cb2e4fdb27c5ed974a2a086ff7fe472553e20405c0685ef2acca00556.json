@@ -1,0 +1,31 @@
+{
+  "cache_key": "4b9e952cb2e4fdb27c5ed974a2a086ff7fe472553e20405c0685ef2acca00556",
+  "written_at": "2026-07-11T07:16:45.752173Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"245\",\n  \"numeric_value\": 245,\n  \"unit\": \"usd\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The Rule of 78 method calculates the rebate based on the remaining payments and interest earned up to that point, which is why Jane should receive a rebate of $245.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"245\",\n  \"numeric_value\": 245,\n  \"unit\": \"usd\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The Rule of 78 method calculates the rebate based on the remaining payments and interest earned up to that point, which is why Jane should receive a rebate of $245.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 349,
+      "completion_tokens": 103,
+      "total_tokens": 452
+    },
+    "latency_ms": 22459.730441000032,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-943",
+      "finish_reason": "stop"
+    }
+  }
+}

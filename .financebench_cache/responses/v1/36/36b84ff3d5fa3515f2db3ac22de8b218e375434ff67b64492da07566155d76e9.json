@@ -1,0 +1,31 @@
+{
+  "cache_key": "36b84ff3d5fa3515f2db3ac22de8b218e375434ff67b64492da07566155d76e9",
+  "written_at": "2026-07-11T07:11:11.121715Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"-35%\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 0.98,\n  \"brief_explanation\": \"The income tax benefit for stock-based compensation in 2010 was $-6.3 million, and the total share-based compensation cost was $18.1 million. The percent is calculated as ($6.3 / $18.1) * 100 = -34.9%, which rounds to -35%.\"\n}",
+    "financial_answer": {
+      "answer": "-35%",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 0.98,
+      "brief_explanation": "The income tax benefit for stock-based compensation in 2010 was $-6.3 million, and the total share-based compensation cost was $18.1 million. The percent is calculated as ($6.3 / $18.1) * 100 = -34.9%, which rounds to -35%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1171,
+      "completion_tokens": 134,
+      "total_tokens": 1305
+    },
+    "latency_ms": 38814.95213699998,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-821",
+      "finish_reason": "stop"
+    }
+  }
+}

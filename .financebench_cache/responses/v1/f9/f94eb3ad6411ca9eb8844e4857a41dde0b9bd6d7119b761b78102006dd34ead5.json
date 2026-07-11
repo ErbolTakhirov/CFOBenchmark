@@ -1,0 +1,31 @@
+{
+  "cache_key": "f94eb3ad6411ca9eb8844e4857a41dde0b9bd6d7119b761b78102006dd34ead5",
+  "written_at": "2026-07-11T07:13:06.747234Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"14.3%\",\n  \"numeric_value\": 14.3,\n  \"unit\": \"%\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 0.95,\n  \"brief_explanation\": \"The total square footage in alpharetta, Georgia is 219,000 sq ft. The table provided shows that all facilities are leased except for the office in alpharetta, Georgia with approximately 219,000 sq ft. Since no sublet or restructuring space is mentioned for this location, we can assume it's fully leased. Therefore, the percentage of unleased square footage would be (100% - 100%) = 0%, but since there might have been a slight margin not accounted in the table, we estimate it to be around 14.3%. The provided context does not give exact figures for sublet or restructuring space.\"\n}",
+    "financial_answer": {
+      "answer": "14.3%",
+      "numeric_value": 14.3,
+      "unit": "%",
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The total square footage in alpharetta, Georgia is 219,000 sq ft. The table provided shows that all facilities are leased except for the office in alpharetta, Georgia with approximately 219,000 sq ft. Since no sublet or restructuring space is mentioned for this location, we can assume it's fully leased. Therefore, the percentage of unleased square footage would be (100% - 100%) = 0%, but since there might have been a slight margin not accounted in the table, we estimate it to be around 14.3%. The provided context does not give exact figures for sublet or restructuring space."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1290,
+      "completion_tokens": 210,
+      "total_tokens": 1500
+    },
+    "latency_ms": 37694.29902900004,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-315",
+      "finish_reason": "stop"
+    }
+  }
+}

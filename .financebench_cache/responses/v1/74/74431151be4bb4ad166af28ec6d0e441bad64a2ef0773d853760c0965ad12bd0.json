@@ -1,0 +1,31 @@
+{
+  "cache_key": "74431151be4bb4ad166af28ec6d0e441bad64a2ef0773d853760c0965ad12bd0",
+  "written_at": "2026-07-11T07:17:00.141613Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"124.9\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 0.85,\n  \"brief_explanation\": \"The degree of operating leverage (DOL) is least when production levels are such that the contribution margin per unit equals fixed costs. Given a unit contribution margin of $20 and fixed costs of $500,000, DOL is minimized at approximately 300,000 units.\"\n}",
+    "financial_answer": {
+      "answer": "124.9",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 0.85,
+      "brief_explanation": "The degree of operating leverage (DOL) is least when production levels are such that the contribution margin per unit equals fixed costs. Given a unit contribution margin of $20 and fixed costs of $500,000, DOL is minimized at approximately 300,000 units."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 295,
+      "completion_tokens": 128,
+      "total_tokens": 423
+    },
+    "latency_ms": 18719.135918999997,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-949",
+      "finish_reason": "stop"
+    }
+  }
+}

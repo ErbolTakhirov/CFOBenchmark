@@ -1,0 +1,31 @@
+{
+  "cache_key": "9c0aad1b15d970f44e9db8c47f37448d8fff18688444f0259d24d32b3a8898fc",
+  "written_at": "2026-07-11T07:17:25.530336Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"58.6\",\n  \"numeric_value\": 58.6,\n  \"unit\": \"thousands\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The increase in net income is calculated by considering the difference in inventory valuation between LIFO and FIFO, which impacts the cost of goods sold (COGS) and subsequently affects net profit margin and net income.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"58.6\",\n  \"numeric_value\": 58.6,\n  \"unit\": \"thousands\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The increase in net income is calculated by considering the difference in inventory valuation between LIFO and FIFO, which impacts the cost of goods sold (COGS) and subsequently affects net profit margin and net income.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 420,
+      "completion_tokens": 109,
+      "total_tokens": 529
+    },
+    "latency_ms": 17111.45233399998,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-138",
+      "finish_reason": "stop"
+    }
+  }
+}

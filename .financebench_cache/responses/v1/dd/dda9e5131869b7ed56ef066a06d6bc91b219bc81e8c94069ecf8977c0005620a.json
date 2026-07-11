@@ -1,0 +1,31 @@
+{
+  "cache_key": "dda9e5131869b7ed56ef066a06d6bc91b219bc81e8c94069ecf8977c0005620a",
+  "written_at": "2026-07-11T07:08:16.534314Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"52.4\",\n  \"numeric_value\": 52.4,\n  \"unit\": \"percentage_points\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The difference in percentage cumulative total shareholder return on Masco common stock versus the S&P 500 index for the five year period ended 2017 is calculated by taking the ratio of Masco's ending value to S&P 500's ending value, subtracting one, and then multiplying by 100. The resulting percentage points difference is 52.4.\"\n}",
+    "financial_answer": {
+      "answer": "{\n  \"answer\": \"52.4\",\n  \"numeric_value\": 52.4,\n  \"unit\": \"percentage_points\",\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": null,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The difference in percentage cumulative total shareholder return on Masco common stock versus the S&P 500 index for the five year period ended 2017 is calculated by taking the ratio of Masco's ending value to S&P 500's ending value, subtracting one, and then multiplying by 100. The resulting percentage points difference is 52.4.\"\n}",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": null
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 832,
+      "completion_tokens": 149,
+      "total_tokens": 981
+    },
+    "latency_ms": 37450.21513800001,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-79",
+      "finish_reason": "stop"
+    }
+  }
+}

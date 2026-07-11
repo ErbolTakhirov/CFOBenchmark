@@ -1,0 +1,31 @@
+{
+  "cache_key": "e7f510229b665af9bcab95898aff30e87b18d1cc54bf2d0d075b80d5dcc64d83",
+  "written_at": "2026-07-11T07:14:25.283111Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"The discount rate for domestic plans was determined by comparison against the FTSE pension liability index for AA rated corporate instruments.\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The information provided in the table and context clearly states that for domestic plans, the discount rate was determined by comparison against the FTSE pension liability index for AA rated corporate instruments.\"\n}",
+    "financial_answer": {
+      "answer": "The discount rate for domestic plans was determined by comparison against the FTSE pension liability index for AA rated corporate instruments.",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The information provided in the table and context clearly states that for domestic plans, the discount rate was determined by comparison against the FTSE pension liability index for AA rated corporate instruments."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 503,
+      "completion_tokens": 115,
+      "total_tokens": 618
+    },
+    "latency_ms": 16460.753224999964,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-378",
+      "finish_reason": "stop"
+    }
+  }
+}

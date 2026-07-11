@@ -1,0 +1,31 @@
+{
+  "cache_key": "011b7e8a94f0675a068ff62b1bc6379ddc009b15cd93c16f015e3eb42e14817c",
+  "written_at": "2026-07-11T07:15:00.044143Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\"answer\": \"Greece and Turkey\", \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": false, \"confidence\": 1, \"brief_explanation\": \"The provided context states that 'The Group\u2019s largest defined benefit scheme is in the UK. For further details see \u201cCritical accounting judgements and key sources of estimation uncertainty\u201d in note 1 to the consolidated financial statements.' It also mentions 'Defined benefit indemnity plans in Greece and Turkey.'\"}",
+    "financial_answer": {
+      "answer": "Greece and Turkey",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The provided context states that 'The Group\u2019s largest defined benefit scheme is in the UK. For further details see \u201cCritical accounting judgements and key sources of estimation uncertainty\u201d in note 1 to the consolidated financial statements.' It also mentions 'Defined benefit indemnity plans in Greece and Turkey.'"
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1285,
+      "completion_tokens": 109,
+      "total_tokens": 1394
+    },
+    "latency_ms": 18789.027975000066,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-250",
+      "finish_reason": "stop"
+    }
+  }
+}

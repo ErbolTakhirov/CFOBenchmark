@@ -1,0 +1,31 @@
+{
+  "cache_key": "1fd3d982ed9cbdf63443a199a34e9a2296a79a8994f2deb76ac942f1348ecfa0",
+  "written_at": "2026-07-11T07:13:45.417759Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:3b",
+    "content": "{\n  \"answer\": \"Fixed Price, Other\",\n  \"numeric_value\": null,\n  \"unit\": null,\n  \"period\": null,\n  \"citations\": [],\n  \"insufficient_information\": false,\n  \"confidence\": 1.0,\n  \"brief_explanation\": \"The contract types mentioned in the context are Fixed Price and Other.\"\n}",
+    "financial_answer": {
+      "answer": "Fixed Price, Other",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The contract types mentioned in the context are Fixed Price and Other."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 504,
+      "completion_tokens": 75,
+      "total_tokens": 579
+    },
+    "latency_ms": 16447.62725999999,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-15",
+      "finish_reason": "stop"
+    }
+  }
+}
