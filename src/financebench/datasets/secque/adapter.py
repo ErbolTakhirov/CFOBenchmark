@@ -239,7 +239,22 @@ class SecqueAdapter(DatasetAdapter):
             split_origin=SplitOrigin.OFFICIAL,
             sample_id=f"secque:test:{qid}",
             task_family=f"secque_{category.lower()}",
-            capability_tags=("analysis", "insight", "evidence_grounding", "table_text"),
+            # NOT tagged `analysis`/`insight`, and that is deliberate.
+            #
+            # Those tags feed the ANALYTICAL_INSIGHT capability dimension, which is scored from the
+            # benchmark's preferred metric — here, the hallucination detector. The first live run
+            # reported `analysis_score: 0.9`, which reads as "this model is a good financial analyst".
+            # What it actually meant was "90% of its answers contain no invented figures", while the
+            # same run showed it agreeing with the expert's numbers **8%** of the time and discussing
+            # the **wrong company 41%** of the time.
+            #
+            # Analytical QUALITY is exactly the thing this platform cannot currently measure: the
+            # judge failed its calibration (41% false-positive rate — it waves through answers about
+            # the wrong company). So SECQUE contributes to the dimensions its diagnostics genuinely
+            # cover — grounding, and reading a filing — and the analytical dimension stays
+            # NOT_EVALUATED rather than being quietly filled in with a number that means something
+            # else entirely.
+            capability_tags=("evidence_grounding", "table_text"),
             question=question,
             # The SEC excerpt IS the model's context. The expert answer is NOT — it lives on `gold`,
             # which no prompt profile may read (tests/security/test_gold_answer_leakage.py).
