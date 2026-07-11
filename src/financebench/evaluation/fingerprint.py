@@ -54,7 +54,13 @@ METRIC_VERSIONS: dict[str, str] = {
     "tatqa_scale_accuracy": "1",
     "finance_reasoning_accuracy": "1",  # official, parity-tested
     "financebench_answer_accuracy": "1",  # ours — FinanceBench ships no evaluator
-    "financebench_unsupported_numeric_claim": "2",  # v2 compares magnitudes, not signed values
+    # v3: a match now needs the LEADING DIGITS to agree, not merely a 0.5% window after scaling.
+    # A SECQUE filing carries 733 numbers; times nine scale factors, the candidate set was so dense
+    # that an invented 987,654,321 was "supported" by the filing's 983 (983e6 is 0.47% away). The
+    # detector got WEAKER the more numbers a document had — backwards, and worst exactly where
+    # hallucination matters most. v3 is STRICTER: every unsupported-claim rate measured before it is
+    # an understatement.
+    "financebench_unsupported_numeric_claim": "3",
     "financebench_citation_accuracy": "1",
     "smb_cfo_accuracy": "1",  # gold from a Python oracle, never an LLM
     # v2 reads refusal from the SUBSTANCE of the answer. v1 read only the `insufficient_information`
@@ -69,7 +75,7 @@ METRIC_VERSIONS: dict[str, str] = {
     # SECQUE Layer A. DIAGNOSTICS, not a quality score — and named so in the metric docstrings.
     # SECQUE's gold is an expert's prose; there is no exact-match metric and there cannot be one.
     "secque_numeric_agreement": "1",
-    "secque_unsupported_numeric_claim": "1",
+    "secque_unsupported_numeric_claim": "1",  # uses grounding v3 (leading-digit match)
     "secque_comparison_direction": "1",
     "secque_filing_identification": "1",
     # Tool use. `tool_result_utilization` is the one that matters: a model that calls the calculator,

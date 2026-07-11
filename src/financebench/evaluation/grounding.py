@@ -20,6 +20,7 @@ the gold answer is a number, a yes/no, or an essay.
 
 from __future__ import annotations
 
+import math
 import re
 from collections.abc import Iterable
 
@@ -48,7 +49,7 @@ _TRIVIAL = frozenset({0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 10
 #: How close a stated number must be to one in the evidence to count as "the same number".
 #: Deliberately loose: a model that rounds $1,577.4M to $1,577M has not hallucinated. A model that
 #: says $1,600M has.
-_RELATIVE_TOLERANCE = 0.005
+_RELATIVE_TOLERANCE = 0.001
 
 
 def numbers_in(text: str) -> list[float]:
@@ -63,6 +64,20 @@ def numbers_in(text: str) -> list[float]:
             continue
         out.append(parsed.resolved_value)
     return out
+
+
+def _leading_digits(value: float, n: int = 3) -> str:
+    """The first ``n`` significant digits of a number, scale-independent.
+
+    This is what separates a rounded quote from a coincidence. ``40.5`` and ``40.5467`` both start
+    ``405`` — a model copied that figure off the page. ``987654321`` starts ``987`` and the filing's
+    ``983`` starts ``983`` — those are two different numbers that merely happen to land close
+    together once one of them is multiplied by a million.
+    """
+    if value == 0 or not math.isfinite(value):
+        return ""
+    mantissa = abs(value) / (10 ** math.floor(math.log10(abs(value))))
+    return f"{mantissa:.10f}".replace(".", "")[:n]
 
 
 def number_is_supported(value: float, evidence_numbers: Iterable[float]) -> bool:
@@ -82,15 +97,50 @@ def number_is_supported(value: float, evidence_numbers: Iterable[float]) -> bool
 
     (A wrong *sign* in an answer is still caught — by the wrong-sign failure attribution, which is
     where it belongs. This function asks only "did this figure come from the document?")
+
+    **The tolerance is not a plain percentage, and that is the whole point.**
+
+    It used to be: a match was anything within 0.5 % after scaling. On a small table that is fine. On
+    a real SEC filing it is a disaster, and it was caught on one:
+
+        the filing contains  983
+        a model invents      987,654,321
+        983 x 1e6 = 983,000,000, which is 0.47 % away — inside the window. **"Supported."**
+
+    A SECQUE filing carries **733 numbers**. Multiply by nine scale factors and the candidate set is
+    so dense that almost any large invented figure lands near *something*. The detector got **weaker
+    the more numbers the document contained** — exactly backwards, and precisely on the documents
+    where hallucination matters most.
+
+    So a match now requires one of two things, and the distinction is the fix:
+
+    - the figures agree to within **0.1 %** — a genuinely quoted number, allowing for rounding; or
+    - their **leading three significant digits agree** after scaling.
+
+    That second rule is what separates a rounded quote from a coincidence. A model reading ``40.5467``
+    off a page and writing ``40.5`` has copied its digits: ``405`` and ``405``. A model that invented
+    ``987,654,321`` has not: ``987`` against the filing's ``983``. The first is a quote; the second is
+    a collision, and no amount of percentage tolerance can tell them apart — only the digits can.
+
+    This makes the metric **stricter**: it finds more hallucinations than it used to, not fewer. Every
+    unsupported-claim rate measured before this is an **understatement**.
     """
     if abs(value) in _TRIVIAL:
         return True
+
+    target = abs(value)
+    target_digits = _leading_digits(target)
+
     for candidate in evidence_numbers:
         for factor in (1.0, 1e3, 1e6, 1e9, 1e-3, 1e-6, 1e-9, 0.01, 100.0):
             scaled = abs(candidate) * factor
             if scaled == 0:
                 continue
-            if abs(abs(value) - scaled) / max(scaled, 1e-9) <= _RELATIVE_TOLERANCE:
+            # A quoted figure, allowing for rounding.
+            if abs(target - scaled) / max(scaled, 1e-9) <= _RELATIVE_TOLERANCE:
+                return True
+            # Or a rounded quote whose leading digits are unmistakably the document's.
+            if target_digits and target_digits == _leading_digits(scaled):
                 return True
     return False
 
