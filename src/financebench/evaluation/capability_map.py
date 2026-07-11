@@ -98,25 +98,77 @@ def macro_average(values: Sequence[float]) -> float | None:
     return sum(values) / len(values) if values else None
 
 
-def _score(result: MetricResult) -> float:
+#: The metric that *measures* a dimension, where it is not the benchmark's headline metric.
+#:
+#: This map exists because of a contradiction that reached a real report: SMB-CFO scored
+#: ``smb_cfo_refusal_correctness = 1.000`` — the model declined every unanswerable question, which is
+#: the exact behaviour the benchmark rewards — while the calibration-and-refusal *capability* scored
+#: **0.0**. Both numbers were in the same file.
+#:
+#: The cause: every dimension was fed the benchmark's **preferred** metric, which for SMB-CFO is
+#: accuracy. Accuracy on an unanswerable question is *not applicable* — there is no number to get
+#: right — so the refusal dimension was being scored on a metric that cannot apply to the samples in
+#: it. A model that refused perfectly was reported as being incapable of refusing.
+#:
+#: A dimension is scored by the metric that measures it. Anything else is a category error that
+#: happens to compile.
+_DIMENSION_METRIC: dict[CapabilityDimension, tuple[str, ...]] = {
+    CapabilityDimension.CALIBRATION_AND_REFUSAL: ("smb_cfo_refusal_correctness",),
+}
+
+
+def _score(result: MetricResult) -> float | None:
+    """The result as a number — or ``None`` when it is **not applicable**.
+
+    ``None`` is not zero, and this is the one place in the platform where that principle was being
+    violated at the exact moment it mattered most.
+
+    A metric returns ``passed=None`` to say *"this question cannot be graded by me"*: FinanceBench's
+    61 analytical questions have no deterministically checkable answer, and SMB-CFO's accuracy metric
+    cannot grade a question the books cannot answer. The rollup was turning every one of those into a
+    **0.0** — 61 fabricated zeros out of 150 in the document-grounding dimension, and 51 out of 101 in
+    calibration-and-refusal — and then feeding them into the capability scores, the FCI, and the
+    verdict.
+
+    That is not a rounding error. It is the benchmark inventing failures the model never committed,
+    in the one direction nobody would think to check, because a low score looks like a finding.
+    """
+    if result.passed is None and result.value is None:
+        return None
     if isinstance(result.value, bool):
         return 1.0 if result.value else 0.0
     if isinstance(result.value, int | float):
         return float(result.value)
-    return 0.0
+    return None
 
 
 def rollup_capabilities(
-    samples: Sequence[CanonicalSample], results: Sequence[MetricResult]
+    samples: Sequence[CanonicalSample],
+    results: Sequence[MetricResult],
+    *,
+    all_results: Sequence[MetricResult] = (),
 ) -> dict[CapabilityDimension, MetricAggregate]:
     """Roll up per-sample results into one aggregate per capability, **macro-averaging** at each
     level: sample → task family → benchmark → capability.
 
     Each level's mean is taken over the level below, so a benchmark with ten times the rows does
-    not get ten times the say. ``n`` on the returned aggregate is still the true sample count, so a
-    reader can see how much evidence a score rests on.
+    not get ten times the say. ``n`` on the returned aggregate is the number of samples that were
+    actually *graded* — a not-applicable result is excluded rather than zeroed, so a reader can see
+    how much evidence a score truly rests on.
+
+    ``results`` is the preferred metric per sample. ``all_results`` is every metric computed, and is
+    consulted first for the dimensions in :data:`_DIMENSION_METRIC` — the ones a different metric
+    measures.
     """
     by_sample_id = {result.sample_id: result for result in results}
+    by_sample_metric = {(result.sample_id, result.metric_name): result for result in all_results}
+
+    def result_for(sample: CanonicalSample, dimension: CapabilityDimension) -> MetricResult | None:
+        for metric_name in _DIMENSION_METRIC.get(dimension, ()):
+            specific = by_sample_metric.get((sample.sample_id, metric_name))
+            if specific is not None:
+                return specific
+        return by_sample_id.get(sample.sample_id)
 
     # capability -> benchmark -> task_family -> [scores]
     buckets: dict[CapabilityDimension, dict[str, dict[str, list[float]]]] = defaultdict(
@@ -126,11 +178,14 @@ def rollup_capabilities(
     per_dimension_results: dict[CapabilityDimension, list[MetricResult]] = defaultdict(list)
 
     for sample in samples:
-        result = by_sample_id.get(sample.sample_id)
-        if result is None:
-            continue
         for dimension in dimensions_for_sample(sample):
-            buckets[dimension][sample.benchmark][sample.task_family].append(_score(result))
+            result = result_for(sample, dimension)
+            if result is None:
+                continue
+            score = _score(result)
+            if score is None:
+                continue  # not applicable — excluded, never counted as a failure
+            buckets[dimension][sample.benchmark][sample.task_family].append(score)
             counts[dimension] += 1
             per_dimension_results[dimension].append(result)
 

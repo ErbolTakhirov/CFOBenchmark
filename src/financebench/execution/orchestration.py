@@ -229,7 +229,11 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
         if result.metric_name
         == preferred_metric_name(sample_by_id[result.sample_id].benchmark, profile)
     )
-    capability_aggregates = rollup_capabilities(evaluated_samples, preferred_results)
+    # `all_results` lets a dimension be scored by the metric that MEASURES it: refusal is graded
+    # by the refusal metric, not by accuracy — which cannot apply to an unanswerable question.
+    capability_aggregates = rollup_capabilities(
+        evaluated_samples, preferred_results, all_results=metric_results
+    )
 
     # -- failure attribution, gates, scores, verdict ------------------------------------------
     preferred_by_sample = {result.sample_id: result for result in preferred_results}

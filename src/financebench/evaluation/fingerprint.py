@@ -81,8 +81,15 @@ DATASET_ADAPTER_VERSIONS: dict[str, str] = {
     "smoke": "in-repo@1",
 }
 
-#: Capability weights + gate thresholds. Changing either moves every verdict.
-SCORING_VERSION = "1"
+#: Capability weights, gate thresholds, and how a per-sample result reaches a capability score.
+#: Changing any of them moves every verdict.
+#:
+#: v2: a NOT-APPLICABLE result is excluded from the rollup instead of being scored as 0.0, and a
+#: dimension is scored by the metric that measures it. Both bugs invented failures the model never
+#: committed: on the real FinanceBench run, document grounding was reported as 0.151 when the truth
+#: over the 89 gradable questions is 0.254. Every v1 capability score is wrong, low, and not
+#: comparable with a v2 one — which is precisely what a scoring-version bump is for.
+SCORING_VERSION = "2"
 
 
 @dataclass(frozen=True)
