@@ -1,0 +1,39 @@
+{
+  "cache_key": "50f33307c74d3fb64b4480b63a86eab60a7456be8606b1d22ab04195748c237b",
+  "written_at": "2026-07-11T07:28:52.432893Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"Decrease\", \"numeric_value\": -11.9, \"unit\": \"percent\", \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table in the provided context\", \"row\": \"Appliances\"}], \"insufficient_information\": false, \"confidence\": 0.95, \"brief_explanation\": \"The value for Appliances in 2018 was $774 million and in 2019 it was $680 million, showing a decrease of approximately 11.9%.\"}",
+    "financial_answer": {
+      "answer": "Decrease",
+      "numeric_value": -11.9,
+      "unit": "percent",
+      "period": null,
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table in the provided context",
+          "row": "Appliances"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The value for Appliances in 2018 was $774 million and in 2019 it was $680 million, showing a decrease of approximately 11.9%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 636,
+      "completion_tokens": 129,
+      "total_tokens": 765
+    },
+    "latency_ms": 26461.941002999993,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-148",
+      "finish_reason": "stop"
+    }
+  }
+}

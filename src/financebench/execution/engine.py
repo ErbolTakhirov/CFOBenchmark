@@ -213,13 +213,15 @@ class RunEngine:
 
         cached = ctx.cache.get(request)
         if cached is not None:
-            response = _reparse(cached)
+            cached_response = _reparse(cached)
             # Account for a cache hit's tokens too. A fully-resumed run was otherwise reporting
-            # `tokens=None, cost=None`, which reads as "broken instrumentation" rather than
-            # "these tokens were already paid for". The tokens WERE spent; the run is describing
-            # what it took to produce these answers, not what it cost to fetch them from disk.
-            self._record_cost(ctx, response)
-            return self._prediction(sample, request, response=response, attempts=0, cache_hit=True)
+            # `tokens=None, cost=None`, which reads as broken instrumentation rather than "these
+            # were already paid for". The tokens WERE spent: a run describes what it took to
+            # produce its answers, not what it cost to fetch them back off disk.
+            self._record_cost(ctx, cached_response)
+            return self._prediction(
+                sample, request, response=cached_response, attempts=0, cache_hit=True
+            )
 
         response, error, attempts, retry_wait_ms = await self._call_with_retries(ctx, request)
         if response is not None:

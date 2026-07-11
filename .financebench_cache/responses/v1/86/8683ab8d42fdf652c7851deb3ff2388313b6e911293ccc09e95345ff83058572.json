@@ -1,0 +1,39 @@
+{
+  "cache_key": "8683ab8d42fdf652c7851deb3ff2388313b6e911293ccc09e95345ff83058572",
+  "written_at": "2026-07-11T07:29:20.870527Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"The international discount rates were determined by comparison against country specific AA corporate indices, adjusted for duration of the obligation.\", \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table provided in the context\", \"row\": \"International Discount rate row\"}], \"insufficient_information\": false, \"confidence\": 0.95, \"brief_explanation\": \"The context explicitly states that international discount rates are determined by comparing against country-specific AA corporate indices and adjusting for the duration of the obligation.\"}",
+    "financial_answer": {
+      "answer": "The international discount rates were determined by comparison against country specific AA corporate indices, adjusted for duration of the obligation.",
+      "numeric_value": null,
+      "unit": null,
+      "period": null,
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table provided in the context",
+          "row": "International Discount rate row"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The context explicitly states that international discount rates are determined by comparing against country-specific AA corporate indices and adjusting for the duration of the obligation."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 503,
+      "completion_tokens": 128,
+      "total_tokens": 631
+    },
+    "latency_ms": 28437.109373999876,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-186",
+      "finish_reason": "stop"
+    }
+  }
+}
