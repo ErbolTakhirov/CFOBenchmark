@@ -19,9 +19,12 @@ from financebench.evaluation.benchmark_metrics import metrics_for_benchmark, pre
 from financebench.evaluation.capability_map import rollup_capabilities
 from financebench.execution.cache import ResponseCache
 from financebench.execution.engine import RunEngine, RunResult
-from financebench.models.base import get_provider_class
+from financebench.models.base import ModelProvider, get_provider_class
+from financebench.models.mock import MockProvider, build_mock_oracle
+from financebench.schemas.common import RunType
 from financebench.schemas.manifest import DatasetManifest
 from financebench.schemas.metric import MetricResult
+from financebench.schemas.model_io import ModelSpec
 from financebench.schemas.sample import CanonicalSample
 from financebench.storage.artifacts import ArtifactInputs, write_run_artifacts
 from financebench.utils.errors import ConfigError
@@ -45,6 +48,8 @@ class EvalRequest:
     max_samples: int | None = None
     max_cost_usd: float | None = None
     offline: bool = False
+    allow_mock: bool = False
+    """Must be explicitly set to run the ``mock`` provider. See :func:`_build_provider`."""
 
 
 @dataclass(frozen=True)
@@ -52,6 +57,7 @@ class EvalOutcome:
     run_id: str
     out_dir: Path
     run_result: RunResult
+    run_type: RunType
 
 
 def resolve_samples(
@@ -67,8 +73,33 @@ def resolve_samples(
     return tuple(samples), tuple(manifests)
 
 
+def _build_provider(
+    model: ModelSpec, samples: Sequence[CanonicalSample], *, allow_mock: bool
+) -> ModelProvider:
+    """Construct the provider for a run.
+
+    The ``mock`` provider is the one special case in the whole platform, and it is special
+    deliberately: it is a *simulator holding the answer key*, so it (a) must be asked for
+    explicitly, and (b) is the only place the gold oracle is ever handed over. Every other
+    provider is built by the registry from the environment and can never see gold — the request
+    it receives has no field that could carry it (see ``schemas/model_io.ModelRequest``).
+    """
+    if model.provider != "mock":
+        return get_provider_class(model.provider).from_env()
+
+    if not allow_mock:
+        raise ConfigError(
+            "refusing to evaluate with the 'mock' provider without --allow-mock.\n"
+            "The mock reads the gold answer: its scores measure the pipeline, never a model. "
+            "Pass --allow-mock if you are deliberately testing the pipeline; such runs are "
+            "stamped run_type=mock_test and are barred from the leaderboard."
+        )
+    return MockProvider(oracle=build_mock_oracle(samples))
+
+
 async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
     model = request.model_config_file.to_model_spec()
+    run_type = RunType.MOCK_TEST if model.provider == "mock" else RunType.REAL
 
     if request.offline:
         provider_cls = get_provider_class(model.provider)
@@ -90,8 +121,10 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
     run_id = make_run_id(request.label, model.ref, request.seed)
     cache = ResponseCache(request.cache_dir, mode=config.cache_mode)
 
-    provider_cls = get_provider_class(model.provider)
-    provider = provider_cls.from_env()
+    # The oracle is built from the *truncated* sample list the engine will actually run, so a
+    # --max-samples mock run doesn't get handed answers it never asked for.
+    limited = list(samples)[: config.limit] if config.limit else list(samples)
+    provider = _build_provider(model, limited, allow_mock=request.allow_mock)
     try:
         provider_capabilities = provider.capabilities(model.model)
         run_result = await RunEngine().run(
@@ -139,6 +172,7 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
         run_result=run_result,
         metric_results=metric_results,
         capability_aggregates=capability_aggregates,
+        run_type=run_type,
     )
     write_run_artifacts(out_dir, inputs)
-    return EvalOutcome(run_id=run_id, out_dir=out_dir, run_result=run_result)
+    return EvalOutcome(run_id=run_id, out_dir=out_dir, run_result=run_result, run_type=run_type)

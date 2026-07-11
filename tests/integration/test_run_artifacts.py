@@ -15,7 +15,7 @@ from financebench.evaluation.capability_map import rollup_capabilities
 from financebench.evaluation.metrics.exact_match import ExactMatchMetric
 from financebench.execution.cache import ResponseCache
 from financebench.execution.engine import RunEngine
-from financebench.models.mock import MockProvider
+from financebench.models.mock import MockProvider, build_mock_oracle
 from financebench.schemas.model_io import ModelSpec
 from financebench.schemas.run import RunConfig
 from financebench.storage.artifacts import (
@@ -39,7 +39,7 @@ async def _run_smoke_and_write(out_dir: Path, cache_dir: Path) -> None:
         model=model,
         config=config,
         cache=ResponseCache(cache_dir),
-        provider=MockProvider(),
+        provider=MockProvider(oracle=build_mock_oracle(samples)),
     )
 
     metric = ExactMatchMetric()

@@ -1,0 +1,30 @@
+{
+  "cache_key": "6390999d0f0cdd6a1d883182960ff5210821b3d5f0b2d7b47b79a0c6e5002fd3",
+  "written_at": "2026-07-11T06:21:41.840255Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "mock",
+    "model": "echo-gold",
+    "content": "{\"answer\":\"insufficient information\",\"numeric_value\":null,\"unit\":null,\"citations\":[],\"insufficient_information\":false,\"confidence\":null,\"brief_explanation\":\"Directly taken from the referenced data.\"}",
+    "financial_answer": {
+      "answer": "insufficient information",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": false,
+      "confidence": null,
+      "brief_explanation": "Directly taken from the referenced data."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 173,
+      "completion_tokens": 49,
+      "total_tokens": 222
+    },
+    "latency_ms": 5.0,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "profile": "echo-gold"
+    }
+  }
+}

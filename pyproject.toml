@@ -40,6 +40,13 @@ dependencies = [
     "python-dotenv>=1.0",
     "rich>=13.0",
     "orjson>=3.10",
+    # Not optional: FinQA/ConvFinQA program accuracy is *defined* by the official evaluator as
+    # sympy symbolic equivalence, and TAT-QA's official numeracy F1 is *defined* by a Hungarian
+    # assignment (scipy.optimize.linear_sum_assignment). Reimplementing either by hand would mean
+    # reporting numbers that differ from the official ones. See docs/research/metric_parity.md.
+    "sympy>=1.12",
+    "scipy>=1.11",
+    "numpy>=1.26",
 ]
 
 [project.optional-dependencies]
@@ -119,6 +126,7 @@ extend-immutable-calls = ["typer.Argument", "typer.Option"]
 [tool.pytest.ini_options]
 minversion = "8.0"
 testpaths = ["tests"]
+pythonpath = ["."]  # so `from tests.factories import ...` resolves
 addopts = "-ra"
 asyncio_mode = "auto"
 filterwarnings = ["error"]

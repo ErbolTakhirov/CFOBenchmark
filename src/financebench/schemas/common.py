@@ -12,7 +12,9 @@ from enum import StrEnum
 __all__ = [
     "SCHEMA_VERSION",
     "AnswerType",
+    "EvalMode",
     "Language",
+    "RunType",
     "Scale",
     "SplitOrigin",
     "TranslationProvenance",
@@ -64,6 +66,36 @@ class AnswerType(StrEnum):
     MULTI_CHOICE = "multi_choice"
     PROGRAM = "program"
     REFUSAL = "refusal"
+
+
+class RunType(StrEnum):
+    """Whether a run evaluated a real model or merely exercised the pipeline.
+
+    ``MOCK_TEST`` runs are produced by the ``mock`` provider, which is a *simulator with access to
+    an answer oracle* — it proves the pipeline works, never that a model can do anything. Such runs
+    are barred from the leaderboard and from the Finance Capability Index (see
+    ``docs/research/validity_threats.md``).
+    """
+
+    REAL = "real"
+    MOCK_TEST = "mock_test"
+
+
+class EvalMode(StrEnum):
+    """What a run actually measures.
+
+    Model ability, retrieval ability and agent ability are *different things*; averaging them into
+    one number tells you nothing about any of them. The mode is part of ``RunConfig``, so it lands
+    in the run id and the response-cache key — two modes can never silently collide or share a
+    cached answer.
+    """
+
+    #: The relevant context is handed to the model. Measures financial reasoning.
+    CONTEXT_GIVEN = "context_given"
+    #: The model gets a corpus and must retrieve its own evidence. Measures the RAG system.
+    RETRIEVAL_REQUIRED = "retrieval_required"
+    #: The model may call sandboxed tools. Measures tool selection, arguments, and use of results.
+    TOOL_ASSISTED = "tool_assisted"
 
 
 class Scale(StrEnum):

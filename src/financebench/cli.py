@@ -30,6 +30,7 @@ from financebench.datasets.base import available_datasets, create_dataset
 from financebench.execution.cache import ResponseCache
 from financebench.execution.orchestration import EvalRequest, run_eval
 from financebench.models.base import describe_providers, get_provider_class
+from financebench.schemas.common import RunType
 from financebench.schemas.leaderboard import LeaderboardRecord
 from financebench.schemas.model_io import ChatMessage, ModelRequest, ModelResponse, Role
 from financebench.storage.jsonl import read_jsonl, write_model_list_json
@@ -272,7 +273,6 @@ def validate_model(
             benchmark="doctor",
             benchmark_version="1",
             sample_id="doctor:probe:1",
-            simulation_context={"gold_answer": "ok"},
         )
         response = asyncio.run(_probe(request))
         console.print(f"  probe call: [green]ok[/green] (latency={response.latency_ms}ms)")
@@ -374,6 +374,14 @@ def eval_(
     resume: Annotated[
         bool, typer.Option(help="Allow writing into an existing run directory.")
     ] = False,
+    allow_mock: Annotated[
+        bool,
+        typer.Option(
+            "--allow-mock",
+            help="Permit the 'mock' provider. It reads the gold answers, so its scores test the "
+            "pipeline, never a model. Such runs are barred from the leaderboard.",
+        ),
+    ] = False,
 ) -> None:
     """Evaluate a model against a single benchmark (--benchmark) or a group (--group)."""
     try:
@@ -407,6 +415,7 @@ def eval_(
         max_samples=max_samples,
         max_cost_usd=max_cost_usd,
         offline=offline,
+        allow_mock=allow_mock,
     )
     try:
         outcome = asyncio.run(run_eval(request, out_dir=out_dir))
@@ -416,6 +425,12 @@ def eval_(
 
     result = outcome.run_result
     console.print(f"[bold green]Run complete:[/bold green] {outcome.run_id}")
+    if outcome.run_type is RunType.MOCK_TEST:
+        console.print(
+            "  [bold red]MOCK — NOT A MODEL RESULT.[/bold red] The mock provider is handed the "
+            "gold answers; these scores test the pipeline, not a model. "
+            "Excluded from the leaderboard."
+        )
     console.print(
         f"  samples={result.n_samples} errors={result.n_errors} cache_hits={result.n_cache_hits} "
         f"budget_exceeded={result.budget_exceeded}"
@@ -428,6 +443,9 @@ def resume(
     run_id: Annotated[str, typer.Option("--run-id")],
     model_config: Annotated[Path, typer.Option("--model-config", exists=True)],
     runs_dir: Annotated[Path, typer.Option("--runs-dir")] = Path("runs"),
+    allow_mock: Annotated[
+        bool, typer.Option("--allow-mock", help="Required to resume a mock run.")
+    ] = False,
 ) -> None:
     """Re-run an existing run id. Not a separate mechanism from ``eval`` — the response cache
     means samples already answered resolve instantly; only new/failed ones make real calls."""
@@ -462,6 +480,7 @@ def resume(
         max_samples=run_config.get("limit"),
         max_cost_usd=run_config.get("max_cost_usd"),
         offline=False,
+        allow_mock=allow_mock,
     )
     try:
         outcome = asyncio.run(run_eval(request, out_dir=out_dir))
@@ -617,53 +636,94 @@ yet computed (Milestone 6).</em></p>
     path.write_text(doc, encoding="utf-8")
 
 
+def _load_leaderboard_records(runs_dir: Path) -> list[LeaderboardRecord]:
+    records: list[LeaderboardRecord] = []
+    if not runs_dir.is_dir():
+        return records
+    for run_path in sorted(runs_dir.iterdir()):
+        environment_path = run_path / "environment.json"
+        if not environment_path.is_file():
+            continue
+        environment = json.loads(environment_path.read_text(encoding="utf-8"))
+        capabilities_path = run_path / "capabilities.json"
+        capabilities = (
+            json.loads(capabilities_path.read_text(encoding="utf-8"))
+            if capabilities_path.is_file()
+            else {}
+        )
+        coverage_path = run_path / "coverage.json"
+        coverage = (
+            json.loads(coverage_path.read_text(encoding="utf-8")) if coverage_path.is_file() else {}
+        )
+        metrics_path = run_path / "metrics.json"
+        metrics = (
+            json.loads(metrics_path.read_text(encoding="utf-8")) if metrics_path.is_file() else {}
+        )
+        capability_scores = {
+            name: agg["mean"]
+            for name, agg in capabilities.items()
+            if isinstance(agg, dict) and agg.get("mean") is not None
+        }
+        native_scores = {
+            name: agg["mean"]
+            for name, agg in metrics.items()
+            if isinstance(agg, dict) and agg.get("mean") is not None
+        }
+        # Runs written before run_type existed are treated as REAL only if they didn't use the
+        # mock provider — inferred from the provider name, never assumed.
+        run_type = RunType(
+            environment.get(
+                "run_type",
+                RunType.MOCK_TEST.value
+                if environment.get("provider") == "mock"
+                else RunType.REAL.value,
+            )
+        )
+        records.append(
+            LeaderboardRecord(
+                run_id=str(environment["run_id"]),
+                model_ref=str(environment["model_ref"]),
+                provider=str(environment["provider"]),
+                run_type=run_type,
+                eligible_for_leaderboard=run_type is RunType.REAL,
+                capability_scores=capability_scores,
+                native_scores=native_scores,
+                coverage_summary=coverage,
+                created_at=str(environment["created_at"]),
+            )
+        )
+    return records
+
+
 @app.command()
 def leaderboard(
     runs_dir: Annotated[Path, typer.Option("--runs-dir")] = Path("runs"),
     output: Annotated[Path, typer.Option("--output")] = Path("reports"),
 ) -> None:
-    """Build a leaderboard from every run under --runs-dir."""
-    output.mkdir(parents=True, exist_ok=True)
-    records: list[LeaderboardRecord] = []
-    if runs_dir.is_dir():
-        for run_path in sorted(runs_dir.iterdir()):
-            environment_path = run_path / "environment.json"
-            if not environment_path.is_file():
-                continue
-            environment = json.loads(environment_path.read_text(encoding="utf-8"))
-            capabilities_path = run_path / "capabilities.json"
-            capabilities = (
-                json.loads(capabilities_path.read_text(encoding="utf-8"))
-                if capabilities_path.is_file()
-                else {}
-            )
-            coverage_path = run_path / "coverage.json"
-            coverage = (
-                json.loads(coverage_path.read_text(encoding="utf-8"))
-                if coverage_path.is_file()
-                else {}
-            )
-            capability_scores = {
-                name: agg["mean"]
-                for name, agg in capabilities.items()
-                if isinstance(agg, dict) and agg.get("mean") is not None
-            }
-            records.append(
-                LeaderboardRecord(
-                    run_id=str(environment["run_id"]),
-                    model_ref=str(environment["model_ref"]),
-                    provider=str(environment["provider"]),
-                    capability_scores=capability_scores,
-                    coverage_summary=coverage,
-                    created_at=str(environment["created_at"]),
-                )
-            )
+    """Build a leaderboard from every REAL run under --runs-dir.
 
-    write_model_list_json(output / "leaderboard.json", records)
-    _write_leaderboard_csv(output / "leaderboard.csv", records)
-    _write_leaderboard_md(output / "leaderboard.md", records)
-    _write_leaderboard_html(output / "leaderboard.html", records)
-    console.print(f"[bold green]Leaderboard written[/bold green] ({len(records)} runs) to {output}")
+    Mock runs are excluded from the ranking entirely. They are still written to
+    ``leaderboard_excluded.json`` so a reader can see the pipeline was exercised — what they must
+    never do is appear next to a real model's score as though they were one.
+    """
+    output.mkdir(parents=True, exist_ok=True)
+    all_records = _load_leaderboard_records(runs_dir)
+    ranked = [r for r in all_records if r.eligible_for_leaderboard]
+    excluded = [r for r in all_records if not r.eligible_for_leaderboard]
+
+    write_model_list_json(output / "leaderboard.json", ranked)
+    write_model_list_json(output / "leaderboard_excluded.json", excluded)
+    _write_leaderboard_csv(output / "leaderboard.csv", ranked)
+    _write_leaderboard_md(output / "leaderboard.md", ranked)
+    _write_leaderboard_html(output / "leaderboard.html", ranked)
+    console.print(
+        f"[bold green]Leaderboard written[/bold green] ({len(ranked)} real runs) to {output}"
+    )
+    if excluded:
+        console.print(
+            f"  [yellow]{len(excluded)} mock run(s) excluded[/yellow] — a mock reads the gold "
+            "answers and cannot be ranked against a model. See leaderboard_excluded.json."
+        )
 
 
 # --------------------------------------------------------------------------- cache

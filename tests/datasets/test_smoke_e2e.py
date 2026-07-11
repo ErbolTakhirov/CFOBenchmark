@@ -14,7 +14,7 @@ import pytest
 from financebench.datasets.smoke.adapter import SmokeDatasetAdapter
 from financebench.execution.cache import ResponseCache
 from financebench.execution.engine import RunEngine
-from financebench.models.mock import MockProvider
+from financebench.models.mock import MockProvider, build_mock_oracle
 from financebench.schemas.manifest import AdapterStatus
 from financebench.schemas.model_io import ModelSpec
 from financebench.schemas.run import RunConfig
@@ -54,7 +54,7 @@ async def test_smoke_samples_score_perfectly_against_the_echo_gold_mock(tmp_path
         model=ModelSpec.parse("mock/echo-gold"),
         config=RunConfig(),
         cache=ResponseCache(tmp_path),
-        provider=MockProvider(),
+        provider=MockProvider(oracle=build_mock_oracle(samples)),
     )
     assert result.n_samples == 10
     assert result.n_errors == 0

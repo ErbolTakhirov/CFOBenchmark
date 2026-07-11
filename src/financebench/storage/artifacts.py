@@ -24,6 +24,7 @@ from financebench.evaluation.metrics.base import aggregate_metric
 from financebench.execution.engine import RunResult
 from financebench.models.base import ProviderCapabilities
 from financebench.prompts.renderer import PROMPT_VERSION, SYSTEM_PROMPT
+from financebench.schemas.common import RunType
 from financebench.schemas.gates import GatesReport
 from financebench.schemas.manifest import AdapterStatus, DatasetManifest
 from financebench.schemas.metric import MetricAggregate, MetricResult
@@ -75,6 +76,13 @@ class ArtifactInputs:
     run_result: RunResult
     metric_results: tuple[MetricResult, ...]
     capability_aggregates: Mapping[CapabilityDimension, MetricAggregate]
+    run_type: RunType = RunType.REAL
+
+    @property
+    def eligible_for_leaderboard(self) -> bool:
+        """A mock run exercised the pipeline. It did not evaluate a model, so it cannot be ranked
+        against one."""
+        return self.run_type is RunType.REAL
 
 
 @dataclass(frozen=True)
@@ -141,6 +149,10 @@ def _write_environment(out: Path, inputs: ArtifactInputs) -> None:
         "benchmark_or_group": inputs.benchmark_or_group,
         "model_ref": inputs.model.ref,
         "provider": inputs.model.provider,
+        # The leaderboard builder reads these two fields and nothing else to decide whether a run
+        # may be ranked — so a mock run is excluded by data, not by a name-matching heuristic.
+        "run_type": inputs.run_type.value,
+        "eligible_for_leaderboard": inputs.eligible_for_leaderboard,
         "seed": inputs.config.seed,
         "git_commit": git_commit(),
         "git_dirty": git_is_dirty(),
@@ -253,6 +265,31 @@ def _format_mean(aggregate: MetricAggregate) -> str:
     return f"{aggregate.mean:.3f}" if aggregate.mean is not None else "n/a"
 
 
+#: Shown at the very top of every mock report, before any number. A reader who skims one line of
+#: this document must not come away thinking a model was measured.
+MOCK_WATERMARK_TITLE = "MOCK — NOT A MODEL RESULT"
+MOCK_WATERMARK_BODY = (
+    "This run used the `mock` provider, a simulator that is handed the gold answers. Its scores "
+    "measure whether the pipeline works — they say nothing whatsoever about any model's financial "
+    "ability. This run is barred from the leaderboard and from the Finance Capability Index."
+)
+
+
+def _markdown_watermark(inputs: ArtifactInputs) -> list[str]:
+    if inputs.run_type is RunType.REAL:
+        return []
+    return [f"> ## ⚠️ {MOCK_WATERMARK_TITLE}", ">", f"> {MOCK_WATERMARK_BODY}", ""]
+
+
+def _html_watermark(inputs: ArtifactInputs) -> str:
+    if inputs.run_type is RunType.REAL:
+        return ""
+    return (
+        f'<div class="mock-watermark"><h2>⚠️ {html.escape(MOCK_WATERMARK_TITLE)}</h2>'
+        f"<p>{html.escape(MOCK_WATERMARK_BODY)}</p></div>"
+    )
+
+
 def _write_summary_md(
     out: Path,
     inputs: ArtifactInputs,
@@ -263,7 +300,10 @@ def _write_summary_md(
     lines = [
         f"# FinanceBecnh run summary — `{inputs.run_id}`",
         "",
+        *_markdown_watermark(inputs),
         f"- **Model:** `{inputs.model.ref}`",
+        f"- **Run type:** `{inputs.run_type.value}`"
+        f"{'' if inputs.eligible_for_leaderboard else ' (not leaderboard-eligible)'}",
         f"- **Benchmark/group:** `{inputs.benchmark_or_group}`",
         f"- **Samples evaluated:** {result.n_samples} "
         f"(errors: {result.n_errors}, cache hits: {result.n_cache_hits})",
@@ -354,13 +394,18 @@ def _write_report_html(
   .badge {{ display: inline-block; padding: 0.2rem 0.6rem; border-radius: 999px;
             background: #eef2ff; color: #3730a3; font-size: 0.85rem; }}
   .note {{ color: #555; font-size: 0.9rem; }}
+  .mock-watermark {{ border: 3px solid #b91c1c; background: #fef2f2; color: #7f1d1d;
+                     padding: 1rem 1.25rem; margin: 1.5rem 0; border-radius: 6px; }}
+  .mock-watermark h2 {{ margin-top: 0; }}
 </style>
 </head>
 <body>
   <h1>FinanceBecnh run report</h1>
+  {_html_watermark(inputs)}
   <p><span class="badge">{esc(inputs.run_id)}</span></p>
   <ul>
     <li><strong>Model:</strong> <code>{esc(inputs.model.ref)}</code></li>
+    <li><strong>Run type:</strong> <code>{esc(inputs.run_type.value)}</code></li>
     <li><strong>Benchmark/group:</strong> <code>{esc(inputs.benchmark_or_group)}</code></li>
     <li><strong>Samples evaluated:</strong> {result.n_samples}
         (errors: {result.n_errors}, cache hits: {result.n_cache_hits})</li>

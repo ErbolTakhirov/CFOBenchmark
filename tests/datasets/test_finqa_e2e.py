@@ -22,7 +22,7 @@ from financebench.evaluation.native.finqa import (
 )
 from financebench.execution.cache import ResponseCache
 from financebench.execution.engine import RunEngine
-from financebench.models.mock import MockProvider
+from financebench.models.mock import MockProvider, build_mock_oracle
 from financebench.schemas.manifest import AdapterStatus
 from financebench.schemas.model_io import ModelSpec
 from financebench.schemas.run import RunConfig
@@ -176,7 +176,7 @@ async def test_echo_gold_scores_perfectly_with_the_native_metric(tmp_path: Path)
         model=ModelSpec.parse("mock/echo-gold"),
         config=RunConfig(),
         cache=ResponseCache(tmp_path),
-        provider=MockProvider(),
+        provider=MockProvider(oracle=build_mock_oracle(samples)),
     )
     assert result.n_errors == 0
 
@@ -196,7 +196,7 @@ async def test_always_wrong_scores_zero_with_the_native_metric(tmp_path: Path) -
         model=ModelSpec.parse("mock/always-wrong"),
         config=RunConfig(),
         cache=ResponseCache(tmp_path),
-        provider=MockProvider(),
+        provider=MockProvider(oracle=build_mock_oracle(samples)),
     )
     metric = FinQAExecutionAccuracy()
     scores = [
@@ -214,7 +214,7 @@ async def test_refuse_profile_is_scored_as_no_extractable_number(tmp_path: Path)
         model=ModelSpec.parse("mock/refuse"),
         config=RunConfig(),
         cache=ResponseCache(tmp_path),
-        provider=MockProvider(),
+        provider=MockProvider(oracle=build_mock_oracle(samples)),
     )
     metric = FinQAExecutionAccuracy()
     scores = [

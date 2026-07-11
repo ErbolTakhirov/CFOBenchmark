@@ -7,7 +7,7 @@ import pytest
 from financebench.execution.cache import ResponseCache
 from financebench.execution.engine import RunEngine
 from financebench.models.base import ModelProvider
-from financebench.models.mock import MockProvider
+from financebench.models.mock import MockProvider, build_mock_oracle
 from financebench.schemas.common import AnswerType, SplitOrigin
 from financebench.schemas.model_io import ModelRequest, ModelResponse, ModelSpec
 from financebench.schemas.run import RunConfig
@@ -106,7 +106,7 @@ async def test_predictions_preserve_input_sample_order(tmp_path: Path) -> None:
         model=ModelSpec.parse("mock/echo-gold"),
         config=config,
         cache=cache,
-        provider=MockProvider(),
+        provider=MockProvider(oracle=build_mock_oracle(samples)),
     )
 
     assert [p.sample_id for p in result.predictions] == [s.sample_id for s in samples]
@@ -123,7 +123,7 @@ async def test_echo_gold_scores_perfectly_and_reports_no_errors(tmp_path: Path) 
         model=ModelSpec.parse("mock/echo-gold"),
         config=RunConfig(),
         cache=cache,
-        provider=MockProvider(),
+        provider=MockProvider(oracle=build_mock_oracle(samples)),
     )
 
     assert result.n_errors == 0
@@ -139,7 +139,7 @@ async def test_rerun_with_same_cache_hits_everything_and_makes_zero_calls(tmp_pa
     cache_dir = tmp_path / "cache"
     config = RunConfig()
 
-    first_provider = _CountingProvider(MockProvider())
+    first_provider = _CountingProvider(MockProvider(oracle=build_mock_oracle(samples)))
     first_result = await RunEngine(sleep=_no_sleep).run(
         samples=samples,
         model=ModelSpec.parse("mock/echo-gold"),
@@ -150,7 +150,7 @@ async def test_rerun_with_same_cache_hits_everything_and_makes_zero_calls(tmp_pa
     assert first_provider.calls == 5
     assert first_result.n_cache_hits == 0
 
-    second_provider = _CountingProvider(MockProvider())
+    second_provider = _CountingProvider(MockProvider(oracle=build_mock_oracle(samples)))
     second_result = await RunEngine(sleep=_no_sleep).run(
         samples=samples,
         model=ModelSpec.parse("mock/echo-gold"),
@@ -238,9 +238,10 @@ async def test_budget_guard_stops_new_calls_once_cap_is_reached(tmp_path: Path) 
 async def test_engine_closes_a_provider_it_created_itself(tmp_path: Path) -> None:
     # The engine only owns provider lifecycle when it constructs one itself (provider=None);
     # when a provider is injected, the caller keeps ownership and the engine must not close it.
-    injected = _TrackingCloseProvider(MockProvider())
+    samples = [_sample(0)]
+    injected = _TrackingCloseProvider(MockProvider(oracle=build_mock_oracle(samples)))
     await RunEngine(sleep=_no_sleep).run(
-        samples=[_sample(0)],
+        samples=samples,
         model=ModelSpec.parse("mock/echo-gold"),
         config=RunConfig(),
         cache=ResponseCache(tmp_path),
@@ -257,7 +258,7 @@ async def test_max_samples_limit_is_applied(tmp_path: Path) -> None:
         model=ModelSpec.parse("mock/echo-gold"),
         config=RunConfig(limit=3),
         cache=ResponseCache(tmp_path),
-        provider=MockProvider(),
+        provider=MockProvider(oracle=build_mock_oracle(samples)),
     )
     assert result.n_samples == 3
     assert [p.sample_id for p in result.predictions] == [

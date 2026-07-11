@@ -84,6 +84,7 @@ def test_eval_requires_exactly_one_of_benchmark_or_group(tmp_path: Path) -> None
         app,
         [
             "eval",
+            "--allow-mock",
             "--model-config",
             "configs/models/mock.yaml",
             "--output-dir",
@@ -100,6 +101,7 @@ def test_eval_group_smoke_writes_all_artifacts(tmp_path: Path) -> None:
         app,
         [
             "eval",
+            "--allow-mock",
             "--group",
             "smoke",
             "--model-config",
@@ -120,6 +122,7 @@ def test_eval_rerun_without_resume_fails(tmp_path: Path) -> None:
     runs_dir = tmp_path / "runs"
     args = [
         "eval",
+        "--allow-mock",
         "--group",
         "smoke",
         "--model-config",
@@ -138,6 +141,7 @@ def test_eval_rerun_with_resume_hits_cache(tmp_path: Path) -> None:
     runs_dir = tmp_path / "runs"
     args = [
         "eval",
+        "--allow-mock",
         "--group",
         "smoke",
         "--model-config",
@@ -158,6 +162,7 @@ def test_resume_command_reconstructs_the_original_run(tmp_path: Path) -> None:
         app,
         [
             "eval",
+            "--allow-mock",
             "--group",
             "smoke",
             "--model-config",
@@ -173,6 +178,7 @@ def test_resume_command_reconstructs_the_original_run(tmp_path: Path) -> None:
         app,
         [
             "resume",
+            "--allow-mock",
             "--run-id",
             run_id,
             "--model-config",
@@ -192,6 +198,7 @@ def test_resume_rejects_a_mismatched_model_config(tmp_path: Path) -> None:
         app,
         [
             "eval",
+            "--allow-mock",
             "--group",
             "smoke",
             "--model-config",
@@ -209,6 +216,7 @@ def test_resume_rejects_a_mismatched_model_config(tmp_path: Path) -> None:
         app,
         [
             "resume",
+            "--allow-mock",
             "--run-id",
             run_id,
             "--model-config",
@@ -227,6 +235,7 @@ def test_report_prints_the_summary(tmp_path: Path) -> None:
         app,
         [
             "eval",
+            "--allow-mock",
             "--group",
             "smoke",
             "--model-config",
@@ -251,6 +260,7 @@ def test_compare_two_runs(tmp_path: Path) -> None:
         app,
         [
             "eval",
+            "--allow-mock",
             "--group",
             "smoke",
             "--model-config",
@@ -263,6 +273,7 @@ def test_compare_two_runs(tmp_path: Path) -> None:
         app,
         [
             "eval",
+            "--allow-mock",
             "--group",
             "smoke",
             "--model-config",
@@ -295,6 +306,7 @@ def test_leaderboard_builds_all_four_formats(tmp_path: Path) -> None:
         app,
         [
             "eval",
+            "--allow-mock",
             "--group",
             "smoke",
             "--model-config",
@@ -332,6 +344,7 @@ def test_cache_stats_and_clear(tmp_path: Path) -> None:
         app,
         [
             "eval",
+            "--allow-mock",
             "--group",
             "smoke",
             "--model-config",
@@ -390,6 +403,7 @@ def test_eval_finqa_reports_both_generic_and_native_metrics(
         app,
         [
             "eval",
+            "--allow-mock",
             "--benchmark",
             "finqa",
             "--split",
@@ -416,6 +430,7 @@ def test_eval_max_samples_truncates_and_still_scores_correctly(
         app,
         [
             "eval",
+            "--allow-mock",
             "--benchmark",
             "finqa",
             "--split",

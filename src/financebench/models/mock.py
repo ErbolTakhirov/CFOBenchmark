@@ -1,35 +1,40 @@
 """Deterministic mock provider — a *simulator*, not a model under test.
 
-The mock reads the ``simulation_context`` that the execution engine attaches to each request
-**only** when the target provider is ``mock`` (real providers never see this channel — see
-``ModelRequest.simulation_context``). This lets the smoke benchmark and Milestone 1's acceptance
-bar run fully offline, produce byte-stable artifacts, and — crucially — *differentiate*
-behaviors so scoring is demonstrably meaningful rather than trivially 100% or 0%:
+The mock answers from an **oracle injected at construction time** (``MockProvider(oracle=...)``),
+built by the execution layer from the samples about to be run. The oracle never travels inside a
+:class:`~financebench.schemas.model_io.ModelRequest` — that type has no field it could travel in
+(see its docstring). A mock built without an oracle simply cannot answer, which is the safe
+failure: the only way for the answer key to reach this provider is for a caller to hand it over
+explicitly, in code, on the mock-only path.
+
+The profiles exist to *differentiate* behaviour, so scoring is demonstrably meaningful rather than
+trivially 100 % or 0 %:
 
 - ``echo-gold`` returns the exact gold answer verbatim (the happy path).
-- ``formatting-noise`` returns the right number wrapped in messy prose (commas, currency
-  symbols, percent signs) — exercises the numeric parser (Milestone 2) rather than the mock
-  itself.
+- ``formatting-noise`` returns the right number wrapped in messy prose (commas, currency symbols,
+  percent signs, parenthesized negatives) — exercises the numeric parser, not the mock.
 - ``always-wrong`` returns a deterministic, obviously-wrong numeric answer.
-- ``refuse`` always declines to answer (exercises refusal/``should_refuse`` grading).
+- ``refuse`` always declines to answer (exercises refusal / ``should_refuse`` grading).
 - ``error`` / ``timeout`` deterministically raise a non-retryable / retryable
   :class:`~financebench.utils.errors.ProviderError` (exercises backoff and ``errors.jsonl``).
 
-Because the mock can see the answer key, **mock scores validate the pipeline, not model
-quality.** That separation is the whole point of the ``simulation_context`` channel.
+**Because the mock can see the answer key, mock scores validate the pipeline, not model quality.**
+Runs using it are stamped ``run_type="mock_test"``, are barred from the leaderboard and from the
+Finance Capability Index, and require an explicit ``--allow-mock`` on the CLI.
 """
 
 from __future__ import annotations
 
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from typing import ClassVar
 
 from financebench.models.base import ModelProvider, ProviderCapabilities, register_provider
 from financebench.schemas.model_io import FinancialAnswer, ModelRequest, ModelResponse, TokenUsage
+from financebench.schemas.sample import CanonicalSample
 from financebench.utils.errors import ProviderResponseError, ProviderTimeoutError
 
-__all__ = ["MockProvider"]
+__all__ = ["GoldOracleEntry", "MockProvider", "build_mock_oracle"]
 
 
 def _tok(text: str) -> int:
@@ -38,27 +43,35 @@ def _tok(text: str) -> int:
 
 
 @dataclass(frozen=True)
-class _GoldContext:
-    """Typed view over the request's ``simulation_context`` (mock-only)."""
+class GoldOracleEntry:
+    """One sample's answer key, as handed to the mock simulator — and to nothing else."""
 
     gold_answer: str = ""
     gold_numeric_value: float | None = None
     unit: str | None = None
 
     @classmethod
-    def from_ctx(cls, ctx: Mapping[str, object]) -> _GoldContext:
-        numeric = ctx.get("gold_numeric_value")
+    def from_sample(cls, sample: CanonicalSample) -> GoldOracleEntry:
         return cls(
-            gold_answer=str(ctx.get("gold_answer", "")),
-            gold_numeric_value=float(numeric) if isinstance(numeric, int | float) else None,
-            unit=str(ctx["unit"]) if ctx.get("unit") is not None else None,
+            gold_answer=sample.gold.answer,
+            gold_numeric_value=sample.gold.numeric_value,
+            unit=sample.gold.unit,
         )
 
 
+def build_mock_oracle(samples: Sequence[CanonicalSample]) -> dict[str, GoldOracleEntry]:
+    """Build the answer oracle for a mock run, keyed by ``sample_id``.
+
+    Call this **only** on the mock path. It is the single place in the codebase where gold answers
+    are handed to something that will produce a "prediction".
+    """
+    return {sample.sample_id: GoldOracleEntry.from_sample(sample) for sample in samples}
+
+
 def _messy_number(value: float | None, unit: str | None) -> str:
-    """Render a number the way a real model's prose often does: commas, currency signs,
-    percent signs, and parenthesized negatives — deliberately hostile to a naive ``float()``
-    call so the numeric parser (Milestone 2) has something real to prove itself against."""
+    """Render a number the way a real model's prose often does: commas, currency signs, percent
+    signs, and parenthesized negatives — deliberately hostile to a naive ``float()`` call so the
+    numeric parser has something real to prove itself against."""
     if value is None:
         return "an unspecified amount"
     if unit == "percent":
@@ -70,41 +83,41 @@ def _messy_number(value: float | None, unit: str | None) -> str:
     return f"({formatted})" if value < 0 else formatted
 
 
-def _echo_gold(ctx: _GoldContext) -> FinancialAnswer:
+def _echo_gold(entry: GoldOracleEntry) -> FinancialAnswer:
     return FinancialAnswer(
-        answer=ctx.gold_answer,
-        numeric_value=ctx.gold_numeric_value,
-        unit=ctx.unit,
+        answer=entry.gold_answer,
+        numeric_value=entry.gold_numeric_value,
+        unit=entry.unit,
         brief_explanation="Directly taken from the referenced data.",
     )
 
 
-def _formatting_noise(ctx: _GoldContext) -> FinancialAnswer:
-    noisy = _messy_number(ctx.gold_numeric_value, ctx.unit)
+def _formatting_noise(entry: GoldOracleEntry) -> FinancialAnswer:
+    noisy = _messy_number(entry.gold_numeric_value, entry.unit)
     return FinancialAnswer(
         answer=f"Based on the filing, the figure comes out to approximately {noisy}, "
         "per the table referenced above.",
-        numeric_value=ctx.gold_numeric_value,
-        unit=ctx.unit,
+        numeric_value=entry.gold_numeric_value,
+        unit=entry.unit,
         brief_explanation="Derived from the referenced table.",
     )
 
 
-def _always_wrong(ctx: _GoldContext) -> FinancialAnswer:
-    # Deterministically wrong, but not by an amount so large the numeric-tolerance metric
-    # would treat it as a formatting artifact rather than a genuine miss.
-    wrong_value = (ctx.gold_numeric_value or 0.0) + 999.0
-    return FinancialAnswer(answer=str(wrong_value), numeric_value=wrong_value, unit=ctx.unit)
+def _always_wrong(entry: GoldOracleEntry) -> FinancialAnswer:
+    # Deterministically wrong, but not by an amount so large the numeric-tolerance metric would
+    # treat it as a formatting artifact rather than a genuine miss.
+    wrong_value = (entry.gold_numeric_value or 0.0) + 999.0
+    return FinancialAnswer(answer=str(wrong_value), numeric_value=wrong_value, unit=entry.unit)
 
 
-def _refuse(_: _GoldContext) -> FinancialAnswer:
+def _refuse(_: GoldOracleEntry) -> FinancialAnswer:
     return FinancialAnswer(
         answer="I don't have enough information in the provided context to answer this.",
         insufficient_information=True,
     )
 
 
-_ANSWER_PROFILES: dict[str, Callable[[_GoldContext], FinancialAnswer]] = {
+_ANSWER_PROFILES: dict[str, Callable[[GoldOracleEntry], FinancialAnswer]] = {
     "echo-gold": _echo_gold,
     "formatting-noise": _formatting_noise,
     "always-wrong": _always_wrong,
@@ -122,11 +135,20 @@ _LATENCY_MS: dict[str, float] = {
 
 @register_provider("mock")
 class MockProvider(ModelProvider):
-    """A deterministic, offline financial-answer simulator with selectable profiles."""
+    """A deterministic, offline financial-answer simulator with selectable profiles.
+
+    ``oracle`` maps ``sample_id`` to that sample's answer key. Constructed without one (e.g. via
+    the generic :func:`~financebench.models.base.create_provider`), the mock has nothing to echo
+    and answers emptily — deliberately, so that the only way to get a "correct" mock answer is to
+    hand it the oracle on purpose.
+    """
 
     provider = "mock"
 
     PROFILES: ClassVar[tuple[str, ...]] = (*_ANSWER_PROFILES, "error", "timeout")
+
+    def __init__(self, oracle: Mapping[str, GoldOracleEntry] | None = None) -> None:
+        self._oracle: dict[str, GoldOracleEntry] = dict(oracle or {})
 
     @classmethod
     def from_env(cls, env: Mapping[str, str] | None = None) -> MockProvider:
@@ -158,8 +180,8 @@ class MockProvider(ModelProvider):
                 "mock/error deliberately fails", provider="mock", retryable=False
             )
 
-        situation = _GoldContext.from_ctx(request.simulation_context or {})
-        answer = _ANSWER_PROFILES[profile](situation)
+        entry = self._oracle.get(request.sample_id, GoldOracleEntry())
+        answer = _ANSWER_PROFILES[profile](entry)
         content = answer.to_json()
         prompt_tokens = sum(_tok(m.content) for m in request.messages)
         completion_tokens = _tok(content)

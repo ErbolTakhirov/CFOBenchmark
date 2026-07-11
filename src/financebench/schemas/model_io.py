@@ -174,8 +174,18 @@ class ModelRequest(BaseModel):
 
     Every field here is part of the response-cache key (see ``execution/cache.py``) except
     ``request_id`` and ``timeout_s``, which are delivery-mechanism details that must not affect
-    whether a cached answer is reused. ``simulation_context`` is read **only** by the mock
-    provider; real providers must ignore it entirely.
+    whether a cached answer is reused.
+
+    **There is deliberately no channel on this model through which a gold answer can travel.**
+    An earlier revision carried a ``simulation_context`` dict holding ``gold_answer`` /
+    ``gold_numeric_value`` for the mock provider to read; because a ``ModelRequest`` is serialized
+    into ``predictions.jsonl`` *and hashed into the cache key*, that put the answer key one
+    forgotten ``if`` away from reaching a real model. The field is gone: the mock now receives its
+    oracle by constructor injection (``models/mock.py``), so leakage is prevented by the shape of
+    the type rather than by a convention someone has to remember. ``extra="forbid"`` means nobody
+    can slip one back in dynamically, and ``tests/security/test_gold_answer_leakage.py`` asserts
+    both that no such field exists and that the rendered request is byte-identical when the gold
+    answer is replaced with a sentinel.
     """
 
     model_config = ConfigDict(extra="forbid", frozen=True)
@@ -193,7 +203,6 @@ class ModelRequest(BaseModel):
     base_url_id: str | None = None
     timeout_s: float = 120.0
     request_id: str | None = None
-    simulation_context: dict[str, Any] | None = None
 
 
 class ModelResponse(BaseModel):

@@ -38,15 +38,14 @@ def build_request(
     sample: CanonicalSample,
     model: ModelSpec,
     config: RunConfig,
-    *,
-    simulation_context: dict[str, object] | None = None,
 ) -> ModelRequest:
     """Assemble the :class:`ModelRequest` sent to a provider for ``sample``.
 
-    ``simulation_context`` must only ever be populated by the engine when ``model.provider ==
-    "mock"`` — real providers ignore the field entirely, so this function accepting it as a
-    plain optional keeps that policy enforced at a single call site (see :meth:`RunEngine.run`)
-    rather than scattered across every caller.
+    This is a pure function of the sample's *question side* — ``question``, ``context``,
+    ``choices``, ``tools`` — and the run config. It never reads ``sample.gold``,
+    ``sample.evaluation`` (which holds grading tolerances), or anything else on the evaluator's
+    side of the fence. ``tests/security/test_gold_answer_leakage.py`` pins that down by scrubbing
+    a sample's gold to sentinel values and asserting the request it produces is byte-identical.
     """
     return ModelRequest(
         model=model,
@@ -58,16 +57,7 @@ def build_request(
         benchmark_version=sample.benchmark_version,
         sample_id=sample.sample_id,
         timeout_s=config.timeout_seconds,
-        simulation_context=simulation_context,
     )
-
-
-def _mock_simulation_context(sample: CanonicalSample) -> dict[str, object]:
-    return {
-        "gold_answer": sample.gold.answer,
-        "gold_numeric_value": sample.gold.numeric_value,
-        "unit": sample.gold.unit,
-    }
 
 
 @dataclass(frozen=True)
@@ -175,12 +165,7 @@ class RunEngine:
 
     # -- per-sample execution ------------------------------------------------
     async def _run_sample(self, ctx: _RunContext, sample: CanonicalSample) -> Prediction:
-        simulation_context = (
-            _mock_simulation_context(sample) if ctx.model.provider == "mock" else None
-        )
-        request = build_request(
-            sample, ctx.model, ctx.config, simulation_context=simulation_context
-        )
+        request = build_request(sample, ctx.model, ctx.config)
 
         # Best-effort budget guard: stop issuing *new* calls once spend reaches the cap.
         # In-flight calls may overshoot by at most the concurrency width; pair with
