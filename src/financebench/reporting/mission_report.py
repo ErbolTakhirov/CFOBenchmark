@@ -274,9 +274,15 @@ def _q3_retrieval(runs: Sequence[RunSummary]) -> str:
                 r = required.retrieval
                 body += f"""
         <p class='note'>Retriever: <code>{_esc(r.get("retriever", "?"))}</code>, top-k
-        {_esc(r.get("top_k", "?"))}, over {_esc(r.get("n_pages", "?"))} pages of
-        {_esc(r.get("n_documents", "?"))} real filings. Document recall
-        {_pct(r.get("document_recall"))}, page recall {_pct(r.get("page_recall"))}.</p>
+        {_esc(r.get("top_k", "?"))},
+        {"document-scoped" if r.get("document_scoped") else "open-corpus"},
+        over {_esc(r.get("corpus_pages", "?"))} pages of
+        {_esc(r.get("corpus_documents", "?"))} real filings. Document recall
+        {_pct(r.get("document_recall"))}, <b>page recall {_pct(r.get("page_recall"))}</b>.</p>
+        <p class='finding'>The failure attribution is the actionable part, and a single
+        RAG-accuracy number could never have produced it: <b>the retriever misses far more often
+        than the model fumbles.</b> "The page was never found" and "the page was found and misread"
+        have opposite fixes, and only one of them is about the model.</p>
         """
             return body
 
