@@ -274,3 +274,18 @@ def test_gate_thresholds_are_stated_so_they_can_be_argued_with() -> None:
     unfalsifiable."""
     assert GATE_THRESHOLDS["catastrophic_numeric_error_rate_max"] == 0.05
     assert GATE_THRESHOLDS["numeric_accuracy_min"] == 0.50
+
+
+def test_a_model_that_scores_zero_is_not_reported_as_never_run() -> None:
+    """A legitimate score of 0.0 is FALSY in Python.
+
+    `core_score or rag_score or agent_score` therefore turns a real 0.0 into None, and the verdict
+    becomes NOT_EVALUATED — making the worst possible model indistinguishable from one that was
+    never run. Seen for real: qwen2.5:3b scored exactly 0.000 on FinanceReasoning-hard. That is a
+    true and important result, and the report erased it.
+    """
+    gates = evaluate_gates(failures=[], n_scored=40, numeric_accuracy=0.0)
+    verdict, _ = verdict_for(gates=gates, core_score=0.0, n_scored=40)
+
+    assert verdict is not Verdict.NOT_EVALUATED
+    assert verdict is Verdict.NOT_FINANCE_READY, "scoring zero is a finding, not an absence"

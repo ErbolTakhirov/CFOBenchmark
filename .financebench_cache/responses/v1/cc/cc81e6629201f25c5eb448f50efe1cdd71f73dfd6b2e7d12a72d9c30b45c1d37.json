@@ -1,0 +1,39 @@
+{
+  "cache_key": "cc81e6629201f25c5eb448f50efe1cdd71f73dfd6b2e7d12a72d9c30b45c1d37",
+  "written_at": "2026-07-11T07:20:45.226123Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"Term loan facility borrowing is part of the total contractual maturities\", \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"2017 | $ 2014\", \"row\": \"\"}], \"insufficient_information\": true, \"confidence\": null, \"brief_explanation\": \"The provided context does not contain the total contractual maturities of long-term debt obligations due subsequent to December 31, 2016.\"}",
+    "financial_answer": {
+      "answer": "Term loan facility borrowing is part of the total contractual maturities",
+      "numeric_value": null,
+      "unit": null,
+      "period": null,
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "2017 | $ 2014",
+          "row": ""
+        }
+      ],
+      "insufficient_information": true,
+      "confidence": null,
+      "brief_explanation": "The provided context does not contain the total contractual maturities of long-term debt obligations due subsequent to December 31, 2016."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1423,
+      "completion_tokens": 121,
+      "total_tokens": 1544
+    },
+    "latency_ms": 58568.79923700001,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-151",
+      "finish_reason": "stop"
+    }
+  }
+}

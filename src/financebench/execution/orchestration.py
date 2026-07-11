@@ -223,7 +223,19 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
         is_mock=is_mock,
         has_multimodal_coverage=any(s.context.images for s in evaluated_samples),
     )
-    overall = scores.core_score or scores.rag_score or scores.agent_score
+    # `a or b or c` would be wrong here: a legitimate score of 0.0 is FALSY in Python, so a model
+    # that scored zero collapses to None and gets reported as NOT_EVALUATED — making the worst
+    # possible model indistinguishable from one that was never run. Seen for real: qwen2.5:3b
+    # scored exactly 0.000 on FinanceReasoning-hard, which is a true and important result, and the
+    # report erased it.
+    overall = next(
+        (
+            score
+            for score in (scores.core_score, scores.rag_score, scores.agent_score)
+            if score is not None
+        ),
+        None,
+    )
     verdict, verdict_reasons = verdict_for(
         gates=gates, core_score=overall, n_scored=n_scored, is_mock=is_mock
     )

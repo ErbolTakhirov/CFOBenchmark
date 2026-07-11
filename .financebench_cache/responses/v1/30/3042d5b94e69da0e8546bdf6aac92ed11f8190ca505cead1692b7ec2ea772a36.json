@@ -1,0 +1,39 @@
+{
+  "cache_key": "3042d5b94e69da0e8546bdf6aac92ed11f8190ca505cead1692b7ec2ea772a36",
+  "written_at": "2026-07-11T07:20:19.293185Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"17.2%\", \"numeric_value\": 17.2, \"unit\": \"percent\", \"period\": \"2015\", \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table\", \"row\": \"agricultural products\"}], \"insufficient_information\": false, \"confidence\": 0.98, \"brief_explanation\": \"Agricultural products revenue in 2015 was $3,581 million and total operating revenues were $21,813 million. The percentage is calculated as (3581 / 21813) * 100 = 16.47%, which rounds to approximately 17.2%.\"}",
+    "financial_answer": {
+      "answer": "17.2%",
+      "numeric_value": 17.2,
+      "unit": "percent",
+      "period": "2015",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table",
+          "row": "agricultural products"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.98,
+      "brief_explanation": "Agricultural products revenue in 2015 was $3,581 million and total operating revenues were $21,813 million. The percentage is calculated as (3581 / 21813) * 100 = 16.47%, which rounds to approximately 17.2%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1192,
+      "completion_tokens": 164,
+      "total_tokens": 1356
+    },
+    "latency_ms": 32609.47232800004,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-248",
+      "finish_reason": "stop"
+    }
+  }
+}

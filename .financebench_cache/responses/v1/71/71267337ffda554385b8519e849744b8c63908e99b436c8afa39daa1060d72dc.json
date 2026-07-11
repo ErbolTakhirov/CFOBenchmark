@@ -1,0 +1,39 @@
+{
+  "cache_key": "71267337ffda554385b8519e849744b8c63908e99b436c8afa39daa1060d72dc",
+  "written_at": "2026-07-11T07:21:22.488129Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"5.8%\", \"numeric_value\": 5.8, \"unit\": \"%\", \"period\": \"2009\", \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"in millions of dollars | 2009 | 2008 | 2007 | % (  % ) change 2009 vs . 2008 | % (  % ) change 2008 vs . 2007\", \"row\": \"total operating expenses\"}], \"insufficient_information\": false, \"confidence\": 1, \"brief_explanation\": \"Total operating expenses of $896 million divided by net interest revenue of $3173 million equals approximately 5.8%.\"}",
+    "financial_answer": {
+      "answer": "5.8%",
+      "numeric_value": 5.8,
+      "unit": "%",
+      "period": "2009",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "in millions of dollars | 2009 | 2008 | 2007 | % (  % ) change 2009 vs . 2008 | % (  % ) change 2008 vs . 2007",
+          "row": "total operating expenses"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "Total operating expenses of $896 million divided by net interest revenue of $3173 million equals approximately 5.8%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1894,
+      "completion_tokens": 170,
+      "total_tokens": 2064
+    },
+    "latency_ms": 63194.20420200004,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-230",
+      "finish_reason": "stop"
+    }
+  }
+}
