@@ -49,3 +49,4 @@ data/**/raw/
 .vscode/
 *.swp
 .runlogs/
+.financebench_cache/
