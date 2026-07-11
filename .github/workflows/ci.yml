@@ -46,8 +46,24 @@ jobs:
           python -m financebench.cli list-benchmarks
           python -m financebench.cli licenses
           python -m financebench.cli validate-dataset smoke
-          python -m financebench.cli eval --group smoke --model-config configs/models/mock.yaml --output-dir runs
+
+          # The mock provider is handed the gold answers. It must be REFUSED unless explicitly
+          # allowed — so CI asserts the refusal, not just the success. A gate nobody tests is a
+          # gate that quietly stops working.
+          if python -m financebench.cli eval --group smoke \
+               --model-config configs/models/mock.yaml --output-dir runs 2>/dev/null; then
+            echo "FAIL: the mock provider ran without --allow-mock. The gate is not holding."
+            exit 1
+          fi
+          echo "OK: mock evaluation is refused without --allow-mock."
+
+          python -m financebench.cli eval --group smoke \
+            --model-config configs/models/mock.yaml --output-dir runs --allow-mock
           python -m financebench.cli leaderboard --runs-dir runs --output reports
+
+          # A mock run must never be ranked. Assert the leaderboard is EMPTY and the run was
+          # recorded as excluded rather than silently dropped.
+          python -c "import json,pathlib,sys; r=json.loads(pathlib.Path('reports/leaderboard.json').read_text()); e=json.loads(pathlib.Path('reports/leaderboard_excluded.json').read_text()); sys.exit('FAIL: a mock run reached the leaderboard: %s' % r) if r else None; sys.exit('FAIL: the mock run was not recorded as excluded') if not e else None; print('OK: the mock run is excluded from the leaderboard.')"
 
       - name: Build package (sdist + wheel)
         run: |
