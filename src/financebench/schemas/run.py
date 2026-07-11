@@ -11,7 +11,12 @@ from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict
 
-from financebench.schemas.common import DEFAULT_PROMPT_PROFILE, EvalMode, RunType
+from financebench.schemas.common import (
+    DEFAULT_PROMPT_PROFILE,
+    ConversationProtocol,
+    EvalMode,
+    RunType,
+)
 
 __all__ = ["CacheMode", "RunConfig", "RunMetadata"]
 
@@ -50,6 +55,11 @@ class RunConfig(BaseModel):
     #: run id and cache key, so a context_given answer can never be served from cache to a
     #: retrieval_required run.
     eval_mode: EvalMode = EvalMode.CONTEXT_GIVEN
+    #: For multi-turn benchmarks: whether each turn is given the GOLD prior conversation (isolating
+    #: per-turn reasoning) or the model's OWN prior answers (exposing error propagation). These
+    #: measure different things and their scores are never mixed — so this is part of the run's
+    #: identity, not a display option. Ignored by single-turn benchmarks, which have no history.
+    conversation_protocol: ConversationProtocol = ConversationProtocol.GOLD_HISTORY
     judge_config: str | None = None
     max_cost_usd: float | None = None
     offline: bool = False

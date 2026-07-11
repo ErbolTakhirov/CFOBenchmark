@@ -10,10 +10,16 @@ Importing this package registers every native metric implemented so far.
 
 from __future__ import annotations
 
+from financebench.evaluation.native import convfinqa as _conv  # noqa: F401
 from financebench.evaluation.native import finance_reasoning as _fr  # noqa: F401
 from financebench.evaluation.native import finqa as _finqa  # noqa: F401
 from financebench.evaluation.native import smb_cfo as _smb  # noqa: F401
 from financebench.evaluation.native import tatqa as _tatqa  # noqa: F401
+from financebench.evaluation.native.convfinqa import (
+    ConvFinQAExecutionAccuracy,
+    ConvFinQAProgramAccuracy,
+    ConvFinQATurnAccuracy,
+)
 from financebench.evaluation.native.finance_reasoning import FinanceReasoningAccuracy
 from financebench.evaluation.native.finqa import (
     FinQAAnswerAccuracy,
@@ -24,6 +30,9 @@ from financebench.evaluation.native.finqa import (
 from financebench.evaluation.native.tatqa import TatQAExactMatch, TatQAF1, TatQAScaleAccuracy
 
 __all__ = [
+    "ConvFinQAExecutionAccuracy",
+    "ConvFinQAProgramAccuracy",
+    "ConvFinQATurnAccuracy",
     "FinQAAnswerAccuracy",
     "FinQAExecutionAccuracy",
     "FinQAProgramAccuracy",

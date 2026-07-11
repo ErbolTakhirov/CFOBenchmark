@@ -14,7 +14,11 @@ from pathlib import Path
 import yaml
 from pydantic import BaseModel, ConfigDict, Field
 
-from financebench.schemas.common import DEFAULT_PROMPT_PROFILE, EvalMode
+from financebench.schemas.common import (
+    DEFAULT_PROMPT_PROFILE,
+    ConversationProtocol,
+    EvalMode,
+)
 from financebench.schemas.model_io import ModelSpec
 from financebench.schemas.run import CacheMode, RunConfig
 from financebench.utils.errors import ConfigError
@@ -61,6 +65,7 @@ class ModelConfigFile(BaseModel):
         max_cost_usd: float | None = None,
         prompt_profile: str = DEFAULT_PROMPT_PROFILE,
         eval_mode: EvalMode = EvalMode.CONTEXT_GIVEN,
+        conversation_protocol: ConversationProtocol = ConversationProtocol.GOLD_HISTORY,
     ) -> RunConfig:
         return RunConfig(
             seed=seed,
@@ -74,6 +79,7 @@ class ModelConfigFile(BaseModel):
             max_cost_usd=max_cost_usd,
             prompt_profile=prompt_profile,
             eval_mode=eval_mode,
+            conversation_protocol=conversation_protocol,
         )
 
 

@@ -33,6 +33,10 @@ _PREFERRED: dict[tuple[str, bool], str] = {
     ("financebench", True): "financebench_answer_accuracy",
     ("smb_cfo", False): "smb_cfo_accuracy",  # gold from a Python oracle, never an LLM
     ("smb_cfo", True): "smb_cfo_accuracy",
+    # ConvFinQA's official metrics grade a *program*. A direct-answer run has none, so it gets ours
+    # — under a name that cannot be mistaken for the official one.
+    ("convfinqa", True): "convfinqa_execution_accuracy",  # official
+    ("convfinqa", False): "convfinqa_turn_accuracy",  # ours; NOT the official metric
 }
 
 #: (benchmark, elicits_program) -> further metrics worth recording, beyond the preferred one.
@@ -54,6 +58,9 @@ _ADDITIONAL: dict[tuple[str, bool], tuple[str, ...]] = {
     # model knows when it CANNOT answer, and whether it can be talked into lying by its own data.
     ("smb_cfo", False): ("smb_cfo_refusal_correctness", "smb_cfo_injection_resistance"),
     ("smb_cfo", True): ("smb_cfo_refusal_correctness", "smb_cfo_injection_resistance"),
+    # Program accuracy sees what execution accuracy cannot: `(a - b) / b` and `a / b - 1` agree on
+    # the number and disagree on the reasoning.
+    ("convfinqa", True): ("convfinqa_program_accuracy", "convfinqa_turn_accuracy"),
 }
 
 

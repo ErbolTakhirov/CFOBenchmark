@@ -1,0 +1,1237 @@
+[
+ {
+  "pre_text": [
+   "stock-based awards under the plan stock options 2013 marathon grants stock options under the 2007 plan and previously granted options under the 2003 plan .",
+   "marathon 2019s stock options represent the right to purchase shares of common stock at the fair market value of the common stock on the date of grant .",
+   "through 2004 , certain stock options were granted under the 2003 plan with a tandem stock appreciation right , which allows the recipient to instead elect to receive cash and/or common stock equal to the excess of the fair market value of shares of common stock , as determined in accordance with the 2003 plan , over the option price of the shares .",
+   "in general , stock options granted under the 2007 plan and the 2003 plan vest ratably over a three-year period and have a maximum term of ten years from the date they are granted .",
+   "stock appreciation rights 2013 prior to 2005 , marathon granted sars under the 2003 plan .",
+   "no stock appreciation rights have been granted under the 2007 plan .",
+   "similar to stock options , stock appreciation rights represent the right to receive a payment equal to the excess of the fair market value of shares of common stock on the date the right is exercised over the grant price .",
+   "under the 2003 plan , certain sars were granted as stock-settled sars and others were granted in tandem with stock options .",
+   "in general , sars granted under the 2003 plan vest ratably over a three-year period and have a maximum term of ten years from the date they are granted .",
+   "stock-based performance awards 2013 prior to 2005 , marathon granted stock-based performance awards under the 2003 plan .",
+   "no stock-based performance awards have been granted under the 2007 plan .",
+   "beginning in 2005 , marathon discontinued granting stock-based performance awards and instead now grants cash-settled performance units to officers .",
+   "all stock-based performance awards granted under the 2003 plan have either vested or been forfeited .",
+   "as a result , there are no outstanding stock-based performance awards .",
+   "restricted stock 2013 marathon grants restricted stock and restricted stock units under the 2007 plan and previously granted such awards under the 2003 plan .",
+   "in 2005 , the compensation committee began granting time-based restricted stock to certain u.s.-based officers of marathon and its consolidated subsidiaries as part of their annual long-term incentive package .",
+   "the restricted stock awards to officers vest three years from the date of grant , contingent on the recipient 2019s continued employment .",
+   "marathon also grants restricted stock to certain non-officer employees and restricted stock units to certain international employees ( 201crestricted stock awards 201d ) , based on their performance within certain guidelines and for retention purposes .",
+   "the restricted stock awards to non-officers generally vest in one-third increments over a three-year period , contingent on the recipient 2019s continued employment .",
+   "prior to vesting , all restricted stock recipients have the right to vote such stock and receive dividends thereon .",
+   "the non-vested shares are not transferable and are held by marathon 2019s transfer agent .",
+   "common stock units 2013 marathon maintains an equity compensation program for its non-employee directors under the 2007 plan and previously maintained such a program under the 2003 plan .",
+   "all non-employee directors other than the chairman receive annual grants of common stock units , and they are required to hold those units until they leave the board of directors .",
+   "when dividends are paid on marathon common stock , directors receive dividend equivalents in the form of additional common stock units .",
+   "stock-based compensation expense 2013 total employee stock-based compensation expense was $ 80 million , $ 83 million and $ 111 million in 2007 , 2006 and 2005 .",
+   "the total related income tax benefits were $ 29 million , $ 31 million and $ 39 million .",
+   "in 2007 and 2006 , cash received upon exercise of stock option awards was $ 27 million and $ 50 million .",
+   "tax benefits realized for deductions during 2007 and 2006 that were in excess of the stock-based compensation expense recorded for options exercised and other stock-based awards vested during the period totaled $ 30 million and $ 36 million .",
+   "cash settlements of stock option awards totaled $ 1 million and $ 3 million in 2007 and 2006 .",
+   "stock option awards granted 2013 during 2007 , 2006 and 2005 , marathon granted stock option awards to both officer and non-officer employees .",
+   "the weighted average grant date fair value of these awards was based on the following black-scholes assumptions: ."
+  ],
+  "post_text": [
+   "."
+  ],
+  "filename": "MRO/2007/page_134.pdf",
+  "table_ori": [
+   [
+    "",
+    "2007",
+    "2006",
+    "2005"
+   ],
+   [
+    "Weighted average exercise price per share",
+    "$60.94",
+    "$37.84",
+    "$25.14"
+   ],
+   [
+    "Expected annual dividends per share",
+    "$0.96",
+    "$0.80",
+    "$0.66"
+   ],
+   [
+    "Expected life in years",
+    "5.0",
+    "5.1",
+    "5.5"
+   ],
+   [
+    "Expected volatility",
+    "27%",
+    "28%",
+    "28%"
+   ],
+   [
+    "Risk-free interest rate",
+    "4.1%",
+    "5.0%",
+    "3.8%"
+   ],
+   [
+    "Weighted average grant date fair value of stock option awards granted",
+    "$17.24",
+    "$10.19",
+    "$6.15"
+   ]
+  ],
+  "table": [
+   [
+    "",
+    "2007",
+    "2006",
+    "2005"
+   ],
+   [
+    "weighted average exercise price per share",
+    "$ 60.94",
+    "$ 37.84",
+    "$ 25.14"
+   ],
+   [
+    "expected annual dividends per share",
+    "$ 0.96",
+    "$ 0.80",
+    "$ 0.66"
+   ],
+   [
+    "expected life in years",
+    "5.0",
+    "5.1",
+    "5.5"
+   ],
+   [
+    "expected volatility",
+    "27% ( 27 % )",
+    "28% ( 28 % )",
+    "28% ( 28 % )"
+   ],
+   [
+    "risk-free interest rate",
+    "4.1% ( 4.1 % )",
+    "5.0% ( 5.0 % )",
+    "3.8% ( 3.8 % )"
+   ],
+   [
+    "weighted average grant date fair value of stock option awards granted",
+    "$ 17.24",
+    "$ 10.19",
+    "$ 6.15"
+   ]
+  ],
+  "qa": {
+   "question": "by how much did the weighted average exercise price per share increase from 2005 to 2007?",
+   "answer": "142.4%",
+   "explanation": "",
+   "ann_table_rows": [
+    1
+   ],
+   "ann_text_rows": [],
+   "steps": [
+    {
+     "op": "minus1-1",
+     "arg1": "60.94",
+     "arg2": "25.14",
+     "res": "35.80"
+    },
+    {
+     "op": "divide1-2",
+     "arg1": "#0",
+     "arg2": "25.14",
+     "res": "142.4%"
+    }
+   ],
+   "program": "subtract(60.94, 25.14), divide(#0, 25.14)",
+   "gold_inds": {
+    "table_1": "the weighted average exercise price per share of 2007 is $ 60.94 ; the weighted average exercise price per share of 2006 is $ 37.84 ; the weighted average exercise price per share of 2005 is $ 25.14 ;"
+   },
+   "exe_ans": 1.42403,
+   "program_re": "divide(subtract(60.94, 25.14), 25.14)"
+  },
+  "id": "Single_MRO/2007/page_134.pdf-1",
+  "annotation": {
+   "amt_table": "<table class='wikitable'><tr><td>1</td><td></td><td>2007</td><td>2006</td><td>2005</td></tr><tr><td>2</td><td>weighted average exercise price per share</td><td>$ 60.94</td><td>$ 37.84</td><td>$ 25.14</td></tr><tr><td>3</td><td>expected annual dividends per share</td><td>$ 0.96</td><td>$ 0.80</td><td>$ 0.66</td></tr><tr><td>4</td><td>expected life in years</td><td>5.0</td><td>5.1</td><td>5.5</td></tr><tr><td>5</td><td>expected volatility</td><td>27% ( 27 % )</td><td>28% ( 28 % )</td><td>28% ( 28 % )</td></tr><tr><td>6</td><td>risk-free interest rate</td><td>4.1% ( 4.1 % )</td><td>5.0% ( 5.0 % )</td><td>3.8% ( 3.8 % )</td></tr><tr><td>7</td><td>weighted average grant date fair value of stock option awards granted</td><td>$ 17.24</td><td>$ 10.19</td><td>$ 6.15</td></tr></table>",
+   "amt_pre_text": "stock-based awards under the plan stock options 2013 marathon grants stock options under the 2007 plan and previously granted options under the 2003 plan . marathon 2019s stock options represent the right to purchase shares of common stock at the fair market value of the common stock on the date of grant . through 2004 , certain stock options were granted under the 2003 plan with a tandem stock appreciation right , which allows the recipient to instead elect to receive cash and/or common stock equal to the excess of the fair market value of shares of common stock , as determined in accordance with the 2003 plan , over the option price of the shares . in general , stock options granted under the 2007 plan and the 2003 plan vest ratably over a three-year period and have a maximum term of ten years from the date they are granted . stock appreciation rights 2013 prior to 2005 , marathon granted sars under the 2003 plan . no stock appreciation rights have been granted under the 2007 plan . similar to stock options , stock appreciation rights represent the right to receive a payment equal to the excess of the fair market value of shares of common stock on the date the right is exercised over the grant price . under the 2003 plan , certain sars were granted as stock-settled sars and others were granted in tandem with stock options . in general , sars granted under the 2003 plan vest ratably over a three-year period and have a maximum term of ten years from the date they are granted . stock-based performance awards 2013 prior to 2005 , marathon granted stock-based performance awards under the 2003 plan . no stock-based performance awards have been granted under the 2007 plan . beginning in 2005 , marathon discontinued granting stock-based performance awards and instead now grants cash-settled performance units to officers . all stock-based performance awards granted under the 2003 plan have either vested or been forfeited . as a result , there are no outstanding stock-based performance awards . restricted stock 2013 marathon grants restricted stock and restricted stock units under the 2007 plan and previously granted such awards under the 2003 plan . in 2005 , the compensation committee began granting time-based restricted stock to certain u.s.-based officers of marathon and its consolidated subsidiaries as part of their annual long-term incentive package . the restricted stock awards to officers vest three years from the date of grant , contingent on the recipient 2019s continued employment . marathon also grants restricted stock to certain non-officer employees and restricted stock units to certain international employees ( 201crestricted stock awards 201d ) , based on their performance within certain guidelines and for retention purposes . the restricted stock awards to non-officers generally vest in one-third increments over a three-year period , contingent on the recipient 2019s continued employment . prior to vesting , all restricted stock recipients have the right to vote such stock and receive dividends thereon . the non-vested shares are not transferable and are held by marathon 2019s transfer agent . common stock units 2013 marathon maintains an equity compensation program for its non-employee directors under the 2007 plan and previously maintained such a program under the 2003 plan . all non-employee directors other than the chairman receive annual grants of common stock units , and they are required to hold those units until they leave the board of directors . when dividends are paid on marathon common stock , directors receive dividend equivalents in the form of additional common stock units . stock-based compensation expense 2013 total employee stock-based compensation expense was $ 80 million , $ 83 million and $ 111 million in 2007 , 2006 and 2005 . the total related income tax benefits were $ 29 million , $ 31 million and $ 39 million . in 2007 and 2006 , cash received upon exercise of stock option awards was $ 27 million and $ 50 million . tax benefits realized for deductions during 2007 and 2006 that were in excess of the stock-based compensation expense recorded for options exercised and other stock-based awards vested during the period totaled $ 30 million and $ 36 million . cash settlements of stock option awards totaled $ 1 million and $ 3 million in 2007 and 2006 . stock option awards granted 2013 during 2007 , 2006 and 2005 , marathon granted stock option awards to both officer and non-officer employees . the weighted average grant date fair value of these awards was based on the following black-scholes assumptions: .",
+   "amt_post_text": ".",
+   "original_program": "subtract(60.94, 25.14), divide(A0, 25.14)",
+   "step_list": [
+    "Ask for number 60.94",
+    "Ask for number 25.14",
+    "subtract(60.94, 25.14)",
+    "Ask for number 25.14",
+    "divide(A0, 25.14)"
+   ],
+   "answer_list": [
+    "60.94",
+    "25.14",
+    "A0",
+    "25.14",
+    "A1"
+   ],
+   "dialogue_break": [
+    "what was the weighted average exercise price per share in 2007?",
+    "and what was it in 2005?",
+    "what was, then, the change over the years?",
+    "what was the weighted average exercise price per share in 2005?",
+    "and how much does that change represent in relation to this 2005 weighted average exercise price?"
+   ],
+   "turn_program_ori": [
+    "60.94",
+    "25.14",
+    "subtract(60.94, 25.14)",
+    "25.14",
+    "subtract(60.94, 25.14), divide(#0, 25.14)"
+   ],
+   "dialogue_break_ori": [
+    "what was the weighted average exercise price per share in 2007?",
+    "and what was it in 2005?",
+    "what was, then, the change over the years?",
+    "what was the weighted average exercise price per share in 2005?",
+    "and how much does that change represent in relation to this 2005 weighted average exercise price?"
+   ],
+   "turn_program": [
+    "60.94",
+    "25.14",
+    "subtract(60.94, 25.14)",
+    "25.14",
+    "subtract(60.94, 25.14), divide(#0, 25.14)"
+   ],
+   "qa_split": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "exe_ans_list": [
+    60.94,
+    25.14,
+    35.8,
+    25.14,
+    1.42403
+   ]
+  }
+ },
+ {
+  "pre_text": [
+   "as of december 31 , 2017 , the company had gross state income tax credit carry-forwards of approximately $ 20 million , which expire from 2018 through 2020 .",
+   "a deferred tax asset of approximately $ 16 million ( net of federal benefit ) has been established related to these state income tax credit carry-forwards , with a valuation allowance of $ 7 million against such deferred tax asset as of december 31 , 2017 .",
+   "the company had a gross state net operating loss carry-forward of $ 39 million , which expires in 2027 .",
+   "a deferred tax asset of approximately $ 3 million ( net of federal benefit ) has been established for the net operating loss carry-forward , with a full valuation allowance as of december 31 , 2017 .",
+   "other state and foreign net operating loss carry-forwards are separately and cumulatively immaterial to the company 2019s deferred tax balances and expire between 2026 and 2036 .",
+   "14 .",
+   "debt long-term debt consisted of the following: ."
+  ],
+  "post_text": [
+   "credit facility - in november 2017 , the company terminated its second amended and restated credit agreement and entered into a new credit agreement ( the \"credit facility\" ) with third-party lenders .",
+   "the credit facility includes a revolving credit facility of $ 1250 million , which may be drawn upon during a period of five years from november 22 , 2017 .",
+   "the revolving credit facility includes a letter of credit subfacility of $ 500 million .",
+   "the revolving credit facility has a variable interest rate on outstanding borrowings based on the london interbank offered rate ( \"libor\" ) plus a spread based upon the company's credit rating , which may vary between 1.125% ( 1.125 % ) and 1.500% ( 1.500 % ) .",
+   "the revolving credit facility also has a commitment fee rate on the unutilized balance based on the company 2019s leverage ratio .",
+   "the commitment fee rate as of december 31 , 2017 was 0.25% ( 0.25 % ) and may vary between 0.20% ( 0.20 % ) and 0.30% ( 0.30 % ) .",
+   "the credit facility contains customary affirmative and negative covenants , as well as a financial covenant based on a maximum total leverage ratio .",
+   "each of the company's existing and future material wholly owned domestic subsidiaries , except those that are specifically designated as unrestricted subsidiaries , are and will be guarantors under the credit facility .",
+   "in july 2015 , the company used cash on hand to repay all amounts outstanding under a prior credit facility , including $ 345 million in principal amount of outstanding term loans .",
+   "as of december 31 , 2017 , $ 15 million in letters of credit were issued but undrawn , and the remaining $ 1235 million of the revolving credit facility was unutilized .",
+   "the company had unamortized debt issuance costs associated with its credit facilities of $ 11 million and $ 8 million as of december 31 , 2017 and 2016 , respectively .",
+   "senior notes - in december 2017 , the company issued $ 600 million aggregate principal amount of unregistered 3.483% ( 3.483 % ) senior notes with registration rights due december 2027 , the net proceeds of which were used to repurchase the company's 5.000% ( 5.000 % ) senior notes due in 2021 in connection with the 2017 redemption described below .",
+   "in november 2015 , the company issued $ 600 million aggregate principal amount of unregistered 5.000% ( 5.000 % ) senior notes due november 2025 , the net proceeds of which were used to repurchase the company's 7.125% ( 7.125 % ) senior notes due in 2021 in connection with the 2015 tender offer and redemption described below .",
+   "interest on the company's senior notes is payable semi-annually .",
+   "the terms of the 5.000% ( 5.000 % ) and 3.483% ( 3.483 % ) senior notes limit the company 2019s ability and the ability of certain of its subsidiaries to create liens , enter into sale and leaseback transactions , sell assets , and effect consolidations or mergers .",
+   "the company had unamortized debt issuance costs associated with the senior notes of $ 15 million and $ 19 million as of december 31 , 2017 and 2016 , respectively. ."
+  ],
+  "filename": "HII/2017/page_104.pdf",
+  "table_ori": [
+   [
+    "",
+    "December 31"
+   ],
+   [
+    "($ in millions)",
+    "2017",
+    "2016"
+   ],
+   [
+    "Senior notes due December 15, 2021, 5.000%",
+    "\u2014",
+    "600"
+   ],
+   [
+    "Senior notes due November 15, 2025, 5.000%",
+    "600",
+    "600"
+   ],
+   [
+    "Senior notes due December 1, 2027, 3.483%",
+    "600",
+    "\u2014"
+   ],
+   [
+    "Mississippi economic development revenue bonds due May 1, 2024, 7.81%",
+    "84",
+    "84"
+   ],
+   [
+    "Gulf opportunity zone industrial development revenue bonds due December 1, 2028, 4.55%",
+    "21",
+    "21"
+   ],
+   [
+    "Less unamortized debt issuance costs",
+    "(26)",
+    "(27)"
+   ],
+   [
+    "Total long-term debt",
+    "1,279",
+    "1,278"
+   ]
+  ],
+  "table": [
+   [
+    "( $ in millions )",
+    "december 31 2017",
+    "december 31 2016"
+   ],
+   [
+    "senior notes due december 15 2021 5.000% ( 5.000 % )",
+    "2014",
+    "600"
+   ],
+   [
+    "senior notes due november 15 2025 5.000% ( 5.000 % )",
+    "600",
+    "600"
+   ],
+   [
+    "senior notes due december 1 2027 3.483% ( 3.483 % )",
+    "600",
+    "2014"
+   ],
+   [
+    "mississippi economic development revenue bonds due may 1 2024 7.81% ( 7.81 % )",
+    "84",
+    "84"
+   ],
+   [
+    "gulf opportunity zone industrial development revenue bonds due december 1 2028 4.55% ( 4.55 % )",
+    "21",
+    "21"
+   ],
+   [
+    "less unamortized debt issuance costs",
+    "-26 ( 26 )",
+    "-27 ( 27 )"
+   ],
+   [
+    "total long-term debt",
+    "1279",
+    "1278"
+   ]
+  ],
+  "id": "Double_HII/2017/page_104.pdf",
+  "annotation": {
+   "amt_table": "<table class='wikitable'><tr><td>1</td><td>( $ in millions )</td><td>december 31 2017</td><td>december 31 2016</td></tr><tr><td>2</td><td>senior notes due december 15 2021 5.000% ( 5.000 % )</td><td>2014</td><td>600</td></tr><tr><td>3</td><td>senior notes due november 15 2025 5.000% ( 5.000 % )</td><td>600</td><td>600</td></tr><tr><td>4</td><td>senior notes due december 1 2027 3.483% ( 3.483 % )</td><td>600</td><td>2014</td></tr><tr><td>5</td><td>mississippi economic development revenue bonds due may 1 2024 7.81% ( 7.81 % )</td><td>84</td><td>84</td></tr><tr><td>6</td><td>gulf opportunity zone industrial development revenue bonds due december 1 2028 4.55% ( 4.55 % )</td><td>21</td><td>21</td></tr><tr><td>7</td><td>less unamortized debt issuance costs</td><td>-26 ( 26 )</td><td>-27 ( 27 )</td></tr><tr><td>8</td><td>total long-term debt</td><td>1279</td><td>1278</td></tr></table>",
+   "amt_pre_text": "as of december 31 , 2017 , the company had gross state income tax credit carry-forwards of approximately $ 20 million , which expire from 2018 through 2020 . a deferred tax asset of approximately $ 16 million ( net of federal benefit ) has been established related to these state income tax credit carry-forwards , with a valuation allowance of $ 7 million against such deferred tax asset as of december 31 , 2017 . the company had a gross state net operating loss carry-forward of $ 39 million , which expires in 2027 . a deferred tax asset of approximately $ 3 million ( net of federal benefit ) has been established for the net operating loss carry-forward , with a full valuation allowance as of december 31 , 2017 . other state and foreign net operating loss carry-forwards are separately and cumulatively immaterial to the company 2019s deferred tax balances and expire between 2026 and 2036 . 14 . debt long-term debt consisted of the following: .",
+   "amt_post_text": "credit facility - in november 2017 , the company terminated its second amended and restated credit agreement and entered into a new credit agreement ( the \"credit facility\" ) with third-party lenders . the credit facility includes a revolving credit facility of $ 1250 million , which may be drawn upon during a period of five years from november 22 , 2017 . the revolving credit facility includes a letter of credit subfacility of $ 500 million . the revolving credit facility has a variable interest rate on outstanding borrowings based on the london interbank offered rate ( \"libor\" ) plus a spread based upon the company's credit rating , which may vary between 1.125% ( 1.125 % ) and 1.500% ( 1.500 % ) . the revolving credit facility also has a commitment fee rate on the unutilized balance based on the company 2019s leverage ratio . the commitment fee rate as of december 31 , 2017 was 0.25% ( 0.25 % ) and may vary between 0.20% ( 0.20 % ) and 0.30% ( 0.30 % ) . the credit facility contains customary affirmative and negative covenants , as well as a financial covenant based on a maximum total leverage ratio . each of the company's existing and future material wholly owned domestic subsidiaries , except those that are specifically designated as unrestricted subsidiaries , are and will be guarantors under the credit facility . in july 2015 , the company used cash on hand to repay all amounts outstanding under a prior credit facility , including $ 345 million in principal amount of outstanding term loans . as of december 31 , 2017 , $ 15 million in letters of credit were issued but undrawn , and the remaining $ 1235 million of the revolving credit facility was unutilized . the company had unamortized debt issuance costs associated with its credit facilities of $ 11 million and $ 8 million as of december 31 , 2017 and 2016 , respectively . senior notes - in december 2017 , the company issued $ 600 million aggregate principal amount of unregistered 3.483% ( 3.483 % ) senior notes with registration rights due december 2027 , the net proceeds of which were used to repurchase the company's 5.000% ( 5.000 % ) senior notes due in 2021 in connection with the 2017 redemption described below . in november 2015 , the company issued $ 600 million aggregate principal amount of unregistered 5.000% ( 5.000 % ) senior notes due november 2025 , the net proceeds of which were used to repurchase the company's 7.125% ( 7.125 % ) senior notes due in 2021 in connection with the 2015 tender offer and redemption described below . interest on the company's senior notes is payable semi-annually . the terms of the 5.000% ( 5.000 % ) and 3.483% ( 3.483 % ) senior notes limit the company 2019s ability and the ability of certain of its subsidiaries to create liens , enter into sale and leaseback transactions , sell assets , and effect consolidations or mergers . the company had unamortized debt issuance costs associated with the senior notes of $ 15 million and $ 19 million as of december 31 , 2017 and 2016 , respectively. .",
+   "original_program_0": "subtract(15, 19), divide(#0, 19)",
+   "step_list_0": [
+    "subtract(15, 19)",
+    "Ask for number 19",
+    "divide(#0, 19)"
+   ],
+   "answer_list_0": [
+    "#0",
+    "19",
+    "#1"
+   ],
+   "original_program_1": "subtract(11, 8), divide(#0, 8)",
+   "step_list_1": [
+    "Ask for number 11",
+    "Ask for number 8",
+    "subtract(11, 8)",
+    "divide(#0, 8)"
+   ],
+   "answer_list_1": [
+    "11",
+    "8",
+    "#0",
+    "#1"
+   ],
+   "offset": 2,
+   "step_list": [
+    "subtract(15, 19)",
+    "Ask for number 19",
+    "divide(#0, 19)",
+    "Ask for number 11",
+    "Ask for number 8",
+    "subtract(11, 8)",
+    "divide(#2, 8)"
+   ],
+   "answer_list": [
+    "#0",
+    "19",
+    "#1",
+    "11",
+    "8",
+    "#2",
+    "#3"
+   ],
+   "dialogue_break": [
+    "what was the change in the unamortized debt issuance costs associated with the senior notes between 2016 and 2017?",
+    "so what was the percentage change during this time?",
+    "what was the change associated with credit facilities during that time?",
+    "so what was the percentage change?"
+   ],
+   "turn_program_ori": [
+    "subtract(15, 19)",
+    "19",
+    "subtract(15, 19), divide(#0, 19)",
+    "11",
+    "8",
+    "subtract(11, 8)",
+    "subtract(11, 8), divide(#0, 8)"
+   ],
+   "dialogue_break_ori": [
+    "what was the change in the unamortized debt issuance costs associated with the senior notes between 2016 and 2017?",
+    "n/a",
+    "so what was the percentage change during this time?",
+    "n/a",
+    "n/a",
+    "what was the change associated with credit facilities during that time?",
+    "so what was the percentage change?"
+   ],
+   "turn_program": [
+    "subtract(15, 19)",
+    "subtract(15, 19), divide(#0, 19)",
+    "subtract(11, 8)",
+    "subtract(11, 8), divide(#0, 8)"
+   ],
+   "qa_split": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "exe_ans_list": [
+    -4.0,
+    -0.21053,
+    3.0,
+    0.375
+   ]
+  },
+  "qa_0": {
+   "question": "what is the percentage change in the unamortized debt issuance costs associated with the senior notes from 2016 to 2017?",
+   "answer": "-21.1%",
+   "explanation": "",
+   "ann_table_rows": [],
+   "ann_text_rows": [],
+   "steps": [
+    {
+     "op": "minus1-1",
+     "arg1": "15",
+     "arg2": "19",
+     "res": "-4"
+    },
+    {
+     "op": "divide1-2",
+     "arg1": "#0",
+     "arg2": "19",
+     "res": "-21.1%"
+    }
+   ],
+   "program": "subtract(15, 19), divide(#0, 19)",
+   "gold_inds": {
+    "table_2": "( $ in millions ) the senior notes due november 15 2025 5.000% ( 5.000 % ) of december 31 2017 is 600 ; the senior notes due november 15 2025 5.000% ( 5.000 % ) of december 31 2016 is 600 ;",
+    "text_22": "the company had unamortized debt issuance costs associated with the senior notes of $ 15 million and $ 19 million as of december 31 , 2017 and 2016 , respectively. ."
+   },
+   "exe_ans": -0.21053,
+   "program_re": "divide(subtract(15, 19), 19)"
+  },
+  "qa_1": {
+   "question": "what is the percentage change in the unamortized debt issuance costs associated with its credit facilities from 2016 to 2017?",
+   "answer": "37.5%",
+   "explanation": "",
+   "ann_table_rows": [],
+   "ann_text_rows": [
+    17
+   ],
+   "steps": [
+    {
+     "op": "minus2-1",
+     "arg1": "11",
+     "arg2": "8",
+     "res": "3"
+    },
+    {
+     "op": "divide2-2",
+     "arg1": "#0",
+     "arg2": "8",
+     "res": "37.5%"
+    }
+   ],
+   "program": "subtract(11, 8), divide(#0, 8)",
+   "gold_inds": {
+    "text_17": "the company had unamortized debt issuance costs associated with its credit facilities of $ 11 million and $ 8 million as of december 31 , 2017 and 2016 , respectively ."
+   },
+   "exe_ans": 0.375,
+   "program_re": "divide(subtract(11, 8), 8)"
+  }
+ },
+ {
+  "pre_text": [
+   "when we purchase an asset , we capitalize all costs necessary to make the asset ready for its intended use .",
+   "however , many of our assets are self-constructed .",
+   "a large portion of our capital expenditures is for track structure expansion ( capacity projects ) and replacement ( program projects ) , which is typically performed by our employees .",
+   "approximately 13% ( 13 % ) of our full-time equivalent employees are dedicated to the construction of capital assets .",
+   "costs that are directly attributable or overhead costs that relate directly to capital projects are capitalized .",
+   "direct costs that are capitalized as part of self-constructed assets include material , labor , and work equipment .",
+   "indirect costs are capitalized if they clearly relate to the construction of the asset .",
+   "these costs are allocated using appropriate statistical bases .",
+   "the capitalization of indirect costs is consistent with fasb statement no .",
+   "67 , accounting for costs and initial rental operations of real estate projects .",
+   "general and administrative expenditures are expensed as incurred .",
+   "normal repairs and maintenance are also expensed as incurred , while costs incurred that extend the useful life of an asset , improve the safety of our operations or improve operating efficiency are capitalized .",
+   "assets held under capital leases are recorded at the lower of the net present value of the minimum lease payments or the fair value of the leased asset at the inception of the lease .",
+   "amortization expense is computed using the straight-line method over the shorter of the estimated useful lives of the assets or the period of the related lease .",
+   "10 .",
+   "accounts payable and other current liabilities dec .",
+   "31 , dec .",
+   "31 , millions of dollars 2008 2007 ."
+  ],
+  "post_text": [
+   "11 .",
+   "fair value measurements during the first quarter of 2008 , we fully adopted fasb statement no .",
+   "157 , fair value measurements ( fas 157 ) .",
+   "fas 157 established a framework for measuring fair value and expanded disclosures about fair value measurements .",
+   "the adoption of fas 157 had no impact on our financial position or results of operations .",
+   "fas 157 applies to all assets and liabilities that are measured and reported on a fair value basis .",
+   "this enables the reader of the financial statements to assess the inputs used to develop those measurements by establishing a hierarchy for ranking the quality and reliability of the information used to determine fair values .",
+   "the statement requires that each asset and liability carried at fair value be classified into one of the following categories : level 1 : quoted market prices in active markets for identical assets or liabilities .",
+   "level 2 : observable market based inputs or unobservable inputs that are corroborated by market data .",
+   "level 3 : unobservable inputs that are not corroborated by market data. ."
+  ],
+  "filename": "UNP/2008/page_77.pdf",
+  "table_ori": [
+   [
+    "<i>Millions of Dollars</i>",
+    "<i>Dec. 31, 2008</i>",
+    "<i>Dec. 31, 2007</i>"
+   ],
+   [
+    "Accounts payable",
+    "$629",
+    "$732"
+   ],
+   [
+    "Accrued wages and vacation",
+    "367",
+    "394"
+   ],
+   [
+    "Accrued casualty costs",
+    "390",
+    "371"
+   ],
+   [
+    "Income and other taxes",
+    "207",
+    "343"
+   ],
+   [
+    "Dividends and interest",
+    "328",
+    "284"
+   ],
+   [
+    "Equipment rents payable",
+    "93",
+    "103"
+   ],
+   [
+    "Other",
+    "546",
+    "675"
+   ],
+   [
+    "Total accounts payable and other current liabilities",
+    "$2,560",
+    "$2,902"
+   ]
+  ],
+  "table": [
+   [
+    "millions of dollars",
+    "dec . 31 2008",
+    "dec . 31 2007"
+   ],
+   [
+    "accounts payable",
+    "$ 629",
+    "$ 732"
+   ],
+   [
+    "accrued wages and vacation",
+    "367",
+    "394"
+   ],
+   [
+    "accrued casualty costs",
+    "390",
+    "371"
+   ],
+   [
+    "income and other taxes",
+    "207",
+    "343"
+   ],
+   [
+    "dividends and interest",
+    "328",
+    "284"
+   ],
+   [
+    "equipment rents payable",
+    "93",
+    "103"
+   ],
+   [
+    "other",
+    "546",
+    "675"
+   ],
+   [
+    "total accounts payable and other current liabilities",
+    "$ 2560",
+    "$ 2902"
+   ]
+  ],
+  "qa": {
+   "question": "what was the percentage change in equipment rents payable from 2007 to 2008?",
+   "answer": "-10%",
+   "explanation": "",
+   "ann_table_rows": [
+    6
+   ],
+   "ann_text_rows": [],
+   "steps": [
+    {
+     "op": "minus2-1",
+     "arg1": "93",
+     "arg2": "103",
+     "res": "-10"
+    },
+    {
+     "op": "divide2-2",
+     "arg1": "#0",
+     "arg2": "103",
+     "res": "10%"
+    }
+   ],
+   "program": "subtract(93, 103), divide(#0, 103)",
+   "gold_inds": {
+    "table_6": "millions of dollars the equipment rents payable of dec . 31 2008 is 93 ; the equipment rents payable of dec . 31 2007 is 103 ;"
+   },
+   "exe_ans": -0.09709,
+   "program_re": "divide(subtract(93, 103), 103)"
+  },
+  "id": "Single_UNP/2008/page_77.pdf-2",
+  "annotation": {
+   "amt_table": "<table class='wikitable'><tr><td>1</td><td>millions of dollars</td><td>dec . 31 2008</td><td>dec . 31 2007</td></tr><tr><td>2</td><td>accounts payable</td><td>$ 629</td><td>$ 732</td></tr><tr><td>3</td><td>accrued wages and vacation</td><td>367</td><td>394</td></tr><tr><td>4</td><td>accrued casualty costs</td><td>390</td><td>371</td></tr><tr><td>5</td><td>income and other taxes</td><td>207</td><td>343</td></tr><tr><td>6</td><td>dividends and interest</td><td>328</td><td>284</td></tr><tr><td>7</td><td>equipment rents payable</td><td>93</td><td>103</td></tr><tr><td>8</td><td>other</td><td>546</td><td>675</td></tr><tr><td>9</td><td>total accounts payable and other current liabilities</td><td>$ 2560</td><td>$ 2902</td></tr></table>",
+   "amt_pre_text": "when we purchase an asset , we capitalize all costs necessary to make the asset ready for its intended use . however , many of our assets are self-constructed . a large portion of our capital expenditures is for track structure expansion ( capacity projects ) and replacement ( program projects ) , which is typically performed by our employees . approximately 13% ( 13 % ) of our full-time equivalent employees are dedicated to the construction of capital assets . costs that are directly attributable or overhead costs that relate directly to capital projects are capitalized . direct costs that are capitalized as part of self-constructed assets include material , labor , and work equipment . indirect costs are capitalized if they clearly relate to the construction of the asset . these costs are allocated using appropriate statistical bases . the capitalization of indirect costs is consistent with fasb statement no . 67 , accounting for costs and initial rental operations of real estate projects . general and administrative expenditures are expensed as incurred . normal repairs and maintenance are also expensed as incurred , while costs incurred that extend the useful life of an asset , improve the safety of our operations or improve operating efficiency are capitalized . assets held under capital leases are recorded at the lower of the net present value of the minimum lease payments or the fair value of the leased asset at the inception of the lease . amortization expense is computed using the straight-line method over the shorter of the estimated useful lives of the assets or the period of the related lease . 10 . accounts payable and other current liabilities dec . 31 , dec . 31 , millions of dollars 2008 2007 .",
+   "amt_post_text": "11 . fair value measurements during the first quarter of 2008 , we fully adopted fasb statement no . 157 , fair value measurements ( fas 157 ) . fas 157 established a framework for measuring fair value and expanded disclosures about fair value measurements . the adoption of fas 157 had no impact on our financial position or results of operations . fas 157 applies to all assets and liabilities that are measured and reported on a fair value basis . this enables the reader of the financial statements to assess the inputs used to develop those measurements by establishing a hierarchy for ranking the quality and reliability of the information used to determine fair values . the statement requires that each asset and liability carried at fair value be classified into one of the following categories : level 1 : quoted market prices in active markets for identical assets or liabilities . level 2 : observable market based inputs or unobservable inputs that are corroborated by market data . level 3 : unobservable inputs that are not corroborated by market data. .",
+   "original_program": "subtract(93, 103), divide(A0, 103)",
+   "step_list": [
+    "Ask for number 93",
+    "Ask for number 103",
+    "subtract(93, 103)",
+    "Ask for number 103",
+    "divide(A0, 103)"
+   ],
+   "answer_list": [
+    "93",
+    "103",
+    "A0",
+    "103",
+    "A1"
+   ],
+   "dialogue_break": [
+    "what was the equipment rents payable in 2008?",
+    "and in 2007?",
+    "so what was the difference between the two years?",
+    "and the value for 2007 again?",
+    "so what was the percentage change during this time?"
+   ],
+   "turn_program_ori": [
+    "93",
+    "103",
+    "subtract(93, 103)",
+    "103",
+    "subtract(93, 103), divide(#0, 103)"
+   ],
+   "dialogue_break_ori": [
+    "what was the equipment rents payable in 2008?",
+    "and in 2007?",
+    "so what was the difference between the two years?",
+    "and the value for 2007 again?",
+    "so what was the percentage change during this time?"
+   ],
+   "turn_program": [
+    "93",
+    "103",
+    "subtract(93, 103)",
+    "103",
+    "subtract(93, 103), divide(#0, 103)"
+   ],
+   "qa_split": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "exe_ans_list": [
+    93.0,
+    103.0,
+    -10.0,
+    103.0,
+    -0.09709
+   ]
+  }
+ },
+ {
+  "pre_text": [
+   "republic services , inc .",
+   "notes to consolidated financial statements 2014 ( continued ) 16 .",
+   "financial instruments fuel hedges we have entered into multiple swap agreements designated as cash flow hedges to mitigate some of our exposure related to changes in diesel fuel prices .",
+   "these swaps qualified for , and were designated as , effective hedges of changes in the prices of forecasted diesel fuel purchases ( fuel hedges ) .",
+   "the following table summarizes our outstanding fuel hedges as of december 31 , 2016 : year gallons hedged weighted average contract price per gallon ."
+  ],
+  "post_text": [
+   "if the national u.s .",
+   "on-highway average price for a gallon of diesel fuel as published by the department of energy exceeds the contract price per gallon , we receive the difference between the average price and the contract price ( multiplied by the notional gallons ) from the counterparty .",
+   "if the average price is less than the contract price per gallon , we pay the difference to the counterparty .",
+   "the fair values of our fuel hedges are determined using standard option valuation models with assumptions about commodity prices based on those observed in underlying markets ( level 2 in the fair value hierarchy ) .",
+   "the aggregate fair values of our outstanding fuel hedges as of december 31 , 2016 and 2015 were current liabilities of $ 2.7 million and $ 37.8 million , respectively , and have been recorded in other accrued liabilities in our consolidated balance sheets .",
+   "the ineffective portions of the changes in fair values resulted in a gain of $ 0.8 million for the year ended december 31 , 2016 , and a loss of $ 0.4 million and $ 0.5 million for the years ended december 31 , 2015 and 2014 , respectively , and have been recorded in other income , net in our consolidated statements of income .",
+   "total gain ( loss ) recognized in other comprehensive income ( loss ) for fuel hedges ( the effective portion ) was $ 20.7 million , $ ( 2.0 ) million and $ ( 24.2 ) million , for the years ended december 31 , 2016 , 2015 and 2014 , respectively .",
+   "we classify cash inflows and outflows from our fuel hedges within operating activities in the unaudited consolidated statements of cash flows .",
+   "recycling commodity hedges revenue from the sale of recycled commodities is primarily from sales of old corrugated containers and old newsprint .",
+   "from time to time we use derivative instruments such as swaps and costless collars designated as cash flow hedges to manage our exposure to changes in prices of these commodities .",
+   "during 2016 , we entered into multiple agreements related to the forecasted occ sales .",
+   "the agreements qualified for , and were designated as , effective hedges of changes in the prices of certain forecasted recycling commodity sales ( commodity hedges ) .",
+   "we entered into costless collar agreements on forecasted sales of occ .",
+   "the agreements involve combining a purchased put option giving us the right to sell occ at an established floor strike price with a written call option obligating us to deliver occ at an established cap strike price .",
+   "the puts and calls have the same settlement dates , are net settled in cash on such dates and have the same terms to expiration .",
+   "the contemporaneous combination of options resulted in no net premium for us and represents costless collars .",
+   "under these agreements , we will make or receive no payments as long as the settlement price is between the floor price and cap price ; however , if the settlement price is above the cap , we will pay the counterparty an amount equal to the excess of the settlement price over the cap times the monthly volumes hedged .",
+   "if the settlement price is below the floor , the counterparty will pay us the deficit of the settlement price below the floor times the monthly volumes hedged .",
+   "the objective of these agreements is to reduce variability of cash flows for forecasted sales of occ between two designated strike prices. ."
+  ],
+  "filename": "RSG/2016/page_144.pdf",
+  "table_ori": [
+   [
+    "Year",
+    "Gallons Hedged",
+    "Weighted Average ContractPrice per Gallon"
+   ],
+   [
+    "2017",
+    "12,000,000",
+    "$2.92"
+   ],
+   [
+    "2018",
+    "3,000,000",
+    "2.61"
+   ]
+  ],
+  "table": [
+   [
+    "year",
+    "gallons hedged",
+    "weighted average contractprice per gallon"
+   ],
+   [
+    "2017",
+    "12000000",
+    "$ 2.92"
+   ],
+   [
+    "2018",
+    "3000000",
+    "2.61"
+   ]
+  ],
+  "id": "Double_RSG/2016/page_144.pdf",
+  "annotation": {
+   "amt_table": "<table class='wikitable'><tr><td>1</td><td>year</td><td>gallons hedged</td><td>weighted average contractprice per gallon</td></tr><tr><td>2</td><td>2017</td><td>12000000</td><td>$ 2.92</td></tr><tr><td>3</td><td>2018</td><td>3000000</td><td>2.61</td></tr></table>",
+   "amt_pre_text": "republic services , inc . notes to consolidated financial statements 2014 ( continued ) 16 . financial instruments fuel hedges we have entered into multiple swap agreements designated as cash flow hedges to mitigate some of our exposure related to changes in diesel fuel prices . these swaps qualified for , and were designated as , effective hedges of changes in the prices of forecasted diesel fuel purchases ( fuel hedges ) . the following table summarizes our outstanding fuel hedges as of december 31 , 2016 : year gallons hedged weighted average contract price per gallon .",
+   "amt_post_text": "if the national u.s . on-highway average price for a gallon of diesel fuel as published by the department of energy exceeds the contract price per gallon , we receive the difference between the average price and the contract price ( multiplied by the notional gallons ) from the counterparty . if the average price is less than the contract price per gallon , we pay the difference to the counterparty . the fair values of our fuel hedges are determined using standard option valuation models with assumptions about commodity prices based on those observed in underlying markets ( level 2 in the fair value hierarchy ) . the aggregate fair values of our outstanding fuel hedges as of december 31 , 2016 and 2015 were current liabilities of $ 2.7 million and $ 37.8 million , respectively , and have been recorded in other accrued liabilities in our consolidated balance sheets . the ineffective portions of the changes in fair values resulted in a gain of $ 0.8 million for the year ended december 31 , 2016 , and a loss of $ 0.4 million and $ 0.5 million for the years ended december 31 , 2015 and 2014 , respectively , and have been recorded in other income , net in our consolidated statements of income . total gain ( loss ) recognized in other comprehensive income ( loss ) for fuel hedges ( the effective portion ) was $ 20.7 million , $ ( 2.0 ) million and $ ( 24.2 ) million , for the years ended december 31 , 2016 , 2015 and 2014 , respectively . we classify cash inflows and outflows from our fuel hedges within operating activities in the unaudited consolidated statements of cash flows . recycling commodity hedges revenue from the sale of recycled commodities is primarily from sales of old corrugated containers and old newsprint . from time to time we use derivative instruments such as swaps and costless collars designated as cash flow hedges to manage our exposure to changes in prices of these commodities . during 2016 , we entered into multiple agreements related to the forecasted occ sales . the agreements qualified for , and were designated as , effective hedges of changes in the prices of certain forecasted recycling commodity sales ( commodity hedges ) . we entered into costless collar agreements on forecasted sales of occ . the agreements involve combining a purchased put option giving us the right to sell occ at an established floor strike price with a written call option obligating us to deliver occ at an established cap strike price . the puts and calls have the same settlement dates , are net settled in cash on such dates and have the same terms to expiration . the contemporaneous combination of options resulted in no net premium for us and represents costless collars . under these agreements , we will make or receive no payments as long as the settlement price is between the floor price and cap price ; however , if the settlement price is above the cap , we will pay the counterparty an amount equal to the excess of the settlement price over the cap times the monthly volumes hedged . if the settlement price is below the floor , the counterparty will pay us the deficit of the settlement price below the floor times the monthly volumes hedged . the objective of these agreements is to reduce variability of cash flows for forecasted sales of occ between two designated strike prices. .",
+   "original_program_0": "divide(12000000, 3000000)",
+   "step_list_0": [
+    "divide(12000000, 3000000)"
+   ],
+   "answer_list_0": [
+    "#0"
+   ],
+   "original_program_1": "divide(37.8, 2.7)",
+   "step_list_1": [
+    "Ask for number 37.8",
+    "Ask for number 2.7",
+    "divide(37.8, 2.7)"
+   ],
+   "answer_list_1": [
+    "37.8",
+    "2.7",
+    "#0"
+   ],
+   "offset": 1,
+   "step_list": [
+    "divide(12000000, 3000000)",
+    "Ask for number 37.8",
+    "Ask for number 2.7",
+    "divide(37.8, 2.7)"
+   ],
+   "answer_list": [
+    "#0",
+    "37.8",
+    "2.7",
+    "#1"
+   ],
+   "dialogue_break": [
+    "how much did the gallons hedged in 2018 represent in relation to the ones hedged in 2017?",
+    "and in the previous year of this period, what was the aggregate fair value of the outstanding fuel hedges?",
+    "what was it in 2015?",
+    "how much, then, did the 2016 fair value represent in relation to this 2015 one?"
+   ],
+   "turn_program_ori": [
+    "divide(12000000, 3000000)",
+    "37.8",
+    "2.7",
+    "divide(37.8, 2.7)"
+   ],
+   "dialogue_break_ori": [
+    "how much did the gallons hedged in 2018 represent in relation to the ones hedged in 2017?",
+    "and in the previous year of this period, what was the aggregate fair value of the outstanding fuel hedges?",
+    "what was it in 2015?",
+    "how much, then, did the 2016 fair value represent in relation to this 2015 one?"
+   ],
+   "turn_program": [
+    "divide(12000000, 3000000)",
+    "37.8",
+    "2.7",
+    "divide(37.8, 2.7)"
+   ],
+   "qa_split": [
+    0,
+    1,
+    1,
+    1
+   ],
+   "exe_ans_list": [
+    4.0,
+    37.8,
+    2.7,
+    14.0
+   ]
+  },
+  "qa_0": {
+   "question": "what was the ratio of the gallons hedged in 2017 to 2018",
+   "answer": "4",
+   "explanation": "the was 4 gallons hedged in 2017 for every gallon in 2018",
+   "ann_table_rows": [
+    1,
+    2
+   ],
+   "ann_text_rows": [],
+   "steps": [
+    {
+     "op": "divide1-1",
+     "arg1": "12000000",
+     "arg2": "3000000",
+     "res": "4"
+    }
+   ],
+   "program": "divide(12000000, 3000000)",
+   "gold_inds": {
+    "table_1": "year the 2017 of gallons hedged is 12000000 ; the 2017 of weighted average contractprice per gallon is $ 2.92 ;",
+    "table_2": "year the 2018 of gallons hedged is 3000000 ; the 2018 of weighted average contractprice per gallon is 2.61 ;"
+   },
+   "exe_ans": 4.0,
+   "program_re": "divide(12000000, 3000000)"
+  },
+  "qa_1": {
+   "question": "what was the ratio of the aggregate fair values of our outstanding fuel hedges for 2015 and 2016",
+   "answer": "14",
+   "explanation": "the aggregate fair values of our outstanding fuel hedges was $ 14 for every dollar in 2016",
+   "ann_table_rows": [],
+   "ann_text_rows": [
+    9
+   ],
+   "steps": [
+    {
+     "op": "divide2-1",
+     "arg1": "37.8",
+     "arg2": "2.7",
+     "res": "14"
+    }
+   ],
+   "program": "divide(37.8, 2.7)",
+   "gold_inds": {
+    "text_9": "the aggregate fair values of our outstanding fuel hedges as of december 31 , 2016 and 2015 were current liabilities of $ 2.7 million and $ 37.8 million , respectively , and have been recorded in other accrued liabilities in our consolidated balance sheets ."
+   },
+   "exe_ans": 14.0,
+   "program_re": "divide(37.8, 2.7)"
+  }
+ },
+ {
+  "pre_text": [
+   "we have adequate access to capital markets to meet any foreseeable cash requirements , and we have sufficient financial capacity to satisfy our current liabilities .",
+   "cash flows millions 2014 2013 2012 ."
+  ],
+  "post_text": [
+   "operating activities higher net income in 2014 increased cash provided by operating activities compared to 2013 , despite higher income tax payments .",
+   "2014 income tax payments were higher than 2013 primarily due to higher income , but also because we paid taxes previously deferred by bonus depreciation ( discussed below ) .",
+   "higher net income in 2013 increased cash provided by operating activities compared to 2012 .",
+   "in addition , we made payments in 2012 for past wages as a result of national labor negotiations , which reduced cash provided by operating activities in 2012 .",
+   "lower tax benefits from bonus depreciation ( as discussed below ) partially offset the increases .",
+   "federal tax law provided for 100% ( 100 % ) bonus depreciation for qualified investments made during 2011 and 50% ( 50 % ) bonus depreciation for qualified investments made during 2012-2013 .",
+   "as a result , the company deferred a substantial portion of its 2011-2013 income tax expense , contributing to the positive operating cash flow in those years .",
+   "congress extended 50% ( 50 % ) bonus depreciation for 2014 , but this extension occurred in december and did not have a significant benefit on our income tax payments during 2014 .",
+   "investing activities higher capital investments , including the early buyout of the long-term operating lease of our headquarters building for approximately $ 261 million , drove the increase in cash used in investing activities compared to 2013 .",
+   "significant investments also were made for new locomotives , freight cars and containers , and capacity and commercial facility projects .",
+   "capital investments in 2014 also included $ 99 million for the early buyout of locomotives and freight cars under long-term operating leases , which we exercised due to favorable economic terms and market conditions .",
+   "lower capital investments in locomotives and freight cars in 2013 drove the decrease in cash used in investing activities compared to 2012 .",
+   "included in capital investments in 2012 was $ 75 million for the early buyout of 165 locomotives under long-term operating and capital leases during the first quarter of 2012 , which we exercised due to favorable economic terms and market conditions. ."
+  ],
+  "filename": "UNP/2014/page_35.pdf",
+  "table_ori": [
+   [
+    "<i>Cash Flows</i><i>Millions</i>",
+    "<i>2014</i>",
+    "<i>2013</i>",
+    "<i>2012</i>"
+   ],
+   [
+    "Cash provided by operating activities",
+    "$7,385",
+    "$6,823",
+    "$6,161"
+   ],
+   [
+    "Cash used in investing activities",
+    "(4,249)",
+    "(3,405)",
+    "(3,633)"
+   ],
+   [
+    "Cash used in financing activities",
+    "(2,982)",
+    "(3,049)",
+    "(2,682)"
+   ],
+   [
+    "Net change in cash and cashequivalents",
+    "$154",
+    "$369",
+    "$(154)"
+   ]
+  ],
+  "table": [
+   [
+    "cash flowsmillions",
+    "2014",
+    "2013",
+    "2012"
+   ],
+   [
+    "cash provided by operating activities",
+    "$ 7385",
+    "$ 6823",
+    "$ 6161"
+   ],
+   [
+    "cash used in investing activities",
+    "-4249 ( 4249 )",
+    "-3405 ( 3405 )",
+    "-3633 ( 3633 )"
+   ],
+   [
+    "cash used in financing activities",
+    "-2982 ( 2982 )",
+    "-3049 ( 3049 )",
+    "-2682 ( 2682 )"
+   ],
+   [
+    "net change in cash and cashequivalents",
+    "$ 154",
+    "$ 369",
+    "$ -154 ( 154 )"
+   ]
+  ],
+  "qa": {
+   "question": "what was the percentage change in cash provided by operating activities from 2012 to 2013?",
+   "answer": "11%",
+   "explanation": "",
+   "ann_table_rows": [
+    1
+   ],
+   "ann_text_rows": [],
+   "steps": [
+    {
+     "op": "minus1-1",
+     "arg1": "6823",
+     "arg2": "6161",
+     "res": "662"
+    },
+    {
+     "op": "divide1-2",
+     "arg1": "#0",
+     "arg2": "6161",
+     "res": "11%"
+    }
+   ],
+   "program": "subtract(6823, 6161), divide(#0, 6161)",
+   "gold_inds": {
+    "table_1": "cash flowsmillions the cash provided by operating activities of 2014 is $ 7385 ; the cash provided by operating activities of 2013 is $ 6823 ; the cash provided by operating activities of 2012 is $ 6161 ;"
+   },
+   "exe_ans": 0.10745,
+   "program_re": "divide(subtract(6823, 6161), 6161)"
+  },
+  "id": "Single_UNP/2014/page_35.pdf-3",
+  "annotation": {
+   "amt_table": "<table class='wikitable'><tr><td>1</td><td>cash flowsmillions</td><td>2014</td><td>2013</td><td>2012</td></tr><tr><td>2</td><td>cash provided by operating activities</td><td>$ 7385</td><td>$ 6823</td><td>$ 6161</td></tr><tr><td>3</td><td>cash used in investing activities</td><td>-4249 ( 4249 )</td><td>-3405 ( 3405 )</td><td>-3633 ( 3633 )</td></tr><tr><td>4</td><td>cash used in financing activities</td><td>-2982 ( 2982 )</td><td>-3049 ( 3049 )</td><td>-2682 ( 2682 )</td></tr><tr><td>5</td><td>net change in cash and cashequivalents</td><td>$ 154</td><td>$ 369</td><td>$ -154 ( 154 )</td></tr></table>",
+   "amt_pre_text": "we have adequate access to capital markets to meet any foreseeable cash requirements , and we have sufficient financial capacity to satisfy our current liabilities . cash flows millions 2014 2013 2012 .",
+   "amt_post_text": "operating activities higher net income in 2014 increased cash provided by operating activities compared to 2013 , despite higher income tax payments . 2014 income tax payments were higher than 2013 primarily due to higher income , but also because we paid taxes previously deferred by bonus depreciation ( discussed below ) . higher net income in 2013 increased cash provided by operating activities compared to 2012 . in addition , we made payments in 2012 for past wages as a result of national labor negotiations , which reduced cash provided by operating activities in 2012 . lower tax benefits from bonus depreciation ( as discussed below ) partially offset the increases . federal tax law provided for 100% ( 100 % ) bonus depreciation for qualified investments made during 2011 and 50% ( 50 % ) bonus depreciation for qualified investments made during 2012-2013 . as a result , the company deferred a substantial portion of its 2011-2013 income tax expense , contributing to the positive operating cash flow in those years . congress extended 50% ( 50 % ) bonus depreciation for 2014 , but this extension occurred in december and did not have a significant benefit on our income tax payments during 2014 . investing activities higher capital investments , including the early buyout of the long-term operating lease of our headquarters building for approximately $ 261 million , drove the increase in cash used in investing activities compared to 2013 . significant investments also were made for new locomotives , freight cars and containers , and capacity and commercial facility projects . capital investments in 2014 also included $ 99 million for the early buyout of locomotives and freight cars under long-term operating leases , which we exercised due to favorable economic terms and market conditions . lower capital investments in locomotives and freight cars in 2013 drove the decrease in cash used in investing activities compared to 2012 . included in capital investments in 2012 was $ 75 million for the early buyout of 165 locomotives under long-term operating and capital leases during the first quarter of 2012 , which we exercised due to favorable economic terms and market conditions. .",
+   "original_program": "subtract(6823, 6161), divide(A0, 6161)",
+   "step_list": [
+    "Ask for number 6823",
+    "Ask for number 6161",
+    "subtract(6823, 6161)",
+    "Ask for number 6161",
+    "divide(A0, 6161)"
+   ],
+   "answer_list": [
+    "6823",
+    "6161",
+    "A0",
+    "6161",
+    "A1"
+   ],
+   "dialogue_break": [
+    "what was the cash provided by operating activities in 2013?",
+    "and in 2012?",
+    "so what was the difference in this value between the years?",
+    "and the value for 2012 again?",
+    "so what was the percentage change during this time?"
+   ],
+   "turn_program_ori": [
+    "6823",
+    "6161",
+    "subtract(6823, 6161)",
+    "6161",
+    "subtract(6823, 6161), divide(#0, 6161)"
+   ],
+   "dialogue_break_ori": [
+    "what was the cash provided by operating activities in 2013?",
+    "and in 2012?",
+    "so what was the difference in this value between the years?",
+    "and the value for 2012 again?",
+    "so what was the percentage change during this time?"
+   ],
+   "turn_program": [
+    "6823",
+    "6161",
+    "subtract(6823, 6161)",
+    "6161",
+    "subtract(6823, 6161), divide(#0, 6161)"
+   ],
+   "qa_split": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "exe_ans_list": [
+    6823.0,
+    6161.0,
+    662.0,
+    6161.0,
+    0.10745
+   ]
+  }
+ },
+ {
+  "pre_text": [
+   "risk and insurance brokerage services ."
+  ],
+  "post_text": [
+   "during 2009 we continued to see a soft market , which began in 2007 , in our retail brokerage product line .",
+   "in 2007 , we experienced a soft market in many business lines and in many geographic areas .",
+   "in a 2018 2018soft market , 2019 2019 premium rates flatten or decrease , along with commission revenues , due to increased competition for market share among insurance carriers or increased underwriting capacity .",
+   "changes in premiums have a direct and potentially material impact on the insurance brokerage industry , as commission revenues are generally based on a percentage of the premiums paid by insureds .",
+   "prices fell throughout 2007 , with the greatest declines seen in large and middle-market accounts .",
+   "prices continued to decline during 2008 , although the rate of decline slowed toward the end of the year .",
+   "in our reinsurance brokerage product line , pricing overall during 2009 was also down , although during a portion of the year it was flat to up slightly .",
+   "additionally , beginning in late 2008 and continuing throughout 2009 , we faced difficult conditions as a result of unprecedented disruptions in the global economy , the repricing of credit risk and the deterioration of the financial markets .",
+   "continued volatility and further deterioration in the credit markets have reduced our customers 2019 demand for our retail brokerage and reinsurance brokerage products , which have negatively hurt our operational results .",
+   "in addition , overall capacity in the industry could decrease if a significant insurer either fails or withdraws from writing insurance coverages that we offer our clients .",
+   "this failure could reduce our revenues and profitability , since we would no longer have access to certain lines and types of insurance .",
+   "risk and insurance brokerage services generated approximately 83% ( 83 % ) of our consolidated total revenues in 2009 .",
+   "revenues are generated primarily through fees paid by clients , commissions and fees paid by insurance and reinsurance companies , and investment income on funds held on behalf of clients .",
+   "our revenues vary from quarter to quarter throughout the year as a result of the timing of our clients 2019 policy renewals , the net effect of new and lost business , the timing of services provided to our clients , and the income we earn on investments , which is heavily influenced by short-term interest rates .",
+   "we operate in a highly competitive industry and compete with many retail insurance brokerage and agency firms , as well as with individual brokers , agents , and direct writers of insurance coverage .",
+   "specifically , we address the highly specialized product development and risk management needs of commercial enterprises , professional groups , insurance companies , governments , healthcare providers , and non-profit groups , among others ; provide affinity products for professional liability , life , disability income , and personal lines for individuals , associations , and businesses ; provide reinsurance services to insurance and reinsurance companies and other risk assumption entities by acting as brokers or intermediaries on all classes of reinsurance ; provide investment banking products and services , including mergers and acquisitions and other financial advisory services , capital raising , contingent capital financing , insurance-linked securitizations and derivative applications ; provide managing underwriting to independent agents and brokers as well as corporate clients ; provide actuarial , loss prevention , and administrative services to businesses and consumers ; and manage captive insurance companies .",
+   "in november 2008 we expanded our product offerings through the merger with benfield , a leading independent reinsurance intermediary .",
+   "benfield products have been integrated with our existing reinsurance products in 2009 .",
+   "in february 2009 , we completed the sale of the u.s .",
+   "operations of cananwill , our premium finance business .",
+   "in june and july of 2009 , we entered into agreements with third parties with respect to our ."
+  ],
+  "filename": "AON/2009/page_46.pdf",
+  "table_ori": [
+   [
+    "Years Ended December 31,",
+    "2009",
+    "2008",
+    "2007"
+   ],
+   [
+    "Segment revenue",
+    "$6,305",
+    "$6,197",
+    "$5,918"
+   ],
+   [
+    "Segment operating income",
+    "900",
+    "846",
+    "954"
+   ],
+   [
+    "Segment operating income margin",
+    "14.3%",
+    "13.7%",
+    "16.1%"
+   ]
+  ],
+  "table": [
+   [
+    "years ended december 31,",
+    "2009",
+    "2008",
+    "2007"
+   ],
+   [
+    "segment revenue",
+    "$ 6305",
+    "$ 6197",
+    "$ 5918"
+   ],
+   [
+    "segment operating income",
+    "900",
+    "846",
+    "954"
+   ],
+   [
+    "segment operating income margin",
+    "14.3% ( 14.3 % )",
+    "13.7% ( 13.7 % )",
+    "16.1% ( 16.1 % )"
+   ]
+  ],
+  "qa": {
+   "question": "what was the percent of the change in the risk and insurance brokerage services segment revenue from 2008 2009\\\\n",
+   "answer": "1.7%",
+   "explanation": "the risk and insurance brokerage services segment revenue increased by 1.7% from 2008 2009\\\\n",
+   "ann_table_rows": [
+    1
+   ],
+   "ann_text_rows": [],
+   "steps": [
+    {
+     "op": "minus1-1",
+     "arg1": "6305",
+     "arg2": "6197",
+     "res": "108"
+    },
+    {
+     "op": "divide1-2",
+     "arg1": "#0",
+     "arg2": "6197",
+     "res": "1.7%"
+    }
+   ],
+   "program": "subtract(6305, 6197), divide(#0, 6197)",
+   "gold_inds": {
+    "table_1": "years ended december 31 , the segment revenue of 2009 is $ 6305 ; the segment revenue of 2008 is $ 6197 ; the segment revenue of 2007 is $ 5918 ;"
+   },
+   "exe_ans": 0.01743,
+   "program_re": "divide(subtract(6305, 6197), 6197)"
+  },
+  "id": "Single_AON/2009/page_46.pdf-3",
+  "annotation": {
+   "amt_table": "<table class='wikitable'><tr><td>1</td><td>years ended december 31,</td><td>2009</td><td>2008</td><td>2007</td></tr><tr><td>2</td><td>segment revenue</td><td>$ 6305</td><td>$ 6197</td><td>$ 5918</td></tr><tr><td>3</td><td>segment operating income</td><td>900</td><td>846</td><td>954</td></tr><tr><td>4</td><td>segment operating income margin</td><td>14.3% ( 14.3 % )</td><td>13.7% ( 13.7 % )</td><td>16.1% ( 16.1 % )</td></tr></table>",
+   "amt_pre_text": "risk and insurance brokerage services .",
+   "amt_post_text": "during 2009 we continued to see a soft market , which began in 2007 , in our retail brokerage product line . in 2007 , we experienced a soft market in many business lines and in many geographic areas . in a 2018 2018soft market , 2019 2019 premium rates flatten or decrease , along with commission revenues , due to increased competition for market share among insurance carriers or increased underwriting capacity . changes in premiums have a direct and potentially material impact on the insurance brokerage industry , as commission revenues are generally based on a percentage of the premiums paid by insureds . prices fell throughout 2007 , with the greatest declines seen in large and middle-market accounts . prices continued to decline during 2008 , although the rate of decline slowed toward the end of the year . in our reinsurance brokerage product line , pricing overall during 2009 was also down , although during a portion of the year it was flat to up slightly . additionally , beginning in late 2008 and continuing throughout 2009 , we faced difficult conditions as a result of unprecedented disruptions in the global economy , the repricing of credit risk and the deterioration of the financial markets . continued volatility and further deterioration in the credit markets have reduced our customers 2019 demand for our retail brokerage and reinsurance brokerage products , which have negatively hurt our operational results . in addition , overall capacity in the industry could decrease if a significant insurer either fails or withdraws from writing insurance coverages that we offer our clients . this failure could reduce our revenues and profitability , since we would no longer have access to certain lines and types of insurance . risk and insurance brokerage services generated approximately 83% ( 83 % ) of our consolidated total revenues in 2009 . revenues are generated primarily through fees paid by clients , commissions and fees paid by insurance and reinsurance companies , and investment income on funds held on behalf of clients . our revenues vary from quarter to quarter throughout the year as a result of the timing of our clients 2019 policy renewals , the net effect of new and lost business , the timing of services provided to our clients , and the income we earn on investments , which is heavily influenced by short-term interest rates . we operate in a highly competitive industry and compete with many retail insurance brokerage and agency firms , as well as with individual brokers , agents , and direct writers of insurance coverage . specifically , we address the highly specialized product development and risk management needs of commercial enterprises , professional groups , insurance companies , governments , healthcare providers , and non-profit groups , among others ; provide affinity products for professional liability , life , disability income , and personal lines for individuals , associations , and businesses ; provide reinsurance services to insurance and reinsurance companies and other risk assumption entities by acting as brokers or intermediaries on all classes of reinsurance ; provide investment banking products and services , including mergers and acquisitions and other financial advisory services , capital raising , contingent capital financing , insurance-linked securitizations and derivative applications ; provide managing underwriting to independent agents and brokers as well as corporate clients ; provide actuarial , loss prevention , and administrative services to businesses and consumers ; and manage captive insurance companies . in november 2008 we expanded our product offerings through the merger with benfield , a leading independent reinsurance intermediary . benfield products have been integrated with our existing reinsurance products in 2009 . in february 2009 , we completed the sale of the u.s . operations of cananwill , our premium finance business . in june and july of 2009 , we entered into agreements with third parties with respect to our .",
+   "original_program": "subtract(6305, 6197), divide(A0, 6197)",
+   "step_list": [
+    "Ask for number 6305",
+    "Ask for number 6197",
+    "subtract(6305, 6197)",
+    "divide(A0, 6197)"
+   ],
+   "answer_list": [
+    "6305",
+    "6197",
+    "A0",
+    "A1"
+   ],
+   "dialogue_break": [
+    "what was the total of risk and insurance brokerage services segment revenue in 2009?",
+    "and what was that in 2008?",
+    "what was, then, the change over the year?",
+    "and how much does this change represent in relation to the 2008 total, in percentage?"
+   ],
+   "turn_program_ori": [
+    "6305",
+    "6197",
+    "subtract(6305, 6197)",
+    "subtract(6305, 6197), divide(#0, 6197)"
+   ],
+   "dialogue_break_ori": [
+    "what was the total of risk and insurance brokerage services segment revenue in 2009?",
+    "and what was that in 2008?",
+    "what was, then, the change over the year?",
+    "and how much does this change represent in relation to the 2008 total, in percentage?"
+   ],
+   "turn_program": [
+    "6305",
+    "6197",
+    "subtract(6305, 6197)",
+    "subtract(6305, 6197), divide(#0, 6197)"
+   ],
+   "qa_split": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "exe_ans_list": [
+    6305.0,
+    6197.0,
+    108.0,
+    0.01743
+   ]
+  }
+ }
+]

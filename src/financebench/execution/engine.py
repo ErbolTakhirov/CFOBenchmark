@@ -1,11 +1,20 @@
 """The async run engine.
 
-Each sample becomes exactly one model request in Milestone 1 (no cross-sample dependency yet —
-ConvFinQA-style turn chaining, where a model's own prior answer feeds the next turn, is a
-Milestone 4 extension of this engine, not a redesign of it). Samples run concurrently under a
-bounded semaphore; ``asyncio.gather`` preserves input order in its results regardless of
-completion order, so the returned predictions are byte-stable without needing a separate
-collect-then-reorder step.
+Each sample becomes exactly one model request. Samples run concurrently under a bounded semaphore,
+and predictions come back in input order regardless of completion order, so a run's artifacts are
+byte-stable.
+
+**Conversations are the one exception, and they are why the unit of concurrency is a *group*, not a
+sample.** A ConvFinQA turn is not independent of the turn before it — turn 1 is literally *"and what
+was it in 2005?"*, which means nothing on its own. Under the ``model_history`` protocol, turn N's
+prompt contains the model's own answer to turn N-1, so that answer must **exist** before turn N can
+even be built. Firing every turn at once with ``asyncio.gather`` would produce a prompt containing
+an answer the model had not yet given.
+
+So samples are partitioned into conversation groups (a single-turn benchmark yields groups of one,
+and behaves exactly as before): **sequential within a conversation, parallel across conversations.**
+That is the only ordering constraint the data actually imposes, and imposing more would just make
+runs slower for no benefit.
 
 The response cache is consulted before every call and populated after every success — a cache
 hit *is* how a resumed/re-run command avoids redoing work (see ``execution/cache.py``), not a
@@ -24,15 +33,21 @@ from financebench.execution.retry import RateLimiter, Sleeper, backoff_delay
 from financebench.models import create_provider
 from financebench.models.base import ModelProvider
 from financebench.prompts.profiles import RetrievedChunk, create_prompt_profile
-from financebench.schemas.common import EvalMode
+from financebench.schemas.common import ConversationProtocol, EvalMode
 from financebench.schemas.model_io import FinancialAnswer, ModelRequest, ModelResponse, ModelSpec
 from financebench.schemas.prediction import Prediction
 from financebench.schemas.run import RunConfig
-from financebench.schemas.sample import CanonicalSample
-from financebench.utils.errors import ProviderError
+from financebench.schemas.sample import CanonicalSample, ConversationTurn
+from financebench.utils.errors import ConfigError, ProviderError
 from financebench.utils.timing import Clock, RealClock
 
-__all__ = ["RunEngine", "RunResult", "build_request"]
+__all__ = [
+    "RunEngine",
+    "RunResult",
+    "build_request",
+    "conversation_groups",
+    "model_answer_text",
+]
 
 
 def build_request(
@@ -67,6 +82,140 @@ def build_request(
         sample_id=sample.sample_id,
         timeout_s=config.timeout_seconds,
     )
+
+
+#: An indexed sample — its position in the run's input list, so predictions can be restored to
+#: input order after conversations have been run out of order relative to one another.
+_Indexed = tuple[int, CanonicalSample]
+
+
+def conversation_groups(samples: Sequence[CanonicalSample]) -> list[list[_Indexed]]:
+    """Partition samples into units that must run **sequentially**, keeping their input positions.
+
+    A sample with no ``conversation_id`` is its own group of one, so every single-turn benchmark
+    keeps exactly the fully-parallel behaviour it had before conversations existed.
+
+    Turns within a conversation are ordered by ``turn_index``, not by the order they happened to
+    arrive in. Relying on input order would work right up until a stratified manifest or a shuffled
+    split handed them over out of order — and then the model would be shown a "conversation so far"
+    that ran backwards, which is the sort of bug that produces a plausible score and no error.
+    """
+    groups: dict[str, list[_Indexed]] = {}
+    ordered: list[list[_Indexed]] = []
+
+    for index, sample in enumerate(samples):
+        conversation_id = sample.metadata.get("conversation_id", "")
+        if not conversation_id:
+            ordered.append([(index, sample)])
+            continue
+        key = f"{sample.benchmark}:{conversation_id}"
+        if key not in groups:
+            groups[key] = []
+            ordered.append(groups[key])
+        groups[key].append((index, sample))
+
+    for group in ordered:
+        group.sort(key=lambda item: _turn_index(item[1]))
+    return ordered
+
+
+def _turn_index(sample: CanonicalSample) -> int:
+    try:
+        return int(sample.metadata.get("turn_index", "0"))
+    except ValueError:
+        return 0
+
+
+def _assistant_slots(sample: CanonicalSample) -> int:
+    return sum(1 for turn in sample.context.conversation_history if turn.role == "assistant")
+
+
+def validate_conversations(
+    samples: Sequence[CanonicalSample], protocol: ConversationProtocol
+) -> None:
+    """Under ``model_history``, refuse a run whose conversations are missing their opening turns.
+
+    Turn 5's prompt needs the model's own answers to turns 0-4. If turns 0-4 were not in the run —
+    because a manifest sampled individual turns, or a split was shuffled — those answers do not
+    exist, and there are exactly two things the engine could do: quietly substitute the *gold* prior
+    answers, or say so.
+
+    Quietly substituting gold is the temptation, and it is the same bug as falling back to the gold
+    evidence text when retrieval finds nothing: it would repair the prompt precisely where the
+    conversation is most broken, and the ``model_history`` score — whose entire purpose is to expose
+    error propagation — would be inflated by the gold answers it exists to do without.
+
+    So it raises. A protocol you cannot honour is a configuration error, not a rounding error.
+    """
+    if protocol is not ConversationProtocol.MODEL_HISTORY:
+        return
+    for group in conversation_groups(samples):
+        head = group[0][1]
+        if _assistant_slots(head) == 0:
+            continue  # starts at turn 0 (or is single-turn): the chain can be built
+        raise ConfigError(
+            f"conversation_protocol=model_history needs whole conversations, but "
+            f"{head.sample_id!r} is turn {_turn_index(head)} and its earlier turns are not in this "
+            "run — the model's own prior answers, which this protocol exists to feed forward, do "
+            "not exist. Run complete conversations, or use conversation_protocol=gold_history "
+            "(which grades each turn against the gold history and needs no chain)."
+        )
+
+
+def _format_number(value: float) -> str:
+    if value == int(value) and abs(value) < 1e15:
+        return str(int(value))
+    return f"{value:.6f}".rstrip("0").rstrip(".")
+
+
+def model_answer_text(prediction: Prediction) -> str:
+    """What the model said, in the shape a *prior turn* appears in — a bare answer, as the gold
+    history has it, not the JSON envelope it arrived in.
+
+    A failed or unparseable turn becomes an explicit marker rather than an empty string. Under
+    ``model_history`` the model must see that its previous turn produced nothing; blanking it would
+    hide the very failure the protocol is there to propagate.
+    """
+    response = prediction.response
+    if response is None or response.financial_answer is None:
+        return "(no answer)"
+    answer = response.financial_answer
+    if answer.insufficient_information:
+        return "(insufficient information)"
+    if answer.numeric_value is not None:
+        return _format_number(answer.numeric_value)
+    return answer.answer.strip()[:200] or "(no answer)"
+
+
+def with_model_history(sample: CanonicalSample, answers: Sequence[str]) -> CanonicalSample:
+    """Replace the gold prior answers in a turn's history with the model's own.
+
+    The *questions* stay as they are — they are the dataset, not a prediction. Only the assistant
+    side is rewritten, and the rewritten turns carry no ``turn_program`` or ``turn_answer``: those
+    are gold, and under this protocol the model is entitled to none of it.
+    """
+    history = sample.context.conversation_history
+    if not history:
+        return sample
+
+    slots = _assistant_slots(sample)
+    if slots != len(answers):  # pragma: no cover — validate_conversations rules this out up front
+        raise ConfigError(
+            f"{sample.sample_id!r} expects {slots} prior model answer(s) but {len(answers)} were "
+            "produced; the conversation chain is broken."
+        )
+
+    rebuilt: list[ConversationTurn] = []
+    spoken = 0
+    for turn in history:
+        if turn.role != "assistant":
+            rebuilt.append(turn)
+            continue
+        rebuilt.append(ConversationTurn(role="assistant", content=answers[spoken]))
+        spoken += 1
+
+    context = sample.context.model_copy(update={"conversation_history": tuple(rebuilt)})
+    return sample.model_copy(update={"context": context})
 
 
 def _reparse(response: ModelResponse) -> ModelResponse:
@@ -176,16 +325,28 @@ class RunEngine:
             retrieve=retrieve,
         )
         limited = list(samples)[: config.limit] if config.limit else list(samples)
+        validate_conversations(limited, config.conversation_protocol)
+        groups = conversation_groups(limited)
+
         try:
             semaphore = asyncio.Semaphore(max(1, config.concurrency))
 
-            async def guarded(sample: CanonicalSample) -> Prediction:
+            async def guarded(group: list[_Indexed]) -> list[tuple[int, Prediction]]:
                 async with semaphore:
-                    return await self._run_sample(ctx, sample)
+                    return await self._run_conversation(ctx, group)
 
-            # asyncio.gather preserves input order in its results regardless of completion
-            # order, so this is already the deterministic ordering byte-stability needs.
-            predictions = list(await asyncio.gather(*(guarded(sample) for sample in limited)))
+            # The semaphore is held for a whole conversation, so `concurrency` still bounds the
+            # number of in-flight requests: N conversations advancing one turn at a time.
+            completed = await asyncio.gather(*(guarded(group) for group in groups))
+
+            # Conversations finish in whatever order they finish. Predictions are restored to the
+            # run's *input* order, which is what makes the artifacts byte-stable.
+            slots: list[Prediction | None] = [None] * len(limited)
+            for group_result in completed:
+                for index, prediction in group_result:
+                    slots[index] = prediction
+            predictions = [p for p in slots if p is not None]
+            assert len(predictions) == len(limited), "every sample must produce a prediction"
         finally:
             if owns_provider:
                 await provider_instance.aclose()
@@ -202,6 +363,37 @@ class RunEngine:
             total_tokens=ctx.total_tokens or None,
             budget_exceeded=ctx.budget_exceeded,
         )
+
+    # -- conversation execution ----------------------------------------------
+    async def _run_conversation(
+        self, ctx: _RunContext, group: list[_Indexed]
+    ) -> list[tuple[int, Prediction]]:
+        """Run one conversation's turns in order. A group of one is just a sample.
+
+        This is the only place the two conversation protocols differ, and the difference is a single
+        substitution:
+
+        - ``gold_history`` — the sample is run exactly as the adapter built it, carrying the **gold**
+          prior conversation. Each turn is graded in isolation; a wrong answer at turn 1 cannot
+          contaminate turn 3, because turn 3 never sees it.
+        - ``model_history`` — the assistant side of the history is replaced with what **this model**
+          actually said. A wrong answer at turn 1 is now in turn 3's prompt, and stays there. That
+          is not a flaw in the protocol; it is the measurement.
+
+        The gap between a model's two scores is the number worth reporting, and it exists only
+        because these are run separately and never averaged together.
+        """
+        results: list[tuple[int, Prediction]] = []
+        spoken: list[str] = []
+        chaining = ctx.config.conversation_protocol is ConversationProtocol.MODEL_HISTORY
+
+        for index, sample in group:
+            prepared = with_model_history(sample, spoken) if chaining else sample
+            prediction = await self._run_sample(ctx, prepared)
+            results.append((index, prediction))
+            if chaining:
+                spoken.append(model_answer_text(prediction))
+        return results
 
     # -- per-sample execution ------------------------------------------------
     async def _run_sample(self, ctx: _RunContext, sample: CanonicalSample) -> Prediction:

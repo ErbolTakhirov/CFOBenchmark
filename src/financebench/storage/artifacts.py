@@ -87,6 +87,7 @@ class ArtifactInputs:
     verdict: str = "NOT_EVALUATED"
     verdict_reasons: tuple[str, ...] = ()
     retrieval: Mapping[str, object] | None = None
+    conversation: Mapping[str, object] | None = None
 
     @property
     def eligible_for_leaderboard(self) -> bool:
@@ -229,6 +230,7 @@ def _write_capabilities(out: Path, inputs: ArtifactInputs) -> None:
         "verdict_reasons": list(inputs.verdict_reasons),
         "failure_distribution": failure_distribution(inputs.failures),
         "retrieval": dict(inputs.retrieval) if inputs.retrieval else None,
+        "conversation": dict(inputs.conversation) if inputs.conversation else None,
     }
     (out / "capabilities.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 

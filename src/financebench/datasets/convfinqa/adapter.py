@@ -32,6 +32,7 @@ The test split's gold was never released (CodaLab submission only), so it is not
 from __future__ import annotations
 
 import json
+import re
 import zipfile
 from collections.abc import Iterator, Sequence
 from pathlib import Path
@@ -60,6 +61,64 @@ _DEFAULT_DATA_DIR = Path("data/downloads/convfinqa")
 
 #: Only splits whose gold is public. The test split's answers were never released.
 _SPLITS = {"dev": "dev.json", "train": "train.json"}
+
+#: A bare number in a turn's program. Deliberately excludes ``#0``-style references (which point at
+#: an earlier step of the *same* program, not an earlier turn) and ``const_100``-style constants,
+#: leaving only the values the program actually pulled out of the world.
+_OPERAND = re.compile(r"(?<![#\w.])(-?\d+(?:\.\d+)?)")
+
+
+def _operands(program: str) -> list[float]:
+    stripped = re.sub(r"#\d+", "", re.sub(r"const_[\d_]+", "", program))
+    values: list[float] = []
+    for token in _OPERAND.findall(stripped):
+        try:
+            values.append(float(token))
+        except ValueError:  # pragma: no cover — the regex only matches parseable numbers
+            continue
+    return values
+
+
+def _reused_prior_turns(program: str, prior_answers: Sequence[Any]) -> tuple[int, ...]:
+    """Which earlier turns' answers does this turn's program actually consume?
+
+    This is the objective backbone of every conversation metric downstream, and it is worth being
+    precise about what it is and is not.
+
+    ConvFinQA's turn programs are *self-contained*: turn 4's program is
+    ``subtract(60.94, 25.14), divide(#0, 25.14)`` — it recomputes the subtraction rather than
+    referencing turn 2's result, so ``#0`` is an intra-program step reference and there is no
+    explicit cross-turn link anywhere in the data. But ``60.94`` and ``25.14`` *are* the answers to
+    turns 0 and 1, and turn 4's question — *"and how much does that change represent...?"* — cannot
+    even be understood without them.
+
+    So dependency is recovered from the numbers: a turn depends on an earlier turn when its program
+    consumes a value that earlier turn produced. That is what makes error propagation measurable
+    rather than assumed — under ``model_history``, if the model said 55.0 at turn 0, then the value
+    turn 4 needs is *wrong in its own prompt*, and we can say exactly which earlier mistake it
+    inherited instead of guessing from adjacency.
+
+    It is a heuristic in one direction only: a value a prior turn produced is usually also a cell in
+    the table, so an unrelated turn could in principle reuse the same number by coincidence. It
+    cannot miss a real dependency, and that asymmetry is the right one — an over-count dilutes the
+    propagation rate toward zero, so it errs against the interesting finding rather than toward it.
+    """
+    if not program:
+        return ()
+    values = _operands(program)
+    if not values:
+        return ()
+
+    reused: list[int] = []
+    for index, answer in enumerate(prior_answers):
+        try:
+            gold = float(answer)
+        except (TypeError, ValueError):
+            continue
+        scale = max(abs(gold), 1.0)
+        if any(abs(value - gold) <= 1e-4 * scale for value in values):
+            reused.append(index)
+    return tuple(reused)
 
 
 @register_dataset("convfinqa")
@@ -124,6 +183,7 @@ class ConvFinQAAdapter(DatasetAdapter):
         for turn_index, question in enumerate(questions):
             program = programs[turn_index] if turn_index < len(programs) else ""
             gold = answers[turn_index]
+            reused = _reused_prior_turns(program, answers[:turn_index])
 
             numeric: float | None
             try:
@@ -176,6 +236,11 @@ class ConvFinQAAdapter(DatasetAdapter):
                     "n_turns": str(len(questions)),
                     "is_first_turn": "true" if turn_index == 0 else "false",
                     "is_last_turn": "true" if turn_index == len(questions) - 1 else "false",
+                    # Which earlier turns' answers this turn's program actually consumes. Error
+                    # propagation is measured against exactly these, not against mere adjacency —
+                    # a wrong turn 1 only poisons turn 3 if turn 3 uses what turn 1 produced.
+                    "reuses_turns": ",".join(str(t) for t in reused),
+                    "reuses_prior_answer": "true" if reused else "false",
                 },
             )
 

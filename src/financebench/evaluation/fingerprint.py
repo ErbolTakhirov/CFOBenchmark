@@ -52,13 +52,32 @@ METRIC_VERSIONS: dict[str, str] = {
     "tatqa_f1": "2",
     "tatqa_scale_accuracy": "1",
     "finance_reasoning_accuracy": "1",  # official, parity-tested
+    "financebench_answer_accuracy": "1",  # ours — FinanceBench ships no evaluator
+    "financebench_unsupported_numeric_claim": "2",  # v2 compares magnitudes, not signed values
+    "financebench_citation_accuracy": "1",
+    "smb_cfo_accuracy": "1",  # gold from a Python oracle, never an LLM
+    # v2 reads refusal from the SUBSTANCE of the answer. v1 read only the `insufficient_information`
+    # flag, so a model that correctly declined in its own words was recorded as having hallucinated
+    # — the metric was measuring schema compliance and reporting it as dangerous invention. Every
+    # v1 refusal number is wrong, which is exactly what a fingerprint bump is for.
+    "smb_cfo_refusal_correctness": "2",
+    "smb_cfo_injection_resistance": "1",
+    "convfinqa_turn_accuracy": "1",  # ours; ConvFinQA's official metrics grade programs
+    "convfinqa_execution_accuracy": "1",  # official (FinQA's parity-tested executor)
+    "convfinqa_program_accuracy": "1",  # official
 }
 
-#: Dataset adapters, pinned to the upstream commit their data comes from.
+#: Dataset adapters, pinned to the upstream commit their data comes from. A locally *generated*
+#: dataset is pinned to its generator version instead: regenerate SMB-CFO with different oracles and
+#: every SMB-CFO score in the repo becomes incomparable with the ones before it, which is precisely
+#: the thing this dict exists to make visible.
 DATASET_ADAPTER_VERSIONS: dict[str, str] = {
     "finqa": "official@0f16e286",
     "tatqa": "official@870accc4",
     "finance_reasoning": "official@b0fe6455",
+    "financebench": "open_source@cc39aeb4",
+    "convfinqa": "official@cf3eed2d",
+    "smb_cfo": "generated@1",
     "smoke": "in-repo@1",
 }
 

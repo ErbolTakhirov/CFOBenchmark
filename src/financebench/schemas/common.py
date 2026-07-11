@@ -13,6 +13,7 @@ __all__ = [
     "DEFAULT_PROMPT_PROFILE",
     "SCHEMA_VERSION",
     "AnswerType",
+    "ConversationProtocol",
     "EvalMode",
     "Language",
     "RunType",
@@ -102,6 +103,32 @@ class EvalMode(StrEnum):
     RETRIEVAL_REQUIRED = "retrieval_required"
     #: The model may call sandboxed tools. Measures tool selection, arguments, and use of results.
     TOOL_ASSISTED = "tool_assisted"
+
+
+class ConversationProtocol(StrEnum):
+    """What a model is given as "the conversation so far" — and therefore what is being measured.
+
+    These two protocols measure genuinely different things, and **their scores must never be mixed
+    into one number**. Averaging them would produce a figure that describes neither.
+
+    A model that scores well under ``gold_history`` and collapses under ``model_history`` cannot
+    hold a conversation, however well it can answer a question. That gap is the interesting result,
+    and it only exists because the two are kept apart.
+
+    Part of ``RunConfig``, so it lands in the run id: the two protocols can never share an output
+    directory. It reaches the cache key implicitly and correctly — the prompts genuinely differ from
+    turn 1 onward, while turn 0 (which has no history) is identical under both and rightly shares
+    its cached answer.
+    """
+
+    #: Each turn is given the **gold** prior conversation. Isolates per-turn reasoning: the model
+    #: cannot be wrong at turn 3 merely because it was wrong at turn 1. This is ConvFinQA's official
+    #: setting, and the only one comparable with published numbers.
+    GOLD_HISTORY = "gold_history"
+    #: Each turn is given the model's **own** prior answers. This is what a conversation actually
+    #: is, and the only way to see error propagation: one wrong answer at turn 1 poisons every later
+    #: turn that refers back to it.
+    MODEL_HISTORY = "model_history"
 
 
 class Scale(StrEnum):

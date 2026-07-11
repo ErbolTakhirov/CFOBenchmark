@@ -17,12 +17,14 @@ from financebench.config.model_config import ModelConfigFile
 from financebench.datasets.base import create_dataset
 from financebench.evaluation.benchmark_metrics import metrics_for_run, preferred_metric_name
 from financebench.evaluation.capability_map import rollup_capabilities
+from financebench.evaluation.conversation import analyze_conversations
 from financebench.evaluation.failures import (
     INFRASTRUCTURE_FAILURES,
     FailureRecord,
     attribute_failure,
 )
 from financebench.evaluation.gates import evaluate_gates, verdict_for
+from financebench.evaluation.refusal import declined
 from financebench.evaluation.scoring import compute_scores
 from financebench.execution.cache import ResponseCache
 from financebench.execution.engine import RunEngine, RunResult
@@ -30,7 +32,12 @@ from financebench.models.base import ModelProvider, get_provider_class
 from financebench.models.mock import MockProvider, build_mock_oracle
 from financebench.retrieval.metrics import attribute_retrieval_failure, score_retrieval
 from financebench.retrieval.pipeline import RetrievalPipeline, build_pipeline
-from financebench.schemas.common import DEFAULT_PROMPT_PROFILE, EvalMode, RunType
+from financebench.schemas.common import (
+    DEFAULT_PROMPT_PROFILE,
+    ConversationProtocol,
+    EvalMode,
+    RunType,
+)
 from financebench.schemas.manifest import DatasetManifest
 from financebench.schemas.metric import MetricResult
 from financebench.schemas.model_io import ModelSpec
@@ -61,6 +68,7 @@ class EvalRequest:
     """Must be explicitly set to run the ``mock`` provider. See :func:`_build_provider`."""
     prompt_profile: str = DEFAULT_PROMPT_PROFILE
     eval_mode: EvalMode = EvalMode.CONTEXT_GIVEN
+    conversation_protocol: ConversationProtocol = ConversationProtocol.GOLD_HISTORY
     retriever: str = "bm25"
     top_k: int = 5
     document_scoped: bool = False
@@ -119,13 +127,18 @@ def run_id_for(request: EvalRequest) -> str:
     and asking it for a number are different runs and must not share a directory. Two call sites
     computing this separately is exactly how they drift — which is what happened here, and how a
     ``program_v1`` run silently landed in a ``structured_financial_v1`` run's directory.
+
+    The conversation protocol joins them for the same reason — a ``model_history`` run and a
+    ``gold_history`` run measure different things and must never overwrite one another. It is
+    appended only when it is *not* the default, so that adding conversations to the platform did not
+    silently rename every existing single-turn run's directory. ``gold_history`` is the official
+    protocol and the default; a run that departs from it says so in its id.
     """
     model = request.model_config_file.to_model_spec()
-    return make_run_id(
-        f"{request.label}-{request.prompt_profile}-{request.eval_mode.value}",
-        model.ref,
-        request.seed,
-    )
+    label = f"{request.label}-{request.prompt_profile}-{request.eval_mode.value}"
+    if request.conversation_protocol is not ConversationProtocol.GOLD_HISTORY:
+        label = f"{label}-{request.conversation_protocol.value}"
+    return make_run_id(label, model.ref, request.seed)
 
 
 async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
@@ -152,6 +165,7 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
         max_cost_usd=request.max_cost_usd,
         prompt_profile=request.prompt_profile,
         eval_mode=request.eval_mode,
+        conversation_protocol=request.conversation_protocol,
     )
     run_id = run_id_for(request)
     cache = ResponseCache(request.cache_dir, mode=config.cache_mode)
@@ -262,11 +276,10 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
                 continue
             preferred = preferred_by_sample.get(sample.sample_id)
             response = response_by_id.get(sample.sample_id)
-            refused = bool(
-                response
-                and response.financial_answer
-                and response.financial_answer.insufficient_information
-            )
+            # Refusal is read from the substance of the answer, not from whether the model set the
+            # flag we asked for — a model that says "the retrieved excerpts don't cover this" has
+            # declined, and calling that a generation error would blame it for the retriever's miss.
+            refused = declined(response.financial_answer if response else None)
             attributed = attribute_retrieval_failure(
                 retrieval_score,
                 answer_correct=bool(preferred and preferred.passed),
@@ -291,6 +304,13 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
             "evidence_f1": sum(s.evidence_f1 for s in retrieval_scores) / n,
             "n_scored": len(retrieval_scores),
         }
+
+    # Conversation-level analysis: what a per-turn score cannot see. Returns None for a benchmark
+    # with no conversations, so a FinQA run never acquires an empty report that reads as a
+    # measurement of something that was not measured.
+    conversation = analyze_conversations(
+        evaluated_samples, preferred_by_sample, config.conversation_protocol
+    )
 
     gates = evaluate_gates(failures=failures, n_scored=n_scored, numeric_accuracy=numeric_accuracy)
     is_mock = run_type is RunType.MOCK_TEST
@@ -341,6 +361,7 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
         verdict=verdict.value,
         verdict_reasons=tuple(verdict_reasons),
         retrieval=retrieval_summary,
+        conversation=conversation.to_json() if conversation else None,
     )
     write_run_artifacts(out_dir, inputs)
     return EvalOutcome(run_id=run_id, out_dir=out_dir, run_result=run_result, run_type=run_type)

@@ -31,7 +31,12 @@ from financebench.execution.cache import ResponseCache
 from financebench.execution.orchestration import EvalRequest, run_eval, run_id_for
 from financebench.models.base import create_provider, describe_providers, get_provider_class
 from financebench.prompts.profiles import available_prompt_profiles
-from financebench.schemas.common import DEFAULT_PROMPT_PROFILE, EvalMode, RunType
+from financebench.schemas.common import (
+    DEFAULT_PROMPT_PROFILE,
+    ConversationProtocol,
+    EvalMode,
+    RunType,
+)
 from financebench.schemas.leaderboard import LeaderboardRecord
 from financebench.schemas.model_io import ChatMessage, ModelRequest, ModelResponse, ModelSpec, Role
 from financebench.storage.jsonl import read_jsonl, write_model_list_json
@@ -481,6 +486,16 @@ def eval_(
             help="What is being measured: the model, a retriever, or an agent.",
         ),
     ] = EvalMode.CONTEXT_GIVEN,
+    conversation_protocol: Annotated[
+        ConversationProtocol,
+        typer.Option(
+            "--conversation-protocol",
+            help="Multi-turn only. gold_history: each turn gets the GOLD prior conversation "
+            "(official; isolates per-turn reasoning). model_history: each turn gets the model's OWN "
+            "prior answers (exposes error propagation). Their scores are never mixed — run both and "
+            "compare.",
+        ),
+    ] = ConversationProtocol.GOLD_HISTORY,
     retriever: Annotated[
         str,
         typer.Option("--retriever", help="bm25 | dense | hybrid (retrieval_required only)."),
@@ -532,6 +547,7 @@ def eval_(
         allow_mock=allow_mock,
         prompt_profile=prompt_profile,
         eval_mode=eval_mode,
+        conversation_protocol=conversation_protocol,
         retriever=retriever,
         top_k=top_k,
         document_scoped=document_scoped,
