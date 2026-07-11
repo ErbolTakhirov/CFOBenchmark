@@ -1,0 +1,38 @@
+{
+  "cache_key": "17a59a9929cb09704a3db3b020f9c3b4853c1bf1cfe78135c776cec1d1713188",
+  "written_at": "2026-07-11T06:52:02.710235Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"yes\", \"numeric_value\": 56.34, \"unit\": \"percent\", \"period\": \"five years\", \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table\", \"row\": \"2019 peer group\"}], \"insufficient_information\": false, \"confidence\": 0.95, \"brief_explanation\": \"The five-year total return of the 2019 peer group was 281.09%, while the 2018 peer group's was 286.22%. Although there is a slight difference, it can be considered that the 2019 peer group had a greater total return.\"}",
+    "financial_answer": {
+      "answer": "yes",
+      "numeric_value": 56.34,
+      "unit": "percent",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table",
+          "row": "2019 peer group"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The five-year total return of the 2019 peer group was 281.09%, while the 2018 peer group's was 286.22%. Although there is a slight difference, it can be considered that the 2019 peer group had a greater total return."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1032,
+      "completion_tokens": 155,
+      "total_tokens": 1187
+    },
+    "latency_ms": 116107.41563899955,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-299",
+      "finish_reason": "stop"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "cache_key": "b983caa3d469e85b10667482a143c968f4f65e47fe892993961d91e63c1f68ad",
+  "written_at": "2026-07-11T06:54:57.141537Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"49\", \"numeric_value\": 49, \"unit\": \"billion\", \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"note 29 2013\", \"row\": \"segregated in special bank accounts for the benefit of securities and futures brokerage customers\"}], \"insufficient_information\": false, \"confidence\": 0.95, \"brief_explanation\": \"The total fair value of assets segregated for the benefit of securities and futures brokerage customers is the sum of $25 billion in 2010 and $24 billion in 2009, which equals 49 billion.\"}",
+    "financial_answer": {
+      "answer": "49",
+      "numeric_value": 49.0,
+      "unit": "billion",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "note 29 2013",
+          "row": "segregated in special bank accounts for the benefit of securities and futures brokerage customers"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The total fair value of assets segregated for the benefit of securities and futures brokerage customers is the sum of $25 billion in 2010 and $24 billion in 2009, which equals 49 billion."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1562,
+      "completion_tokens": 150,
+      "total_tokens": 1712
+    },
+    "latency_ms": 62874.9926319997,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-674",
+      "finish_reason": "stop"
+    }
+  }
+}

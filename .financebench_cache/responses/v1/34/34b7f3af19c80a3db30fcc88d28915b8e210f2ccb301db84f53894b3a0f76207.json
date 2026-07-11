@@ -1,0 +1,38 @@
+{
+  "cache_key": "34b7f3af19c80a3db30fcc88d28915b8e210f2ccb301db84f53894b3a0f76207",
+  "written_at": "2026-07-11T06:52:50.128986Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"increased\", \"numeric_value\": 8.6, \"unit\": \"percent\", \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table\", \"row\": \"balance at december 31\"}], \"insufficient_information\": false, \"confidence\": 0.9, \"brief_explanation\": \"The deferred tax assets and regulatory assets increased from $177,947 in 2013 to $195,237 in 2014, which is an 8.6% increase.\"}",
+    "financial_answer": {
+      "answer": "increased",
+      "numeric_value": 8.6,
+      "unit": "percent",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table",
+          "row": "balance at december 31"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.9,
+      "brief_explanation": "The deferred tax assets and regulatory assets increased from $177,947 in 2013 to $195,237 in 2014, which is an 8.6% increase."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1239,
+      "completion_tokens": 132,
+      "total_tokens": 1371
+    },
+    "latency_ms": 102563.73202099986,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-898",
+      "finish_reason": "stop"
+    }
+  }
+}

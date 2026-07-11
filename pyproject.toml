@@ -126,6 +126,9 @@ extend-immutable-calls = ["typer.Argument", "typer.Option"]
 # reproducing its exact formatting call — rewriting it to an f-string is not obviously identical
 # for every float, and parity is the whole point of the file.
 "src/financebench/evaluation/native/tatqa.py" = ["UP031"]
+# The official FinanceReasoning normalize() matches on the literal MULTIPLICATION SIGN (U+00D7).
+# Replacing it with an ASCII "x" would silently stop matching what the official code matches.
+"src/financebench/evaluation/native/finance_reasoning.py" = ["RUF001", "S307"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"

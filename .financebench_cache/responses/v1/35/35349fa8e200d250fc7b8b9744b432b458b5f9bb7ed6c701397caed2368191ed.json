@@ -1,0 +1,38 @@
+{
+  "cache_key": "35349fa8e200d250fc7b8b9744b432b458b5f9bb7ed6c701397caed2368191ed",
+  "written_at": "2026-07-11T06:55:52.141727Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"113.63\", \"numeric_value\": 113.63, \"unit\": \"percentage_points\", \"period\": \"5 years\", \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table in the provided context\", \"row\": \"FIS vs S&P 500\"}], \"insufficient_information\": false, \"confidence\": 1, \"brief_explanation\": \"The difference is calculated by subtracting the S&P 500's cumulative return from FIS's cumulative return for the period ending 12/16.\"}",
+    "financial_answer": {
+      "answer": "113.63",
+      "numeric_value": 113.63,
+      "unit": "percentage_points",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table in the provided context",
+          "row": "FIS vs S&P 500"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 1.0,
+      "brief_explanation": "The difference is calculated by subtracting the S&P 500's cumulative return from FIS's cumulative return for the period ending 12/16."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 690,
+      "completion_tokens": 132,
+      "total_tokens": 822
+    },
+    "latency_ms": 54989.9369879995,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-975",
+      "finish_reason": "stop"
+    }
+  }
+}

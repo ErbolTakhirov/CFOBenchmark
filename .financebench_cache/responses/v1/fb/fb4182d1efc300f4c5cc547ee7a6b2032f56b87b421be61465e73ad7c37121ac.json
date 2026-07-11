@@ -1,0 +1,38 @@
+{
+  "cache_key": "fb4182d1efc300f4c5cc547ee7a6b2032f56b87b421be61465e73ad7c37121ac",
+  "written_at": "2026-07-11T06:56:53.482373Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"1.73%\", \"numeric_value\": 1.73, \"unit\": \"%\", \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"( $ in millions )\", \"row\": \"capital lease obligations ( 1 )\" }], \"insufficient_information\": false, \"confidence\": 0.95, \"brief_explanation\": \"Capital lease obligations amount to $230 million out of the total contractual obligations of $13,208 million, which is approximately 1.73%.\"}",
+    "financial_answer": {
+      "answer": "1.73%",
+      "numeric_value": 1.73,
+      "unit": "%",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "( $ in millions )",
+          "row": "capital lease obligations ( 1 )"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "Capital lease obligations amount to $230 million out of the total contractual obligations of $13,208 million, which is approximately 1.73%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1568,
+      "completion_tokens": 126,
+      "total_tokens": 1694
+    },
+    "latency_ms": 61339.11587300008,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-937",
+      "finish_reason": "stop"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "cache_key": "dcfd76220fd8972e70b5b4be3dc92ebf1d8b8bd8039b9e482969297e22e3eb1f",
+  "written_at": "2026-07-11T06:54:22.507313Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"11%\", \"numeric_value\": 11, \"unit\": \"%\", \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table\", \"row\": \"ending balance as of november 28 2008\"}], \"insufficient_information\": false, \"confidence\": 0.95, \"brief_explanation\": \"The combined amount of accrued interest and penalties ($15.3 million) was approximately 11% of the total ending balance as of November 28, 2008 ($139.549 million).\" }",
+    "financial_answer": {
+      "answer": "11%",
+      "numeric_value": 11.0,
+      "unit": "%",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table",
+          "row": "ending balance as of november 28 2008"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The combined amount of accrued interest and penalties ($15.3 million) was approximately 11% of the total ending balance as of November 28, 2008 ($139.549 million)."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1210,
+      "completion_tokens": 137,
+      "total_tokens": 1347
+    },
+    "latency_ms": 47603.043991999584,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-116",
+      "finish_reason": "stop"
+    }
+  }
+}

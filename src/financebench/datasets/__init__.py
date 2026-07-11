@@ -7,6 +7,9 @@ a specific adapter module) so the registry is always fully populated.
 
 from __future__ import annotations
 
+from financebench.datasets import (
+    finance_reasoning as _fr,  # noqa: F401  (registers "finance_reasoning")
+)
 from financebench.datasets import finqa as _finqa  # noqa: F401  (import registers "finqa")
 from financebench.datasets import smoke as _smoke  # noqa: F401
 from financebench.datasets import (

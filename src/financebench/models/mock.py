@@ -119,9 +119,19 @@ def _formatting_noise(entry: GoldOracleEntry) -> FinancialAnswer:
 
 
 def _always_wrong(entry: GoldOracleEntry) -> FinancialAnswer:
-    # Deterministically wrong, but not by an amount so large the numeric-tolerance metric would
-    # treat it as a formatting artifact rather than a genuine miss.
-    wrong_value = (entry.gold_numeric_value or 0.0) + 999.0
+    """Deterministically, *unconditionally* wrong.
+
+    This used to be ``gold + 999``, which is not wrong enough. Benchmarks grade with **relative**
+    tolerances — FinanceReasoning's is 0.2 % of the gold — so for a gold of 1,500,000 the tolerance
+    is ±3,000 and ``gold + 999`` lands comfortably *inside* it. A profile called ``always-wrong``
+    was therefore sometimes right, which quietly undermines every test that asserts a wrong answer
+    scores zero.
+
+    Doubling and offsetting is wrong by ~100 % of the gold, which no sane tolerance admits, and
+    still lands somewhere wrong when the gold is 0.
+    """
+    gold = entry.gold_numeric_value or 0.0
+    wrong_value = gold * 2.0 + 1000.0
     return FinancialAnswer(
         answer=str(wrong_value), numeric_value=wrong_value, unit=entry.stated_unit
     )

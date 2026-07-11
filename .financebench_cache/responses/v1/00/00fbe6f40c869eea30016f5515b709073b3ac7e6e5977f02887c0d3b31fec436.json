@@ -1,0 +1,38 @@
+{
+  "cache_key": "00fbe6f40c869eea30016f5515b709073b3ac7e6e5977f02887c0d3b31fec436",
+  "written_at": "2026-07-11T06:56:23.181162Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"9.6%\", \"numeric_value\": 9.6, \"unit\": \"percentage_points\", \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"2015\", \"row\": \"quarter ended march 31\"}], \"insufficient_information\": false, \"confidence\": 0.98, \"brief_explanation\": \"The highest price for the quarter was $101.88 and the lowest was $93.21. The percentage change is ((101.88 - 93.21) / 93.21) * 100 = 9.6%.\"}",
+    "financial_answer": {
+      "answer": "9.6%",
+      "numeric_value": 9.6,
+      "unit": "percentage_points",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "2015",
+          "row": "quarter ended march 31"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.98,
+      "brief_explanation": "The highest price for the quarter was $101.88 and the lowest was $93.21. The percentage change is ((101.88 - 93.21) / 93.21) * 100 = 9.6%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1031,
+      "completion_tokens": 153,
+      "total_tokens": 1184
+    },
+    "latency_ms": 53083.23812800063,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-521",
+      "finish_reason": "stop"
+    }
+  }
+}

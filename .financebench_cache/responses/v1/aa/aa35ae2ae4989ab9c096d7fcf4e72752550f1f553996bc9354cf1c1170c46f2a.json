@@ -1,0 +1,38 @@
+{
+  "cache_key": "aa35ae2ae4989ab9c096d7fcf4e72752550f1f553996bc9354cf1c1170c46f2a",
+  "written_at": "2026-07-11T06:53:34.896516Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"approximately 65\", \"numeric_value\": 65, \"unit\": null, \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table\", \"row\": \"ships\"}], \"insufficient_information\": false, \"confidence\": 0.9, \"brief_explanation\": \"There are approximately 455 destinations on all seven continents. Dividing the total number of destinations by the number of continents gives us about 65 destinations per continent.\"}",
+    "financial_answer": {
+      "answer": "approximately 65",
+      "numeric_value": 65.0,
+      "unit": null,
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table",
+          "row": "ships"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.9,
+      "brief_explanation": "There are approximately 455 destinations on all seven continents. Dividing the total number of destinations by the number of continents gives us about 65 destinations per continent."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1361,
+      "completion_tokens": 113,
+      "total_tokens": 1474
+    },
+    "latency_ms": 44766.002117000426,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-564",
+      "finish_reason": "stop"
+    }
+  }
+}

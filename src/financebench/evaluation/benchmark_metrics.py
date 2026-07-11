@@ -27,6 +27,8 @@ _PREFERRED: dict[tuple[str, bool], str] = {
     ("finqa", False): "finqa_answer_accuracy",  # ours; NOT the official metric
     ("tatqa", False): "tatqa_exact_match",  # official
     ("tatqa", True): "tatqa_exact_match",  # TAT-QA has no program mode
+    ("finance_reasoning", False): "finance_reasoning_accuracy",  # official
+    ("finance_reasoning", True): "finance_reasoning_accuracy",
 }
 
 #: (benchmark, elicits_program) -> further metrics worth recording, beyond the preferred one.

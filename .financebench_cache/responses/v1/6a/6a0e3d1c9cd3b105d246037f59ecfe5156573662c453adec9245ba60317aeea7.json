@@ -1,0 +1,38 @@
+{
+  "cache_key": "6a0e3d1c9cd3b105d246037f59ecfe5156573662c453adec9245ba60317aeea7",
+  "written_at": "2026-07-11T06:53:54.265225Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"average net revenue\", \"numeric_value\": null, \"unit\": \"million\", \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table\", \"row\": \"2016 and 2017\"}], \"insufficient_information\": true, \"confidence\": null, \"brief_explanation\": \"The context provides net revenue for 2016 and 2017 but does not specify the exact values needed to calculate an average.\"}",
+    "financial_answer": {
+      "answer": "average net revenue",
+      "numeric_value": null,
+      "unit": "million",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table",
+          "row": "2016 and 2017"
+        }
+      ],
+      "insufficient_information": true,
+      "confidence": null,
+      "brief_explanation": "The context provides net revenue for 2016 and 2017 but does not specify the exact values needed to calculate an average."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 695,
+      "completion_tokens": 112,
+      "total_tokens": 807
+    },
+    "latency_ms": 45917.30677600026,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-282",
+      "finish_reason": "stop"
+    }
+  }
+}

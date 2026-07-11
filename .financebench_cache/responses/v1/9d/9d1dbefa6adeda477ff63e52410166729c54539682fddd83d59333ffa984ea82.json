@@ -1,0 +1,38 @@
+{
+  "cache_key": "9d1dbefa6adeda477ff63e52410166729c54539682fddd83d59333ffa984ea82",
+  "written_at": "2026-07-11T06:51:07.559914Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"24.6%\", \"numeric_value\": 24.6, \"unit\": \"percent\", \"period\": \"fiscal 2019\", \"citations\": [{\"document_id\": \"note 16\", \"page\": null, \"table\": \"in millions operating leases capital leases\", \"row\": \"fiscal 2019\"}], \"insufficient_information\": false, \"confidence\": 0.95, \"brief_explanation\": \"The total noncancelable future lease commitments for fiscal 2019 were $137.4 million out of the total commitments of $559.3 million. The portion due in fiscal 2019 is calculated as (137.4 / 559.3) * 100 = 24.6%.\"}",
+    "financial_answer": {
+      "answer": "24.6%",
+      "numeric_value": 24.6,
+      "unit": "percent",
+      "citations": [
+        {
+          "document_id": "note 16",
+          "page": null,
+          "table": "in millions operating leases capital leases",
+          "row": "fiscal 2019"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The total noncancelable future lease commitments for fiscal 2019 were $137.4 million out of the total commitments of $559.3 million. The portion due in fiscal 2019 is calculated as (137.4 / 559.3) * 100 = 24.6%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1018,
+      "completion_tokens": 181,
+      "total_tokens": 1199
+    },
+    "latency_ms": 88585.59415499985,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-851",
+      "finish_reason": "stop"
+    }
+  }
+}

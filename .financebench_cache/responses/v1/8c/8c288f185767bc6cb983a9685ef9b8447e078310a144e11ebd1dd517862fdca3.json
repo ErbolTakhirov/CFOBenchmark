@@ -1,0 +1,38 @@
+{
+  "cache_key": "8c288f185767bc6cb983a9685ef9b8447e078310a144e11ebd1dd517862fdca3",
+  "written_at": "2026-07-11T06:57:17.665118Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"the ratio of total flight attendants to total maintenance personnel\", \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table\", \"row\": \"flight attendants\"}], \"insufficient_information\": true, \"confidence\": null, \"brief_explanation\": \"The context provides the total number of flight attendants and maintenance personnel but does not specify to which groups these numbers belong. Therefore, we cannot calculate the ratio without this information.\"}",
+    "financial_answer": {
+      "answer": "the ratio of total flight attendants to total maintenance personnel",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table",
+          "row": "flight attendants"
+        }
+      ],
+      "insufficient_information": true,
+      "confidence": null,
+      "brief_explanation": "The context provides the total number of flight attendants and maintenance personnel but does not specify to which groups these numbers belong. Therefore, we cannot calculate the ratio without this information."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1204,
+      "completion_tokens": 117,
+      "total_tokens": 1321
+    },
+    "latency_ms": 54481.91820000011,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-18",
+      "finish_reason": "stop"
+    }
+  }
+}

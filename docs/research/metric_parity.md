@@ -90,6 +90,27 @@ for multi-span answers the evaluator finds the optimal 1-to-1 matching between p
 spans, then averages the per-bag token-F1 over `max(len(gold), len(pred))` slots and rounds to 2
 decimals. Any implementation using naive bag-overlap would disagree with the official numbers.
 
+### The bug the parity suite caught
+
+The official `scale_to_num` returns Python **`int`** for every scale except percent:
+
+```python
+def scale_to_num(scale):
+    num = 1                                  # int, not 1.0
+    if 'thousand' in scale: num = 1000       # int
+    elif 'percent' in scale: num = 0.01      # float
+    return num
+```
+
+That `int` flows through `to_number` into `round()` — and `round(-134, 4)` is the **int** `-134`
+while `round(-134.0, 4)` is the **float** `-134.0`. `normalize_number` then `str()`s the result, so
+typing those constants as floats (which is the natural thing to do) makes `normalize_answer("(134)")`
+produce `"-134.0"` instead of `"-134"`, and it no longer exact-matches a gold of `"-134"`.
+
+A silent, systematic deflation of EM and F1 on **every negative number in the dataset** — invisible
+to inspection, and caught immediately by running the official code side by side. The int-ness is now
+asserted by a type check in the test suite, and the docstring says not to "tidy" it away.
+
 Two behaviours that are easy to get wrong and are therefore parity-tested explicitly:
 
 - **`f1 := em` is forced** when the gold answer type is `arithmetic` or `count`.
@@ -119,12 +140,33 @@ of `0` admits only an exact `0`.
 
 The official `normalize()` additionally strips currency words/symbols, takes the right-hand side of
 `=` and `≈`, strips `%`, maps `true/yes → True` and `false/no → False`, and drops units. It is
-ported faithfully. Two deliberate deviations, recorded here:
+ported faithfully, with one deliberate deviation:
 
 | Official behaviour | Here | Why |
 |---|---|---|
-| `normalize()` starts with a bare `eval(prediction)` on model output | **Not ported.** A safe numeric parser is used instead | Executing model output as Python is an arbitrary-code-execution hole. The parity suite confirms identical results on all fixture predictions; a prediction that *only* the `eval` path could parse would be a divergence, and the suite would surface it |
+| `normalize()` ends with a bare `eval(prediction)` on model output | A **safe AST evaluator**: numeric literals, tuples of them, and `+ - * / ** // %` only. No names, calls, attributes or subscripts | Running a language model's output through `eval` is arbitrary code execution — one adversarial dataset away from a compromised machine. The parity suite proves the two agree on every realistic prediction, because `eval` was only ever doing arithmetic |
 | An LLM is used as a fallback answer extractor | Optional, off by default | An LLM in the *grading* path makes the metric non-deterministic. Runs using it are marked provisional |
+
+### An upstream bug that is reproduced on purpose
+
+Python parses `"1,234.56"` as the **tuple** `(1, 234.56)`, not as a comma-formatted number. The
+official `normalize()` `eval`s it into exactly that tuple, and `get_acc` then takes element `[0]` —
+so **the official evaluator scores a model that answers `1,234.56` as if it had answered `1`**.
+
+That is a bug, and it was tempting to fix. It is *not* fixed here, and the safe evaluator therefore
+permits tuples solely to reproduce it. The reason: a native metric that disagrees with the official
+one is not a native metric. Its numbers would not be comparable with any published FinanceReasoning
+result — which is the entire point of implementing the official metric rather than inventing one.
+
+In practice it rarely bites: the structured prompt asks for a bare `numeric_value`, and the metric
+prefers that float over the model's prose, so `normalize()` is only a fallback.
+
+### Upstream data quality, recorded rather than smoothed over
+
+6 of the 1,000 `easy` records ship an **empty context** — the question cannot be answered because
+there is nothing to answer it from. They are kept (dropping them would break count-parity with
+published numbers, which include them) and flagged with `metadata.context_empty=true`. So ~0.6 % of
+the easy split is a floor no model can clear, and that is the benchmark's doing, not the model's.
 
 ---
 

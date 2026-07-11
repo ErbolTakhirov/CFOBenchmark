@@ -1,0 +1,38 @@
+{
+  "cache_key": "03552e75d97e4f95afeed61601c5649fd0e2d550b7d691b36efaa331797803c2",
+  "written_at": "2026-07-11T06:55:30.088484Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"decrease\", \"numeric_value\": -8.4, \"unit\": \"percent\", \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table 15\", \"row\": \"commercial mortgages at fair value\"}], \"insufficient_information\": false, \"confidence\": 0.9, \"brief_explanation\": \"The commercial mortgage loans designated for sale at fair value decreased from $843 million in 2011 to $772 million in 2012, which is a decrease of approximately 8.4%.\"}",
+    "financial_answer": {
+      "answer": "decrease",
+      "numeric_value": -8.4,
+      "unit": "percent",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table 15",
+          "row": "commercial mortgages at fair value"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.9,
+      "brief_explanation": "The commercial mortgage loans designated for sale at fair value decreased from $843 million in 2011 to $772 million in 2012, which is a decrease of approximately 8.4%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1516,
+      "completion_tokens": 133,
+      "total_tokens": 1649
+    },
+    "latency_ms": 67572.49595899976,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-900",
+      "finish_reason": "stop"
+    }
+  }
+}
