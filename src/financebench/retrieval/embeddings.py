@@ -67,21 +67,47 @@ def build_embeddings(
     *,
     cache_dir: str | Path,
     progress_every: int = 500,
+    checkpoint_every: int = 250,
 ) -> dict[str, list[float]]:
-    """Embed every page in ``corpus``, cached under the corpus fingerprint.
+    """Embed every page in ``corpus``, cached under the corpus fingerprint — and **checkpointed**.
 
     The cache key is the corpus fingerprint, so a changed corpus gets fresh vectors rather than
     silently reusing embeddings of pages that no longer exist.
+
+    **It checkpoints, and it resumes.** Embedding 12,013 pages is one sequential HTTP call per page
+    — about an hour. The first version of this wrote its cache exactly once, at the very end, which
+    meant an hour of work was one interruption away from nothing at all. It was duly interrupted, and
+    duly lost the lot.
+
+    So progress is flushed to disk every ``checkpoint_every`` pages, atomically (write a temp file,
+    then rename), and a restart picks up from whatever is already there. A long job that cannot
+    survive being killed is a job that will eventually be run for nothing.
     """
     cache_path = Path(cache_dir) / f"embeddings.{embedder.model}.{corpus.fingerprint}.json"
+    vectors: dict[str, list[float]] = {}
     if cache_path.is_file():
         raw = json.loads(cache_path.read_text(encoding="utf-8"))
-        return {k: [float(x) for x in v] for k, v in raw.items()}
+        vectors = {k: [float(x) for x in v] for k, v in raw.items()}
 
-    vectors: dict[str, list[float]] = {}
-    for index, page in enumerate(corpus.pages, start=1):
-        if not page.text.strip():
-            continue
+    pending = [page for page in corpus.pages if page.text.strip() and page.chunk_id not in vectors]
+    if not pending:
+        return vectors
+
+    cache_path.parent.mkdir(parents=True, exist_ok=True)
+
+    def checkpoint() -> None:
+        # Atomic: a killed process must never leave a half-written JSON file behind, because the
+        # next run would read it, fail to parse it, and start again from zero.
+        temp = cache_path.with_suffix(".tmp")
+        temp.write_text(json.dumps(vectors), encoding="utf-8")
+        temp.replace(cache_path)
+
+    if vectors:
+        print(
+            f"  resuming: {len(vectors)} pages already embedded, {len(pending)} to go", flush=True
+        )
+
+    for index, page in enumerate(pending, start=1):
         try:
             vectors[page.chunk_id] = embedder.embed(page.text)
         except httpx.HTTPError:
@@ -89,9 +115,10 @@ def build_embeddings(
             # coverage gap, not a reason to abandon a 12,000-page corpus — and it is visible,
             # because the vector count won't match the page count.
             continue
+        if index % checkpoint_every == 0:
+            checkpoint()
         if progress_every and index % progress_every == 0:
-            print(f"  embedded {index}/{len(corpus)} pages", flush=True)
+            print(f"  embedded {index}/{len(pending)} pending pages", flush=True)
 
-    cache_path.parent.mkdir(parents=True, exist_ok=True)
-    cache_path.write_text(json.dumps(vectors), encoding="utf-8")
+    checkpoint()
     return vectors
