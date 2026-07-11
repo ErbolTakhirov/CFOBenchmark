@@ -23,7 +23,8 @@ from financebench.execution.cache import ResponseCache
 from financebench.execution.retry import RateLimiter, Sleeper, backoff_delay
 from financebench.models import create_provider
 from financebench.models.base import ModelProvider
-from financebench.prompts.renderer import PROMPT_VERSION, render_messages
+from financebench.prompts.profiles import RetrievedChunk, create_prompt_profile
+from financebench.schemas.common import EvalMode
 from financebench.schemas.model_io import ModelRequest, ModelResponse, ModelSpec
 from financebench.schemas.prediction import Prediction
 from financebench.schemas.run import RunConfig
@@ -38,21 +39,29 @@ def build_request(
     sample: CanonicalSample,
     model: ModelSpec,
     config: RunConfig,
+    *,
+    retrieved: Sequence[RetrievedChunk] = (),
 ) -> ModelRequest:
     """Assemble the :class:`ModelRequest` sent to a provider for ``sample``.
 
     This is a pure function of the sample's *question side* — ``question``, ``context``,
-    ``choices``, ``tools`` — and the run config. It never reads ``sample.gold``,
-    ``sample.evaluation`` (which holds grading tolerances), or anything else on the evaluator's
-    side of the fence. ``tests/security/test_gold_answer_leakage.py`` pins that down by scrubbing
-    a sample's gold to sentinel values and asserting the request it produces is byte-identical.
+    ``choices``, ``tools`` — the run config, and (in ``retrieval_required`` mode) whatever the
+    retriever found. It never reads ``sample.gold``, ``sample.evaluation`` (which holds grading
+    tolerances), or anything else on the evaluator's side of the fence.
+    ``tests/security/test_gold_answer_leakage.py`` pins that down by scrubbing a sample's gold to
+    sentinel values and asserting the request it produces is byte-identical.
     """
+    profile = create_prompt_profile(config.prompt_profile)
     return ModelRequest(
         model=model,
-        messages=render_messages(sample),
+        messages=profile.render(sample, config.eval_mode, retrieved),
         temperature=config.temperature,
         max_tokens=config.max_output_tokens,
-        prompt_version=PROMPT_VERSION,
+        response_format=profile.response_format,
+        tools=sample.tools if config.eval_mode is EvalMode.TOOL_ASSISTED else (),
+        # The profile name *is* the prompt version — profiles are versioned in their names, so a
+        # changed prompt is a changed name, and a changed name changes the cache key.
+        prompt_version=config.prompt_profile,
         benchmark=sample.benchmark,
         benchmark_version=sample.benchmark_version,
         sample_id=sample.sample_id,

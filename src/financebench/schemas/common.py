@@ -10,6 +10,7 @@ from __future__ import annotations
 from enum import StrEnum
 
 __all__ = [
+    "DEFAULT_PROMPT_PROFILE",
     "SCHEMA_VERSION",
     "AnswerType",
     "EvalMode",
@@ -23,6 +24,11 @@ __all__ = [
 #: Version of the canonical sample/prediction/metric/run schemas defined in this package.
 #: Bump this (and add a migration note in docs/reproducibility.md) on any breaking field change.
 SCHEMA_VERSION = "1.0"
+
+#: The prompt profile a run uses unless told otherwise. Lives here, in the schema leaf, rather than
+#: in ``prompts/profiles.py`` so that ``RunConfig`` can default to it without the schema layer
+#: having to import the prompt layer (which imports the schema layer right back).
+DEFAULT_PROMPT_PROFILE = "structured_financial_v1"
 
 #: An ISO-639-1-ish language code, e.g. "en", "ru". Kept as a plain string rather than a closed
 #: enum since new benchmarks may introduce languages we don't want to enumerate up front.

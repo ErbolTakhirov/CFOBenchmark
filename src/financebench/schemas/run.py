@@ -11,6 +11,8 @@ from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict
 
+from financebench.schemas.common import DEFAULT_PROMPT_PROFILE, EvalMode, RunType
+
 __all__ = ["CacheMode", "RunConfig", "RunMetadata"]
 
 
@@ -40,7 +42,14 @@ class RunConfig(BaseModel):
     temperature: float = 0.0
     max_output_tokens: int = 1024
     timeout_seconds: float = 120.0
-    prompt_profile: str = "direct_answer"
+    #: Which prompt profile the model is asked with. Part of a run's identity: two runs that asked
+    #: the model for different *things* (a number vs. a program) are not comparable, so this feeds
+    #: the run id and the cache key rather than being cosmetic metadata.
+    prompt_profile: str = DEFAULT_PROMPT_PROFILE
+    #: Model ability, retrieval ability and agent ability are different things. Also part of the
+    #: run id and cache key, so a context_given answer can never be served from cache to a
+    #: retrieval_required run.
+    eval_mode: EvalMode = EvalMode.CONTEXT_GIVEN
     judge_config: str | None = None
     max_cost_usd: float | None = None
     offline: bool = False
@@ -58,6 +67,8 @@ class RunMetadata(BaseModel):
     benchmark_or_group: str
     model_ref: str
     provider: str
+    run_type: RunType = RunType.REAL
+    eligible_for_leaderboard: bool = True
     config: RunConfig
     dataset_manifest_hash: str | None = None
     git_commit: str | None = None

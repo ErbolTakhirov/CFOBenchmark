@@ -1,56 +1,48 @@
-"""A minimal, hardcoded prompt renderer for Milestone 1.
+"""Renders a :class:`CanonicalSample` into the messages sent to a model.
 
-Turns a :class:`CanonicalSample` into the messages sent to a model, asking for the structured
-:class:`FinancialAnswer` JSON envelope. This is intentionally simple (one prompt, one version) —
-the full versioned, YAML-configurable prompt-profile system (grounded-answer-with-citations,
-analyst-memo, tool-use-agent, ...) described in the mission is built out in Milestone 2+ once
-more than one profile actually differs in a way worth configuring rather than hardcoding.
+This is a thin dispatcher over the profile registry in ``prompts/profiles.py`` — the profile
+decides what the model is asked to produce, and this module just resolves the name and calls it.
+Keeping the indirection here (rather than having the engine import a concrete profile) is what
+lets a run select its prompt by name from a config, and lets the leakage suite iterate over every
+registered profile without knowing what they are.
 """
 
 from __future__ import annotations
 
-from financebench.schemas.model_io import ChatMessage, Role
-from financebench.schemas.sample import CanonicalSample, Table
+from collections.abc import Sequence
 
-__all__ = ["PROMPT_VERSION", "SYSTEM_PROMPT", "render_messages"]
-
-PROMPT_VERSION = "direct_answer_v1"
-
-SYSTEM_PROMPT = (
-    "You are a financial analyst assistant. Answer the question using ONLY the provided "
-    "context. Respond with a single JSON object matching this schema: "
-    '{"answer": "<string>", "numeric_value": <number or null>, "unit": "<string or null>", '
-    '"citations": [{"document_id": "...", "page": ..., "table": "...", "row": "..."}], '
-    '"insufficient_information": <true|false>, "confidence": <0-1 or null>, '
-    '"brief_explanation": "<string or null>"}. '
-    "If the context does not contain enough information to answer confidently, set "
-    "insufficient_information to true rather than guessing."
+from financebench.prompts.profiles import (
+    DEFAULT_PROMPT_PROFILE,
+    RetrievedChunk,
+    create_prompt_profile,
 )
+from financebench.schemas.common import EvalMode
+from financebench.schemas.model_io import ChatMessage
+from financebench.schemas.sample import CanonicalSample
+
+__all__ = ["prompt_system_text", "render_messages"]
 
 
-def _render_table(table: Table) -> str:
-    lines = [" | ".join(row) for row in table.rows]
-    header = f"Table ({table.caption}):\n" if table.caption else "Table:\n"
-    return header + "\n".join(lines)
+def render_messages(
+    sample: CanonicalSample,
+    *,
+    profile_name: str = DEFAULT_PROMPT_PROFILE,
+    mode: EvalMode = EvalMode.CONTEXT_GIVEN,
+    retrieved: Sequence[RetrievedChunk] = (),
+) -> tuple[ChatMessage, ...]:
+    """Render ``sample`` into the message list for ``profile_name`` under ``mode``.
+
+    Reads only the sample's question side. Never ``sample.gold``, never ``sample.evaluation`` —
+    see ``tests/security/test_gold_answer_leakage.py``.
+    """
+    return create_prompt_profile(profile_name).render(sample, mode, retrieved)
 
 
-def _render_context(sample: CanonicalSample) -> str:
-    parts: list[str] = [*sample.context.text]
-    parts.extend(_render_table(table) for table in sample.context.tables)
-    parts.extend(f"[{turn.role}] {turn.content}" for turn in sample.context.conversation_history)
-    return "\n\n".join(parts)
-
-
-def render_messages(sample: CanonicalSample) -> tuple[ChatMessage, ...]:
-    """Render ``sample`` into a ``(system, user)`` message pair."""
-    user_parts: list[str] = []
-    context_text = _render_context(sample)
-    if context_text:
-        user_parts.append(f"Context:\n{context_text}")
-    if sample.choices:
-        user_parts.append("Choices:\n" + "\n".join(sample.choices))
-    user_parts.append(f"Question: {sample.question}")
-    return (
-        ChatMessage(role=Role.SYSTEM, content=SYSTEM_PROMPT),
-        ChatMessage(role=Role.USER, content="\n\n".join(user_parts)),
-    )
+def prompt_system_text(
+    sample: CanonicalSample,
+    *,
+    profile_name: str = DEFAULT_PROMPT_PROFILE,
+    mode: EvalMode = EvalMode.CONTEXT_GIVEN,
+) -> str:
+    """The system prompt a profile would use — for hashing into ``prompt_manifest.json``."""
+    return create_prompt_profile(profile_name).system(sample, mode)

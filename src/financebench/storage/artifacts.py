@@ -23,7 +23,7 @@ from financebench.evaluation.capability_map import CapabilityDimension
 from financebench.evaluation.metrics.base import aggregate_metric
 from financebench.execution.engine import RunResult
 from financebench.models.base import ProviderCapabilities
-from financebench.prompts.renderer import PROMPT_VERSION, SYSTEM_PROMPT
+from financebench.prompts.profiles import create_prompt_profile
 from financebench.schemas.common import RunType
 from financebench.schemas.gates import GatesReport
 from financebench.schemas.manifest import AdapterStatus, DatasetManifest
@@ -107,7 +107,7 @@ def write_run_artifacts(out_dir: str | Path, inputs: ArtifactInputs) -> None:
     _write_environment(out, inputs)
     write_model_list_json(out / "dataset_manifest.json", inputs.dataset_manifests)
     _write_model_manifest(out, inputs)
-    _write_prompt_manifest(out)
+    _write_prompt_manifest(out, inputs)
     write_jsonl(out / "predictions.jsonl", inputs.run_result.predictions)
     write_jsonl(
         out / "parsed_answers.jsonl",
@@ -170,10 +170,24 @@ def _write_model_manifest(out: Path, inputs: ArtifactInputs) -> None:
     (out / "model_manifest.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
 
-def _write_prompt_manifest(out: Path) -> None:
+def _write_prompt_manifest(out: Path, inputs: ArtifactInputs) -> None:
+    """Record exactly what the model was asked for.
+
+    The system prompt is hashed rather than embedded because it varies per sample for some
+    profiles (``tool_agent_v1`` names the available tools). Hashing the *first* sample's system
+    prompt is enough to detect an edited profile, which is what the hash is for — a profile whose
+    text changed without its version changing would silently break comparability.
+    """
+    profile = create_prompt_profile(inputs.config.prompt_profile)
+    system_text = (
+        profile.system(inputs.samples[0], inputs.config.eval_mode) if inputs.samples else ""
+    )
     payload = {
-        "prompt_version": PROMPT_VERSION,
-        "system_prompt_sha256": hashlib.sha256(SYSTEM_PROMPT.encode("utf-8")).hexdigest(),
+        "prompt_profile": inputs.config.prompt_profile,
+        "eval_mode": inputs.config.eval_mode.value,
+        "response_format": profile.response_format,
+        "elicits_program": profile.elicits_program,
+        "system_prompt_sha256": hashlib.sha256(system_text.encode("utf-8")).hexdigest(),
     }
     (out / "prompt_manifest.json").write_text(
         json.dumps(payload, indent=2) + "\n", encoding="utf-8"
