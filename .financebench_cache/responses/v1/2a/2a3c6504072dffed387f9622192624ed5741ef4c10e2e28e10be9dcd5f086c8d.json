@@ -1,0 +1,39 @@
+{
+  "cache_key": "2a3c6504072dffed387f9622192624ed5741ef4c10e2e28e10be9dcd5f086c8d",
+  "written_at": "2026-07-11T07:29:50.763200Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"2.1%\", \"numeric_value\": 2.1, \"unit\": \"percent\", \"period\": \"as of September 30, 2019\", \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table provided in the question\", \"row\": \"Discount rate for domestic and international plans on September 30, 2019\"}], \"insufficient_information\": false, \"confidence\": 0.95, \"brief_explanation\": \"The difference between the domestic discount rate of 4.00% and the international discount rate of 1.90% as at September 30, 2019 is calculated by subtracting the international rate from the domestic rate.\"}",
+    "financial_answer": {
+      "answer": "2.1%",
+      "numeric_value": 2.1,
+      "unit": "percent",
+      "period": "as of September 30, 2019",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table provided in the question",
+          "row": "Discount rate for domestic and international plans on September 30, 2019"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The difference between the domestic discount rate of 4.00% and the international discount rate of 1.90% as at September 30, 2019 is calculated by subtracting the international rate from the domestic rate."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 517,
+      "completion_tokens": 164,
+      "total_tokens": 681
+    },
+    "latency_ms": 29892.0582180001,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-913",
+      "finish_reason": "stop"
+    }
+  }
+}

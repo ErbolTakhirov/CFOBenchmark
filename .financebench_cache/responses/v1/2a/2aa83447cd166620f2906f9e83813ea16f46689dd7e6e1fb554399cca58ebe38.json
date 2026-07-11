@@ -1,0 +1,39 @@
+{
+  "cache_key": "2aa83447cd166620f2906f9e83813ea16f46689dd7e6e1fb554399cca58ebe38",
+  "written_at": "2026-07-11T07:29:33.105149Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"annually\", \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table provided\", \"row\": \"The periodic benefit cost and the actuarial present value of projected benefit obligations are based on actuarial assumptions that are reviewed on an annual basis.\"}], \"insufficient_information\": false, \"confidence\": 0.95, \"brief_explanation\": \"The context explicitly states that these assumptions are reviewed annually.\"}",
+    "financial_answer": {
+      "answer": "annually",
+      "numeric_value": null,
+      "unit": null,
+      "period": null,
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table provided",
+          "row": "The periodic benefit cost and the actuarial present value of projected benefit obligations are based on actuarial assumptions that are reviewed on an annual basis."
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The context explicitly states that these assumptions are reviewed annually."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 524,
+      "completion_tokens": 115,
+      "total_tokens": 639
+    },
+    "latency_ms": 25164.893296999937,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-393",
+      "finish_reason": "stop"
+    }
+  }
+}
