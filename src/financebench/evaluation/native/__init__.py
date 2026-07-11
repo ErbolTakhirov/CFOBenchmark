@@ -16,6 +16,7 @@ from financebench.evaluation.native import finqa as _finqa  # noqa: F401
 from financebench.evaluation.native import secque as _secque  # noqa: F401
 from financebench.evaluation.native import smb_cfo as _smb  # noqa: F401
 from financebench.evaluation.native import tatqa as _tatqa  # noqa: F401
+from financebench.evaluation.native import tool_use as _tools  # noqa: F401
 from financebench.evaluation.native.convfinqa import (
     ConvFinQAExecutionAccuracy,
     ConvFinQAProgramAccuracy,

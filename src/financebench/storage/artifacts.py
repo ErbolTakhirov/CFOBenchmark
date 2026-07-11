@@ -62,6 +62,10 @@ RUN_ARTIFACT_FILENAMES: tuple[str, ...] = (
     "report.html",
 )
 
+#: Written only by a tool_assisted run. The DURABLE record of what the model asked the tools for and
+#: what they said — the only place a "called the calculator and then ignored it" failure is visible.
+TOOL_TRACE_FILENAME = "tool_traces.jsonl"
+
 
 @dataclass(frozen=True)
 class ArtifactInputs:
@@ -138,6 +142,19 @@ def write_run_artifacts(out_dir: str | Path, inputs: ArtifactInputs) -> None:
     _write_coverage(out, coverage)
     _write_summary_md(out, inputs, metrics_by_name, coverage)
     _write_report_html(out, inputs, metrics_by_name, coverage)
+
+    # A tool_assisted run also writes its traces. Accuracy can say the answer was wrong; only the
+    # trace can say the model called the calculator, got the right number, and then wrote a different
+    # one — a failure every end-to-end metric misattributes to arithmetic.
+    traces = inputs.run_result.tool_traces
+    if traces:
+        (out / TOOL_TRACE_FILENAME).write_text(
+            "\n".join(
+                json.dumps(t.to_json() if hasattr(t, "to_json") else t) for t in traces.values()
+            )
+            + "\n",
+            encoding="utf-8",
+        )
 
 
 def _parsed_answer(prediction: Prediction) -> ParsedAnswer:

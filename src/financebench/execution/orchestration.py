@@ -215,7 +215,7 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
     profile = config.prompt_profile
     all_metric_results: list[MetricResult] = []
     for sample, prediction in zip(evaluated_samples, run_result.predictions, strict=True):
-        for metric in metrics_for_run(sample.benchmark, profile):
+        for metric in metrics_for_run(sample.benchmark, profile, config.eval_mode):
             all_metric_results.append(metric.score(sample, prediction))
     metric_results = tuple(all_metric_results)
 

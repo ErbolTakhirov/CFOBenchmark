@@ -72,6 +72,13 @@ METRIC_VERSIONS: dict[str, str] = {
     "secque_unsupported_numeric_claim": "1",
     "secque_comparison_direction": "1",
     "secque_filing_identification": "1",
+    # Tool use. `tool_result_utilization` is the one that matters: a model that calls the calculator,
+    # receives 40.55, and writes "approximately 38" has made a TRUST error, not an arithmetic one —
+    # and every end-to-end metric misattributes it to the sums, which is the thing it got right.
+    "tool_selection_accuracy": "1",
+    "tool_execution_success": "1",
+    "tool_result_utilization": "1",
+    "tool_security_rejection": "1",
 }
 
 #: Dataset adapters, pinned to the upstream commit their data comes from. A locally *generated*

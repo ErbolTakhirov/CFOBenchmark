@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from financebench.evaluation.metrics.base import Metric, create_metric
 from financebench.prompts.profiles import create_prompt_profile
-from financebench.schemas.common import DEFAULT_PROMPT_PROFILE
+from financebench.schemas.common import DEFAULT_PROMPT_PROFILE, EvalMode
 
 __all__ = ["metrics_for_run", "preferred_metric_name"]
 
@@ -93,14 +93,34 @@ def preferred_metric_name(benchmark: str, prompt_profile: str = DEFAULT_PROMPT_P
     return _PREFERRED.get(key, "exact_match")
 
 
+#: Computed for ANY benchmark run in tool_assisted mode.
+#:
+#: Keyed on the eval MODE, not the benchmark — which is the whole point. "Can this model use a
+#: calculator" is a property of the model, not of FinQA, and the same four metrics apply whether the
+#: arithmetic came from a 10-K or a small business's ledger. The first version of this file keyed
+#: only on the benchmark, so a live tool-assisted run completed happily and computed NONE of them.
+_TOOL_METRICS: tuple[str, ...] = (
+    "tool_selection_accuracy",
+    "tool_execution_success",
+    "tool_result_utilization",  # the one that matters
+    "tool_security_rejection",
+)
+
+
 def metrics_for_run(
-    benchmark: str, prompt_profile: str = DEFAULT_PROMPT_PROFILE
+    benchmark: str,
+    prompt_profile: str = DEFAULT_PROMPT_PROFILE,
+    eval_mode: EvalMode = EvalMode.CONTEXT_GIVEN,
 ) -> tuple[Metric, ...]:
-    """Every metric to compute and report for a sample from ``benchmark`` under this profile."""
+    """Every metric to compute and report for a sample from ``benchmark`` under this profile/mode."""
     key = (benchmark, _elicits_program(prompt_profile))
     names = {
         "exact_match",
         preferred_metric_name(benchmark, prompt_profile),
         *_ADDITIONAL.get(key, ()),
     }
+    if eval_mode is EvalMode.TOOL_ASSISTED:
+        # The benchmark's own accuracy metric still applies — the answer is still right or wrong.
+        # These say WHERE it broke, which accuracy cannot.
+        names.update(_TOOL_METRICS)
     return tuple(create_metric(name) for name in sorted(names))

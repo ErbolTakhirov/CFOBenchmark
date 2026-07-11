@@ -25,7 +25,7 @@ from __future__ import annotations
 
 import asyncio
 from collections.abc import Callable, Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from financebench import __version__
 from financebench.execution.cache import ResponseCache
@@ -259,6 +259,9 @@ class RunResult:
     total_estimated_cost_usd: float | None = None
     total_tokens: int | None = None
     budget_exceeded: bool = False
+    #: sample_id -> ToolTrace, for a tool_assisted run. Empty otherwise. The durable record is
+    #: `tool_traces.jsonl` in the run artifacts; this is how the scorer reaches them in-process.
+    tool_traces: dict[str, object] = field(default_factory=dict)
 
 
 #: Resolves the retrieved context for one sample. Takes a sample and returns the chunks the model
@@ -283,6 +286,8 @@ class _RunContext:
     total_tokens: int = 0
     priced_any: bool = False
     budget_exceeded: bool = False
+    #: sample_id -> the tool trace, for a tool_assisted run. Empty for every other mode.
+    traces: dict[str, object] = field(default_factory=dict)
 
 
 class RunEngine:
@@ -362,6 +367,7 @@ class RunEngine:
             total_estimated_cost_usd=round(ctx.total_cost, 8) if ctx.priced_any else None,
             total_tokens=ctx.total_tokens or None,
             budget_exceeded=ctx.budget_exceeded,
+            tool_traces=dict(ctx.traces),
         )
 
     # -- conversation execution ----------------------------------------------
@@ -395,8 +401,51 @@ class RunEngine:
                 spoken.append(model_answer_text(prediction))
         return results
 
+    # -- tool-assisted execution ---------------------------------------------
+    async def _run_tool_agent(self, ctx: _RunContext, sample: CanonicalSample) -> Prediction:
+        """Run one sample through the model-tool loop.
+
+        The trace is registered so the tool metrics can read it, and persisted to the run artifacts.
+        A provider error here is still a provider error — it is OUR failure, not the model's, and it
+        must not be scored as though the model refused to use a tool.
+        """
+        from financebench.evaluation.native.tool_use import register_trace
+        from financebench.tools.agent import run_agent
+
+        request = build_request(sample, ctx.model, ctx.config)
+        await ctx.limiter.acquire()
+        try:
+            response, trace = await run_agent(
+                sample, provider=ctx.provider, model=ctx.model, config=ctx.config
+            )
+        except ProviderError as exc:
+            return self._prediction(
+                sample, request, error=str(exc), error_type=type(exc).__name__, attempts=1
+            )
+        except Exception as exc:  # never hide a failure; never blame the model for ours
+            return self._prediction(
+                sample, request, error=str(exc), error_type=type(exc).__name__, attempts=1
+            )
+
+        register_trace(trace)
+        ctx.traces[sample.sample_id] = trace
+        if response is not None:
+            self._record_cost(ctx, response)
+        return self._prediction(sample, request, response=response, attempts=trace.turns + 1)
+
     # -- per-sample execution ------------------------------------------------
     async def _run_sample(self, ctx: _RunContext, sample: CanonicalSample) -> Prediction:
+        # tool_assisted is a different shape of run: the model and the tools talk to each other for
+        # several turns before an answer exists at all. It gets its own path rather than being forced
+        # through the single-request one.
+        #
+        # It is deliberately NOT cached. A cache key is a hash of one request, and an agent run is a
+        # conversation whose later turns depend on what the tools said in the earlier ones — there is
+        # no single request to hash. Pretending otherwise would serve a cached answer for a trajectory
+        # that never happened.
+        if ctx.config.eval_mode is EvalMode.TOOL_ASSISTED:
+            return await self._run_tool_agent(ctx, sample)
+
         # In retrieval_required mode the model sees ONLY what the retriever found — the sample's own
         # context is withheld, which is the entire point of the mode. The retriever is never handed
         # the sample's gold (see retrieval/retriever.py).

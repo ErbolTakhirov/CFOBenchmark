@@ -1,0 +1,26 @@
+# The paired tool-use suite.
+#
+# The point of this group is a CONTROLLED EXPERIMENT, not a score. The same sample IDs are run twice
+# — once with the model answering directly, once with the model able to call a calculator, a formula
+# registry, a table query and an FX converter — and the difference between the two is the only thing
+# that matters.
+#
+# It is entirely permitted for that difference to be NEGATIVE. Tools add an orchestration surface
+# that a small model can fail at: a model that would have guessed the right number can instead fail
+# to format a JSON tool call and produce nothing at all. If giving qwen2.5:3b a calculator makes it
+# worse, that is the finding, and it will be reported as the finding.
+#
+# The benchmarks here are the ones where a tool could actually help — arithmetic over tables and
+# ledgers. Asking whether a calculator improves a narrative risk assessment would be a waste of GPU.
+name: tool_assisted_release
+description: >
+  Paired direct-vs-tool-assisted evaluation over arithmetic-heavy benchmarks. Run the SAME sample IDs
+  under --mode context_given and --mode tool_assisted; the paired difference, with confidence
+  intervals, is the result.
+benchmarks:
+  - name: finqa
+    split: test
+  - name: tatqa
+    split: dev
+  - name: smb_cfo
+    split: public
