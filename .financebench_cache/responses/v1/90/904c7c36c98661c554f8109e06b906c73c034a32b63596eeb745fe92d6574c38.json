@@ -1,0 +1,38 @@
+{
+  "cache_key": "904c7c36c98661c554f8109e06b906c73c034a32b63596eeb745fe92d6574c38",
+  "written_at": "2026-07-11T06:41:17.867509Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"net change in net revenue\", \"numeric_value\": null, \"unit\": null, \"period\": \"2015\", \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table\", \"row\": \"2015 net revenue\"}], \"insufficient_information\": false, \"confidence\": 0.9, \"brief_explanation\": \"The net change in net revenue for 2015 can be calculated by subtracting the 2014 net revenue from the 2015 net revenue as shown in the table.\"}",
+    "financial_answer": {
+      "answer": "net change in net revenue",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table",
+          "row": "2015 net revenue"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.9,
+      "brief_explanation": "The net change in net revenue for 2015 can be calculated by subtracting the 2014 net revenue from the 2015 net revenue as shown in the table."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1119,
+      "completion_tokens": 127,
+      "total_tokens": 1246
+    },
+    "latency_ms": 36248.43175100023,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-177",
+      "finish_reason": "stop"
+    }
+  }
+}

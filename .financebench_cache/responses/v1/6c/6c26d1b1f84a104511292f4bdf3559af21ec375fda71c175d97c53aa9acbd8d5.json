@@ -1,0 +1,38 @@
+{
+  "cache_key": "6c26d1b1f84a104511292f4bdf3559af21ec375fda71c175d97c53aa9acbd8d5",
+  "written_at": "2026-07-11T06:46:25.303696Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"8.7%\", \"numeric_value\": 8.7, \"unit\": \"%\", \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table\", \"row\": \"2011\"}], \"insufficient_information\": false, \"confidence\": 0.95, \"brief_explanation\": \"The current portion of the recourse debt as of December 31, 2011 is $463 million out of a total recourse debt of $4612 million.\"}",
+    "financial_answer": {
+      "answer": "8.7%",
+      "numeric_value": 8.7,
+      "unit": "%",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table",
+          "row": "2011"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The current portion of the recourse debt as of December 31, 2011 is $463 million out of a total recourse debt of $4612 million."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1089,
+      "completion_tokens": 121,
+      "total_tokens": 1210
+    },
+    "latency_ms": 120655.74963900007,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-646",
+      "finish_reason": "stop"
+    }
+  }
+}

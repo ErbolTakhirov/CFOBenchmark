@@ -1,0 +1,31 @@
+{
+  "cache_key": "f35135bf51050291e0d3b31c187db135fb3b99734ac135520f34a98a67ea2e99",
+  "written_at": "2026-07-11T06:50:06.599046Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"Debt-to-asset ratio cannot be determined from the given information\", \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": true, \"confidence\": null, \"brief_explanation\": \"The context provides total debt and total assets for different years but does not give a single year's data to calculate the ratio.\"}",
+    "financial_answer": {
+      "answer": "Debt-to-asset ratio cannot be determined from the given information",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": true,
+      "confidence": null,
+      "brief_explanation": "The context provides total debt and total assets for different years but does not give a single year's data to calculate the ratio."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 673,
+      "completion_tokens": 84,
+      "total_tokens": 757
+    },
+    "latency_ms": 71214.70508800031,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-616",
+      "finish_reason": "stop"
+    }
+  }
+}

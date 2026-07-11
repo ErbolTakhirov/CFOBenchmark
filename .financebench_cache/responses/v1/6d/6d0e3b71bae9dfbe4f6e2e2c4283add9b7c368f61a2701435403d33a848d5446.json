@@ -1,0 +1,38 @@
+{
+  "cache_key": "6d0e3b71bae9dfbe4f6e2e2c4283add9b7c368f61a2701435403d33a848d5446",
+  "written_at": "2026-07-11T06:45:36.851986Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"8.7%\", \"numeric_value\": 8.7, \"unit\": \"%\", \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"9.\", \"row\": \"total rental expense under operating leases\"}], \"insufficient_information\": false, \"confidence\": 0.95, \"brief_explanation\": \"The total rental expense under operating leases was $100690000 in fiscal 2006 and $92710000 in fiscal 2005. The percentage change is calculated as ((100690000 - 92710000) / 92710000) * 100 = 8.7%.\"}",
+    "financial_answer": {
+      "answer": "8.7%",
+      "numeric_value": 8.7,
+      "unit": "%",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "9.",
+          "row": "total rental expense under operating leases"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The total rental expense under operating leases was $100690000 in fiscal 2006 and $92710000 in fiscal 2005. The percentage change is calculated as ((100690000 - 92710000) / 92710000) * 100 = 8.7%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1644,
+      "completion_tokens": 177,
+      "total_tokens": 1821
+    },
+    "latency_ms": 124133.18570800038,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-757",
+      "finish_reason": "stop"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "cache_key": "0e9dc1b7e30e71496c302d17191d15d1926870485d73914cff47b00ddabd3f5b",
+  "written_at": "2026-07-11T06:41:57.022954Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"14.6\", \"numeric_value\": 14.6, \"unit\": \"%\", \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table\", \"row\": \"leased facilities2\"}], \"insufficient_information\": false, \"confidence\": 0.95, \"brief_explanation\": \"The total square feet of facilities is 56.0 million and the leased facilities are 8.1 million. The percentage of leased facilities is calculated as (8.1 / 56.0) * 100 = 14.43%, which rounds to 14.6%.\"}",
+    "financial_answer": {
+      "answer": "14.6",
+      "numeric_value": 14.6,
+      "unit": "%",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table",
+          "row": "leased facilities2"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "The total square feet of facilities is 56.0 million and the leased facilities are 8.1 million. The percentage of leased facilities is calculated as (8.1 / 56.0) * 100 = 14.43%, which rounds to 14.6%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 982,
+      "completion_tokens": 149,
+      "total_tokens": 1131
+    },
+    "latency_ms": 75362.753462,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-696",
+      "finish_reason": "stop"
+    }
+  }
+}

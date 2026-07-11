@@ -1,0 +1,38 @@
+{
+  "cache_key": "6792282cf992fdb85334f2a5c6bda8bbed5b9ad92121b735de22b641a615e815",
+  "written_at": "2026-07-11T06:48:02.424319Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"yes\", \"numeric_value\": null, \"unit\": null, \"period\": \"five years\", \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table\", \"row\": \"2016\"}], \"insufficient_information\": false, \"confidence\": 0.95, \"brief_explanation\": \"Altria's cumulative total shareholder return was higher than the S&P 500's for each year from 2012 to 2016.\"}",
+    "financial_answer": {
+      "answer": "yes",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table",
+          "row": "2016"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.95,
+      "brief_explanation": "Altria's cumulative total shareholder return was higher than the S&P 500's for each year from 2012 to 2016."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1092,
+      "completion_tokens": 114,
+      "total_tokens": 1206
+    },
+    "latency_ms": 97114.66347599981,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-318",
+      "finish_reason": "stop"
+    }
+  }
+}

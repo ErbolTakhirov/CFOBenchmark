@@ -122,6 +122,10 @@ extend-immutable-calls = ["typer.Argument", "typer.Option"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["B011"]
+# The official TAT-QA evaluator formats with `"%.4f" % n`. Reproducing its exact output means
+# reproducing its exact formatting call — rewriting it to an f-string is not obviously identical
+# for every float, and parity is the whole point of the file.
+"src/financebench/evaluation/native/tatqa.py" = ["UP031"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"
@@ -144,6 +148,13 @@ plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
 module = ["polars.*", "vllm.*", "transformers.*", "torch.*", "sympy.*", "scipy.*"]
+ignore_missing_imports = true
+
+# numpy's own bundled stubs use PEP 695 `type` statements, which mypy rejects under
+# python_version = "3.11". We target 3.11, so skip following into them rather than raise our floor.
+[[tool.mypy.overrides]]
+module = ["numpy", "numpy.*"]
+follow_imports = "skip"
 ignore_missing_imports = true
 
 [tool.pydantic-mypy]

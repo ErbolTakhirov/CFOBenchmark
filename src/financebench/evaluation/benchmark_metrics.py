@@ -25,11 +25,15 @@ __all__ = ["metrics_for_run", "preferred_metric_name"]
 _PREFERRED: dict[tuple[str, bool], str] = {
     ("finqa", True): "finqa_execution_accuracy",  # official
     ("finqa", False): "finqa_answer_accuracy",  # ours; NOT the official metric
+    ("tatqa", False): "tatqa_exact_match",  # official
+    ("tatqa", True): "tatqa_exact_match",  # TAT-QA has no program mode
 }
 
 #: (benchmark, elicits_program) -> further metrics worth recording, beyond the preferred one.
 _ADDITIONAL: dict[tuple[str, bool], tuple[str, ...]] = {
     ("finqa", True): ("finqa_program_accuracy",),
+    ("tatqa", False): ("tatqa_f1", "tatqa_scale_accuracy"),
+    ("tatqa", True): ("tatqa_f1", "tatqa_scale_accuracy"),
 }
 
 

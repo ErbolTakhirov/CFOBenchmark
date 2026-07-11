@@ -1,0 +1,38 @@
+{
+  "cache_key": "e6512da4784d0ac4a2ee1faaedec7430012d9740baab4be1ce463c96d6ee6c2a",
+  "written_at": "2026-07-11T06:49:38.971272Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"growth rate\", \"numeric_value\": -4.3, \"unit\": \"percent\", \"period\": null, \"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table\", \"row\": \"standby letters of credit\"}], \"insufficient_information\": false, \"confidence\": 0.9, \"brief_explanation\": \"The balance of standby letters of credit decreased from $4,926 million in 2006 to $4,711 million in 2007, representing a -4.3% change.\"}",
+    "financial_answer": {
+      "answer": "growth rate",
+      "numeric_value": -4.3,
+      "unit": "percent",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table",
+          "row": "standby letters of credit"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.9,
+      "brief_explanation": "The balance of standby letters of credit decreased from $4,926 million in 2006 to $4,711 million in 2007, representing a -4.3% change."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1118,
+      "completion_tokens": 128,
+      "total_tokens": 1246
+    },
+    "latency_ms": 96542.25998499987,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-310",
+      "finish_reason": "stop"
+    }
+  }
+}

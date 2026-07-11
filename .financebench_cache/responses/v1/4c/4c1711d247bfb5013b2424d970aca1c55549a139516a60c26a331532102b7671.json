@@ -1,0 +1,38 @@
+{
+  "cache_key": "4c1711d247bfb5013b2424d970aca1c55549a139516a60c26a331532102b7671",
+  "written_at": "2026-07-11T06:44:24.638081Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"112.0%\",\"numeric_value\": 112,\"unit\": \"percent\",\"period\": \"five years\",\"citations\": [{\"document_id\": \"...\", \"page\": null, \"table\": \"Table\", \"row\": \"masco vs s&p 500 index\"}],\"insufficient_information\": false,\"confidence\": 0.9,\"brief_explanation\": \"The cumulative total shareholder return on Masco common stock was $318.46 in 2017, while the S&P 500 Index was $206.49. The difference is ($318.46 - $206.49) / $206.49 = 112.0%.\"}",
+    "financial_answer": {
+      "answer": "112.0%",
+      "numeric_value": 112.0,
+      "unit": "percent",
+      "citations": [
+        {
+          "document_id": "...",
+          "page": null,
+          "table": "Table",
+          "row": "masco vs s&p 500 index"
+        }
+      ],
+      "insufficient_information": false,
+      "confidence": 0.9,
+      "brief_explanation": "The cumulative total shareholder return on Masco common stock was $318.46 in 2017, while the S&P 500 Index was $206.49. The difference is ($318.46 - $206.49) / $206.49 = 112.0%."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 832,
+      "completion_tokens": 165,
+      "total_tokens": 997
+    },
+    "latency_ms": 104530.46937599994,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-92",
+      "finish_reason": "stop"
+    }
+  }
+}

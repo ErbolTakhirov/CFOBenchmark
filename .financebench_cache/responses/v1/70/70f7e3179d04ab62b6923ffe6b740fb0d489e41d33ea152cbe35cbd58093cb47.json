@@ -1,0 +1,31 @@
+{
+  "cache_key": "70f7e3179d04ab62b6923ffe6b740fb0d489e41d33ea152cbe35cbd58093cb47",
+  "written_at": "2026-07-11T06:42:40.106668Z",
+  "financebench_version": "0.1.0-alpha",
+  "response": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b",
+    "content": "{\"answer\": \"The percentage change in cash flow hedges in 2011 compared to 2010 cannot be determined from the given information.\", \"numeric_value\": null, \"unit\": null, \"period\": null, \"citations\": [], \"insufficient_information\": true, \"confidence\": null, \"brief_explanation\": \"The context provides the cash flow hedge amounts for 2010 and 2011 but does not give the total amount or value to calculate the percentage change.\"}",
+    "financial_answer": {
+      "answer": "The percentage change in cash flow hedges in 2011 compared to 2010 cannot be determined from the given information.",
+      "numeric_value": null,
+      "unit": null,
+      "citations": [],
+      "insufficient_information": true,
+      "confidence": null,
+      "brief_explanation": "The context provides the cash flow hedge amounts for 2010 and 2011 but does not give the total amount or value to calculate the percentage change."
+    },
+    "parsed": true,
+    "token_usage": {
+      "prompt_tokens": 1422,
+      "completion_tokens": 109,
+      "total_tokens": 1531
+    },
+    "latency_ms": 82236.11106399994,
+    "estimated_cost_usd": 0.0,
+    "raw": {
+      "id": "chatcmpl-871",
+      "finish_reason": "stop"
+    }
+  }
+}

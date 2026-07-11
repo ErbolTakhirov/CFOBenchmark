@@ -1,10 +1,31 @@
-"""Native, benchmark-specific metrics — each wrapped benchmark's own official evaluation method,
-preserved rather than flattened into a generic score. Importing this package registers every
-native metric implemented so far (currently just FinQA's execution accuracy)."""
+"""Native, benchmark-specific metrics.
+
+Each wrapped benchmark's own official evaluation method, preserved rather than flattened into a
+generic score — and, where a metric is *not* the official one, named so that it cannot be mistaken
+for it (``finqa_answer_accuracy`` is ours; ``finqa_execution_accuracy`` is FinQA's). Parity against
+the real official evaluators is asserted in ``tests/parity/``.
+
+Importing this package registers every native metric implemented so far.
+"""
 
 from __future__ import annotations
 
 from financebench.evaluation.native import finqa as _finqa  # noqa: F401
-from financebench.evaluation.native.finqa import FinQAExecutionAccuracy, execute_program
+from financebench.evaluation.native import tatqa as _tatqa  # noqa: F401
+from financebench.evaluation.native.finqa import (
+    FinQAAnswerAccuracy,
+    FinQAExecutionAccuracy,
+    FinQAProgramAccuracy,
+    execute_program,
+)
+from financebench.evaluation.native.tatqa import TatQAExactMatch, TatQAF1, TatQAScaleAccuracy
 
-__all__ = ["FinQAExecutionAccuracy", "execute_program"]
+__all__ = [
+    "FinQAAnswerAccuracy",
+    "FinQAExecutionAccuracy",
+    "FinQAProgramAccuracy",
+    "TatQAExactMatch",
+    "TatQAF1",
+    "TatQAScaleAccuracy",
+    "execute_program",
+]

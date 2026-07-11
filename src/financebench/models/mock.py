@@ -49,6 +49,7 @@ class GoldOracleEntry:
     gold_answer: str = ""
     gold_numeric_value: float | None = None
     unit: str | None = None
+    scale: str | None = None
 
     @classmethod
     def from_sample(cls, sample: CanonicalSample) -> GoldOracleEntry:
@@ -56,7 +57,21 @@ class GoldOracleEntry:
             gold_answer=sample.gold.answer,
             gold_numeric_value=sample.gold.numeric_value,
             unit=sample.gold.unit,
+            scale=sample.gold.scale.value if sample.gold.scale is not None else None,
         )
+
+    @property
+    def stated_unit(self) -> str | None:
+        """What a *perfect* model would write in the answer's ``unit`` field.
+
+        The canonical schema keeps magnitude (``scale``: thousand/million/billion) separate from
+        unit (``percent``, ``usd``, ...). A model has no such separation — it writes one word. If
+        the mock only ever echoed ``unit``, a million-scale answer would come back with no
+        magnitude at all, and would then score *zero* against a benchmark like TAT-QA that folds
+        the magnitude into the compared value. That would look like a metric bug and is really a
+        simulator that cannot express a correct answer.
+        """
+        return self.unit or self.scale
 
 
 def build_mock_oracle(samples: Sequence[CanonicalSample]) -> dict[str, GoldOracleEntry]:
@@ -87,7 +102,7 @@ def _echo_gold(entry: GoldOracleEntry) -> FinancialAnswer:
     return FinancialAnswer(
         answer=entry.gold_answer,
         numeric_value=entry.gold_numeric_value,
-        unit=entry.unit,
+        unit=entry.stated_unit,
         brief_explanation="Directly taken from the referenced data.",
     )
 
@@ -98,7 +113,7 @@ def _formatting_noise(entry: GoldOracleEntry) -> FinancialAnswer:
         answer=f"Based on the filing, the figure comes out to approximately {noisy}, "
         "per the table referenced above.",
         numeric_value=entry.gold_numeric_value,
-        unit=entry.unit,
+        unit=entry.stated_unit,
         brief_explanation="Derived from the referenced table.",
     )
 
@@ -107,7 +122,9 @@ def _always_wrong(entry: GoldOracleEntry) -> FinancialAnswer:
     # Deterministically wrong, but not by an amount so large the numeric-tolerance metric would
     # treat it as a formatting artifact rather than a genuine miss.
     wrong_value = (entry.gold_numeric_value or 0.0) + 999.0
-    return FinancialAnswer(answer=str(wrong_value), numeric_value=wrong_value, unit=entry.unit)
+    return FinancialAnswer(
+        answer=str(wrong_value), numeric_value=wrong_value, unit=entry.stated_unit
+    )
 
 
 def _refuse(_: GoldOracleEntry) -> FinancialAnswer:
