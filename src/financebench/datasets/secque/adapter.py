@@ -185,11 +185,39 @@ class SecqueAdapter(DatasetAdapter):
         return samples
 
     def _samples(self) -> Iterator[CanonicalSample]:
+        """All 565, in a **deterministic stratified interleave** — round-robin across the four
+        categories rather than one file after another.
+
+        This is not cosmetic. The categories are wildly unbalanced (Comparison 220, Ratio 188,
+        Risk 85, Analysis 72) and they measure *different things*: Ratio is arithmetic, Risk is an
+        essay. Emitted file-by-file, ``--max-samples 80`` returns **72 Analysis and 8 Comparison** —
+        zero Ratio, zero Risk — and reports it as "SECQUE". That is not a small sampling artefact; it
+        is a different benchmark wearing SECQUE's name, and it would have been invisible in the
+        output.
+
+        Interleaved, any prefix is approximately balanced: 80 samples is roughly 20 of each. The order
+        is fully deterministic (sorted by QID within each stratum), so a run is reproducible and a
+        frozen manifest can pin exactly these ids.
+        """
+        by_category: dict[str, list[CanonicalSample]] = {}
         for filename in sorted(_FILES):
             path = self._data_dir / filename
             for line in path.read_text(encoding="utf-8").splitlines():
-                if line.strip():
-                    yield self._to_sample(json.loads(line))
+                if not line.strip():
+                    continue
+                sample = self._to_sample(json.loads(line))
+                by_category.setdefault(sample.metadata["category"], []).append(sample)
+
+        for group in by_category.values():
+            group.sort(key=lambda s: s.metadata["qid"])
+
+        # Round-robin. A stratum that runs out simply stops contributing; the rest carry on, so all
+        # 565 are still emitted and only their ORDER changes.
+        streams = [by_category[key] for key in sorted(by_category)]
+        for index in range(max((len(s) for s in streams), default=0)):
+            for stream in streams:
+                if index < len(stream):
+                    yield stream[index]
 
     def _to_sample(self, record: dict[str, Any]) -> CanonicalSample:
         qid = str(record["QID"]).strip()

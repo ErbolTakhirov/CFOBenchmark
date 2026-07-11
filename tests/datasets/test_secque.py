@@ -145,3 +145,28 @@ def test_the_manifest_says_there_is_no_exact_match_metric_and_why() -> None:
 
 def test_the_adapter_is_registered() -> None:
     assert isinstance(create_dataset("secque"), SecqueAdapter)
+
+
+def test_any_prefix_is_stratified_across_the_four_categories() -> None:
+    """The categories are wildly unbalanced (Comparison 220, Ratio 188, Risk 85, Analysis 72) and
+    they measure DIFFERENT THINGS — Ratio is arithmetic, Risk is an essay.
+
+    Emitted file-by-file, `--max-samples 80` returned 72 Analysis and 8 Comparison: zero Ratio, zero
+    Risk — and reported it as "SECQUE". That is not a sampling artefact, it is a different benchmark
+    wearing SECQUE's name, and it would have been completely invisible in the output.
+    """
+    from collections import Counter
+
+    samples = _samples()
+    assert len(samples) == 565, "interleaving must not drop or duplicate a single task"
+
+    for n in (40, 80, 120):
+        counts = Counter(s.metadata["category"] for s in samples[:n])
+        assert len(counts) == 4, f"a {n}-sample prefix must cover all four categories"
+        assert min(counts.values()) >= n // 8, f"a {n}-sample prefix is lopsided: {dict(counts)}"
+
+
+def test_the_order_is_deterministic_so_a_run_is_reproducible() -> None:
+    first = [s.sample_id for s in _samples()[:20]]
+    second = [s.sample_id for s in _samples()[:20]]
+    assert first == second
