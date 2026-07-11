@@ -133,6 +133,11 @@ extend-immutable-calls = ["typer.Argument", "typer.Option"]
 # The official FinanceReasoning normalize() matches on the literal MULTIPLICATION SIGN (U+00D7).
 # Replacing it with an ASCII "x" would silently stop matching what the official code matches.
 "src/financebench/evaluation/native/finance_reasoning.py" = ["RUF001", "S307"]
+# SMB-CFO is deliberately BILINGUAL: the Russian questions are the entire point of the EN/RU
+# paired cases. Ruff's ambiguous-unicode rules flag every Cyrillic letter as a possible typo for a
+# Latin lookalike, which here is noise on every single line.
+"src/financebench/datasets/smb_cfo/tasks.py" = ["RUF001", "RUF002", "RUF003"]
+"src/financebench/datasets/smb_cfo/adversarial.py" = ["RUF001", "RUF002", "RUF003"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"

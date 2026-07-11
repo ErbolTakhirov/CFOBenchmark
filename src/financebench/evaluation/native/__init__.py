@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from financebench.evaluation.native import finance_reasoning as _fr  # noqa: F401
 from financebench.evaluation.native import finqa as _finqa  # noqa: F401
+from financebench.evaluation.native import smb_cfo as _smb  # noqa: F401
 from financebench.evaluation.native import tatqa as _tatqa  # noqa: F401
 from financebench.evaluation.native.finance_reasoning import FinanceReasoningAccuracy
 from financebench.evaluation.native.finqa import (

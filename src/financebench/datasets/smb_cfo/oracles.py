@@ -167,6 +167,17 @@ def cash_runway_months(business: Business, months: int = 3) -> OracleResult:
         return OracleResult(value=None, unit="months", unanswerable=True, note="burn unknown")
     assert isinstance(burn.value, Decimal)
 
+    # Already out of money. `cash / abs(burn)` would return a NEGATIVE number of months here, which
+    # is not a shorter runway — it is nonsense, and a model that "matched" it would be matching a
+    # broken gold. A business with no cash has no runway: the answer is zero, and the gap is now.
+    if cash <= 0:
+        return OracleResult(
+            value=Decimal("0.0"),
+            unit="months",
+            note="the cash balance is already zero or negative; the runway is exhausted",
+            detail={"cash": str(cash), "net_monthly_burn": str(burn.value)},
+        )
+
     if burn.value >= 0:
         return OracleResult(
             value="infinite",
@@ -196,6 +207,14 @@ def cash_gap_date(business: Business, months: int = 3) -> OracleResult:
             note="cash is growing; there is no cash-gap date",
         )
     assert isinstance(runway.value, Decimal)
+
+    # Already negative: the gap is not in the future, it is now.
+    if runway.value <= 0:
+        return OracleResult(
+            value="already negative",
+            unit="date",
+            note="the cash balance is already zero or below; the gap is not a forecast",
+        )
 
     whole = int(runway.value)
     cursor = business.as_of
@@ -494,6 +513,10 @@ def scenario_revenue_drop(business: Business, fraction: Decimal, months: int = 3
 
     cash = current_cash_balance(business).value
     assert isinstance(cash, Decimal)
+    if cash <= 0:
+        return OracleResult(
+            value=Decimal("0.0"), unit="months", note="the cash balance is already exhausted"
+        )
     if new_net >= 0:
         return OracleResult(value="infinite", unit="months", note="still cash-generative")
     return OracleResult(
@@ -545,6 +568,10 @@ def scenario_cut_expenses(business: Business, fraction: Decimal, months: int = 3
 
     cash = current_cash_balance(business).value
     assert isinstance(cash, Decimal)
+    if cash <= 0:
+        return OracleResult(
+            value=Decimal("0.0"), unit="months", note="the cash balance is already exhausted"
+        )
     if new_net >= 0:
         return OracleResult(value="infinite", unit="months", note="cash-generative after the cut")
     return OracleResult(

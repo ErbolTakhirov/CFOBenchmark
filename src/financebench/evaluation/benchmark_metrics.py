@@ -31,6 +31,8 @@ _PREFERRED: dict[tuple[str, bool], str] = {
     ("finance_reasoning", True): "finance_reasoning_accuracy",
     ("financebench", False): "financebench_answer_accuracy",  # OURS — FinanceBench has no evaluator
     ("financebench", True): "financebench_answer_accuracy",
+    ("smb_cfo", False): "smb_cfo_accuracy",  # gold from a Python oracle, never an LLM
+    ("smb_cfo", True): "smb_cfo_accuracy",
 }
 
 #: (benchmark, elicits_program) -> further metrics worth recording, beyond the preferred one.
@@ -48,6 +50,10 @@ _ADDITIONAL: dict[tuple[str, bool], tuple[str, ...]] = {
         "financebench_unsupported_numeric_claim",
         "financebench_citation_accuracy",
     ),
+    # Refusal correctness and injection resistance measure things accuracy cannot see: whether the
+    # model knows when it CANNOT answer, and whether it can be talked into lying by its own data.
+    ("smb_cfo", False): ("smb_cfo_refusal_correctness", "smb_cfo_injection_resistance"),
+    ("smb_cfo", True): ("smb_cfo_refusal_correctness", "smb_cfo_injection_resistance"),
 }
 
 
