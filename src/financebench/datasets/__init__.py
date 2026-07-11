@@ -1,20 +1,19 @@
-"""Dataset adapters: the ``DatasetAdapter`` contract, registry, and the built-in ``smoke`` fixture.
+"""Dataset adapters: the ``DatasetAdapter`` contract, the registry, and every built-in adapter.
 
-Importing this package registers every built-in adapter (currently just ``smoke``; real
-benchmark adapters land in Milestone 2+) — CLI code should ``import financebench.datasets`` (not
-a specific adapter module) so the registry is always fully populated.
+Importing this package registers all of them, so CLI code should ``import financebench.datasets``
+rather than a specific adapter module — the registry is then always fully populated.
+
+``smoke`` is a pipeline fixture, **not a benchmark**. It exists to prove the CLI/engine/cache/
+metrics/artifacts chain works offline, and its scores are never evidence of financial capability.
 """
 
 from __future__ import annotations
 
-from financebench.datasets import (
-    finance_reasoning as _fr,  # noqa: F401  (registers "finance_reasoning")
-)
-from financebench.datasets import finqa as _finqa  # noqa: F401  (import registers "finqa")
-from financebench.datasets import smoke as _smoke  # noqa: F401
-from financebench.datasets import (
-    tatqa as _tatqa,  # noqa: F401  (registers "tatqa")  (import registers "smoke")
-)
+from financebench.datasets import finance_reasoning as _fr  # noqa: F401  (registers it)
+from financebench.datasets import financebench as _fb  # noqa: F401  (registers "financebench")
+from financebench.datasets import finqa as _finqa  # noqa: F401  (registers "finqa")
+from financebench.datasets import smoke as _smoke  # noqa: F401  (registers "smoke")
+from financebench.datasets import tatqa as _tatqa  # noqa: F401  (registers "tatqa")
 from financebench.datasets.base import (
     DatasetAdapter,
     available_datasets,
@@ -22,13 +21,19 @@ from financebench.datasets.base import (
     get_dataset_class,
     register_dataset,
 )
+from financebench.datasets.finance_reasoning import FinanceReasoningAdapter
+from financebench.datasets.financebench import FinanceBenchAdapter
 from financebench.datasets.finqa import FinQAAdapter
 from financebench.datasets.smoke import SmokeDatasetAdapter
+from financebench.datasets.tatqa import TatQAAdapter
 
 __all__ = [
     "DatasetAdapter",
     "FinQAAdapter",
+    "FinanceBenchAdapter",
+    "FinanceReasoningAdapter",
     "SmokeDatasetAdapter",
+    "TatQAAdapter",
     "available_datasets",
     "create_dataset",
     "get_dataset_class",

@@ -476,9 +476,27 @@ def eval_(
     eval_mode: Annotated[
         EvalMode,
         typer.Option(
-            "--eval-mode", help="What is being measured: the model, a retriever, or an agent."
+            "--eval-mode",
+            "--mode",
+            help="What is being measured: the model, a retriever, or an agent.",
         ),
     ] = EvalMode.CONTEXT_GIVEN,
+    retriever: Annotated[
+        str,
+        typer.Option("--retriever", help="bm25 | dense | hybrid (retrieval_required only)."),
+    ] = "bm25",
+    top_k: Annotated[
+        int, typer.Option("--top-k", help="Pages the retriever returns (retrieval_required only).")
+    ] = 5,
+    document_scoped: Annotated[
+        bool,
+        typer.Option(
+            "--document-scoped",
+            help="Narrow the corpus to the filing the question names, so retrieval is a "
+            "find-the-page task rather than a find-the-company one. Reported separately: the two "
+            "settings answer different questions.",
+        ),
+    ] = False,
 ) -> None:
     """Evaluate a model against a single benchmark (--benchmark) or a group (--group)."""
     if prompt_profile not in available_prompt_profiles():
@@ -514,6 +532,9 @@ def eval_(
         allow_mock=allow_mock,
         prompt_profile=prompt_profile,
         eval_mode=eval_mode,
+        retriever=retriever,
+        top_k=top_k,
+        document_scoped=document_scoped,
     )
 
     # One definition of the run id, shared with run_eval — see orchestration.run_id_for().

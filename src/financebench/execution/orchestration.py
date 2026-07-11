@@ -28,6 +28,8 @@ from financebench.execution.cache import ResponseCache
 from financebench.execution.engine import RunEngine, RunResult
 from financebench.models.base import ModelProvider, get_provider_class
 from financebench.models.mock import MockProvider, build_mock_oracle
+from financebench.retrieval.metrics import attribute_retrieval_failure, score_retrieval
+from financebench.retrieval.pipeline import RetrievalPipeline, build_pipeline
 from financebench.schemas.common import DEFAULT_PROMPT_PROFILE, EvalMode, RunType
 from financebench.schemas.manifest import DatasetManifest
 from financebench.schemas.metric import MetricResult
@@ -59,6 +61,9 @@ class EvalRequest:
     """Must be explicitly set to run the ``mock`` provider. See :func:`_build_provider`."""
     prompt_profile: str = DEFAULT_PROMPT_PROFILE
     eval_mode: EvalMode = EvalMode.CONTEXT_GIVEN
+    retriever: str = "bm25"
+    top_k: int = 5
+    document_scoped: bool = False
 
 
 @dataclass(frozen=True)
@@ -155,6 +160,27 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
     # --max-samples mock run doesn't get handed answers it never asked for.
     limited = list(samples)[: config.limit] if config.limit else list(samples)
     provider = _build_provider(model, limited, allow_mock=request.allow_mock)
+
+    # retrieval_required: the model sees ONLY what the retriever finds. The sample's own context —
+    # which for FinanceBench IS the gold evidence — is withheld unconditionally (prompts/profiles).
+    pipeline: RetrievalPipeline | None = None
+    retrieve = None
+    if config.eval_mode is EvalMode.RETRIEVAL_REQUIRED:
+        pdf_dir = Path("data/downloads") / limited[0].benchmark / "pdfs"
+        if not pdf_dir.is_dir():
+            raise ConfigError(
+                f"retrieval_required needs a document corpus at {pdf_dir}, which does not exist. "
+                f"Run: financebench prepare {limited[0].benchmark}"
+            )
+        pipeline = build_pipeline(
+            limited,
+            pdf_dir=pdf_dir,
+            retriever_name=request.retriever,
+            top_k=request.top_k,
+            document_scoped=request.document_scoped,
+        )
+        retrieve = pipeline.retrieve_for
+
     try:
         provider_capabilities = provider.capabilities(model.model)
         run_result = await RunEngine().run(
@@ -164,6 +190,7 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
             cache=cache,
             provider=provider,
             max_cost_usd=request.max_cost_usd,
+            retrieve=retrieve,
         )
     finally:
         await provider.aclose()
@@ -211,6 +238,59 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
     ]
     if numeric_scores:
         numeric_accuracy = sum(numeric_scores) / len(numeric_scores)
+
+    # Retrieval is graded HERE, after inference — the only place gold evidence is ever read. The
+    # attribution is what makes the number actionable: "the retriever never found the page" and
+    # "the retriever found it and the model still got it wrong" have opposite fixes, and a single
+    # RAG-accuracy number cannot tell them apart, so it sends you to fix the wrong component.
+    retrieval_summary: dict[str, object] | None = None
+    if pipeline is not None:
+        response_by_id = {p.sample_id: p.response for p in run_result.predictions}
+        failure_by_id = {f.sample_id: f for f in failures}
+
+        retrieval_scores = []
+        reattributed: list[FailureRecord] = []
+        for sample in evaluated_samples:
+            result = pipeline.results.get(sample.sample_id)
+            if result is None:
+                continue
+            retrieval_score = score_retrieval(sample, result)
+            retrieval_scores.append(retrieval_score)
+
+            existing = failure_by_id.get(sample.sample_id)
+            if existing is None:
+                continue
+            preferred = preferred_by_sample.get(sample.sample_id)
+            response = response_by_id.get(sample.sample_id)
+            refused = bool(
+                response
+                and response.financial_answer
+                and response.financial_answer.insufficient_information
+            )
+            attributed = attribute_retrieval_failure(
+                retrieval_score,
+                answer_correct=bool(preferred and preferred.passed),
+                refused=refused,
+            )
+            reattributed.append(
+                existing.model_copy(update={"failure_type": attributed})
+                if attributed is not None
+                else existing
+            )
+
+        retrieved_ids = set(pipeline.results)
+        failures = reattributed + [f for f in failures if f.sample_id not in retrieved_ids]
+
+        n = len(retrieval_scores) or 1
+        retrieval_summary = {
+            **pipeline.to_json(),
+            "document_recall": sum(s.document_hit for s in retrieval_scores) / n,
+            "page_recall": sum(s.page_hit for s in retrieval_scores) / n,
+            "evidence_precision": sum(s.evidence_precision for s in retrieval_scores) / n,
+            "evidence_recall": sum(s.evidence_recall for s in retrieval_scores) / n,
+            "evidence_f1": sum(s.evidence_f1 for s in retrieval_scores) / n,
+            "n_scored": len(retrieval_scores),
+        }
 
     gates = evaluate_gates(failures=failures, n_scored=n_scored, numeric_accuracy=numeric_accuracy)
     is_mock = run_type is RunType.MOCK_TEST
@@ -260,6 +340,7 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
         scores=scores,
         verdict=verdict.value,
         verdict_reasons=tuple(verdict_reasons),
+        retrieval=retrieval_summary,
     )
     write_run_artifacts(out_dir, inputs)
     return EvalOutcome(run_id=run_id, out_dir=out_dir, run_result=run_result, run_type=run_type)

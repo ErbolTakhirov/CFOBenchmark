@@ -90,17 +90,38 @@ def _render_table(table: Table) -> str:
     return header + "\n".join(lines)
 
 
-def _render_context(sample: CanonicalSample, retrieved: Sequence[RetrievedChunk]) -> str:
-    """The context block. In ``retrieval_required`` mode the sample's own context is *withheld* —
-    the model sees only what the retriever found, which is the entire point of the mode."""
-    parts: list[str] = []
-    if retrieved:
-        parts.append(
+def _render_context(
+    sample: CanonicalSample, retrieved: Sequence[RetrievedChunk], mode: EvalMode
+) -> str:
+    """The context block.
+
+    In ``retrieval_required`` the sample's own context is **withheld unconditionally** — the model
+    sees only what the retriever found, which is the entire point of the mode.
+
+    The `mode` check is load-bearing, and its absence was a live leak. Falling back to
+    ``sample.context`` when retrieval returns nothing looks like a harmless default, but for
+    FinanceBench the sample's context *is the gold evidence text*. A retriever that found nothing
+    would therefore have been silently handed the answer, and the questions it failed hardest on —
+    the ones where retrieval broke down completely — are exactly the ones that would have been
+    scored against a perfect oracle context. The retrieval score would have been inflated most
+    precisely where the retriever was worst.
+
+    So in retrieval mode, empty retrieval means an empty context. The model is told so, and is
+    expected to decline.
+    """
+    if mode is EvalMode.RETRIEVAL_REQUIRED:
+        if not retrieved:
+            return (
+                "No relevant excerpts were retrieved. You have no source material for this "
+                "question."
+            )
+        parts = [
             "Retrieved excerpts (these are all you have; they may be incomplete or irrelevant):"
-        )
+        ]
         parts.extend(chunk.render() for chunk in retrieved)
         return "\n\n".join(parts)
-    parts.extend(sample.context.text)
+
+    parts = list(sample.context.text)
     parts.extend(_render_table(table) for table in sample.context.tables)
     return "\n\n".join(parts)
 
@@ -134,7 +155,7 @@ class PromptProfile(ABC):
         history = _render_history(sample)
         if history:
             parts.append(history)
-        context = _render_context(sample, retrieved)
+        context = _render_context(sample, retrieved, mode)
         if context:
             parts.append(f"Context:\n{context}")
         if sample.choices:

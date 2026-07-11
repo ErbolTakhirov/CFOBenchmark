@@ -29,6 +29,8 @@ _PREFERRED: dict[tuple[str, bool], str] = {
     ("tatqa", True): "tatqa_exact_match",  # TAT-QA has no program mode
     ("finance_reasoning", False): "finance_reasoning_accuracy",  # official
     ("finance_reasoning", True): "finance_reasoning_accuracy",
+    ("financebench", False): "financebench_answer_accuracy",  # OURS — FinanceBench has no evaluator
+    ("financebench", True): "financebench_answer_accuracy",
 }
 
 #: (benchmark, elicits_program) -> further metrics worth recording, beyond the preferred one.
@@ -36,6 +38,16 @@ _ADDITIONAL: dict[tuple[str, bool], tuple[str, ...]] = {
     ("finqa", True): ("finqa_program_accuracy",),
     ("tatqa", False): ("tatqa_f1", "tatqa_scale_accuracy"),
     ("tatqa", True): ("tatqa_f1", "tatqa_scale_accuracy"),
+    # The hallucination detector applies to ALL 150 regardless of gold answer shape, and is the
+    # single most important number this benchmark produces.
+    ("financebench", False): (
+        "financebench_unsupported_numeric_claim",
+        "financebench_citation_accuracy",
+    ),
+    ("financebench", True): (
+        "financebench_unsupported_numeric_claim",
+        "financebench_citation_accuracy",
+    ),
 }
 
 

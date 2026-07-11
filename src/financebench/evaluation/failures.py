@@ -198,7 +198,10 @@ def attribute_failure(
             detail=(prediction.error or "")[:300],
         )
 
-    if result is not None and result.passed:
+    # passed=None means NOT APPLICABLE, not "failed". A free-text FinanceBench answer that no
+    # deterministic metric can check is not a model failure — recording it as one would invent a
+    # 0.0 out of our own inability to grade it.
+    if result is not None and result.passed is not False:
         return None
 
     answer = response.financial_answer

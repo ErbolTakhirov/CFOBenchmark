@@ -21,6 +21,7 @@ from pathlib import Path
 
 from financebench.evaluation.capability_map import CapabilityDimension
 from financebench.evaluation.failures import FailureRecord, failure_distribution
+from financebench.evaluation.fingerprint import current_fingerprint
 from financebench.evaluation.metrics.base import aggregate_metric
 from financebench.evaluation.scoring import FinanceScores
 from financebench.evaluation.stats import bootstrap_ci
@@ -85,6 +86,7 @@ class ArtifactInputs:
     scores: FinanceScores | None = None
     verdict: str = "NOT_EVALUATED"
     verdict_reasons: tuple[str, ...] = ()
+    retrieval: Mapping[str, object] | None = None
 
     @property
     def eligible_for_leaderboard(self) -> bool:
@@ -162,6 +164,10 @@ def _write_environment(out: Path, inputs: ArtifactInputs) -> None:
         "run_type": inputs.run_type.value,
         "eligible_for_leaderboard": inputs.eligible_for_leaderboard,
         "seed": inputs.config.seed,
+        # The evaluator fingerprint: what OUR code was, not what the model was. Two runs with
+        # different digests are not comparable — fixing the answer parser once moved a score from
+        # 5% to 15% on identical cached responses, and nothing about the model had changed.
+        "evaluator_fingerprint": current_fingerprint().to_json(),
         "git_commit": git_commit(),
         "git_dirty": git_is_dirty(),
         "python_version": python_version(),
@@ -222,6 +228,7 @@ def _write_capabilities(out: Path, inputs: ArtifactInputs) -> None:
         "verdict": inputs.verdict,
         "verdict_reasons": list(inputs.verdict_reasons),
         "failure_distribution": failure_distribution(inputs.failures),
+        "retrieval": dict(inputs.retrieval) if inputs.retrieval else None,
     }
     (out / "capabilities.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 

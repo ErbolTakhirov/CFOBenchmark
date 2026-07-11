@@ -7,6 +7,9 @@ Milestone 1 foundation both of those build on.
 
 from __future__ import annotations
 
+from financebench.evaluation import (
+    grounding as _grounding,  # noqa: F401  (registers grounding metrics)
+)
 from financebench.evaluation import native as _native  # noqa: F401  (registers native metrics)
 from financebench.evaluation.benchmark_metrics import metrics_for_run, preferred_metric_name
 from financebench.evaluation.capability_map import (

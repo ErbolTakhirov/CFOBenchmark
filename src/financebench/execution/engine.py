@@ -15,7 +15,7 @@ separate mechanism. A failed call is never cached, so a transient error doesn't 
 from __future__ import annotations
 
 import asyncio
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 
 from financebench import __version__
@@ -112,6 +112,12 @@ class RunResult:
     budget_exceeded: bool = False
 
 
+#: Resolves the retrieved context for one sample. Takes a sample and returns the chunks the model
+#: will actually see, plus whatever the evaluator needs afterwards. The engine treats it as opaque:
+#: it does not know or care how retrieval happened, only that the model gets what came back.
+RetrievalFn = Callable[[CanonicalSample], tuple[tuple[RetrievedChunk, ...], object]]
+
+
 @dataclass
 class _RunContext:
     """Per-run invariants plus mutable cost accumulators (mutated cooperatively; see the budget
@@ -123,6 +129,7 @@ class _RunContext:
     cache: ResponseCache
     limiter: RateLimiter
     max_cost_usd: float | None
+    retrieve: RetrievalFn | None = None
     total_cost: float = 0.0
     total_tokens: int = 0
     priced_any: bool = False
@@ -155,6 +162,7 @@ class RunEngine:
         provider: ModelProvider | None = None,
         requests_per_second: float | None = None,
         max_cost_usd: float | None = None,
+        retrieve: RetrievalFn | None = None,
     ) -> RunResult:
         owns_provider = provider is None
         provider_instance = provider or create_provider(model.provider)
@@ -165,6 +173,7 @@ class RunEngine:
             cache=cache,
             limiter=RateLimiter(requests_per_second, self._sleep),
             max_cost_usd=max_cost_usd,
+            retrieve=retrieve,
         )
         limited = list(samples)[: config.limit] if config.limit else list(samples)
         try:
@@ -196,7 +205,17 @@ class RunEngine:
 
     # -- per-sample execution ------------------------------------------------
     async def _run_sample(self, ctx: _RunContext, sample: CanonicalSample) -> Prediction:
-        request = build_request(sample, ctx.model, ctx.config)
+        # In retrieval_required mode the model sees ONLY what the retriever found — the sample's own
+        # context is withheld, which is the entire point of the mode. The retriever is never handed
+        # the sample's gold (see retrieval/retriever.py).
+        retrieved: tuple[RetrievedChunk, ...] = ()
+        if ctx.retrieve is not None:
+            # The engine only needs the chunks the model will see. What the retriever *found* is
+            # recorded by the pipeline itself and graded after the run — the engine must not be in
+            # the business of knowing about gold evidence.
+            retrieved, _ = ctx.retrieve(sample)
+
+        request = build_request(sample, ctx.model, ctx.config, retrieved=retrieved)
 
         # Best-effort budget guard: stop issuing *new* calls once spend reaches the cap.
         # In-flight calls may overshoot by at most the concurrency width; pair with
