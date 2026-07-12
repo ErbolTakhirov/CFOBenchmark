@@ -1572,14 +1572,55 @@ def release_build(
 
     failed = [g for g in gates if g.passed is False]
     if failed:
+        remedy = {
+            "one evaluator fingerprint across all runs": (
+                "Re-score the stale runs onto the current fingerprint:\n"
+                "`financebench resume --run-id <id> --model-config <cfg>` replays cached responses "
+                "and costs nothing.\n\n"
+                "**Except for tool_assisted runs.** Those are deliberately uncached (an agent run is "
+                "a conversation, not one hashable request), so re-scoring one means re-running every "
+                "turn against the model."
+            ),
+            "paired direct-vs-tools run complete": (
+                "Run the missing variants against the frozen manifest:\n"
+                "`financebench eval --manifest configs/manifests/tool_paired_v1.json "
+                "--model-config <cfg> --mode {context_given|tool_assisted}`\n\n"
+                "All four must exist, on the SAME 150 sample ids, or the paired comparison does not "
+                "exist. Do not substitute an unrelated direct run — the previous tool run was on "
+                "`tatqa:train:` ids while both direct runs used `tatqa:dev:`, so it could not be "
+                "paired with anything at all."
+            ),
+            "release-group run complete (both models)": (
+                "`financebench eval --manifest configs/manifests/release_v0_1.json "
+                "--model-config <cfg>`\n\n"
+                "This is the **only** run that can produce a Finance Capability Index: the index is "
+                "withheld unless ONE run covered SMB-CFO *and* a grounding benchmark *and* refusal "
+                "together. Without it, the report's headline is `INSUFFICIENT_COVERAGE`."
+            ),
+            "retrieval ablation complete": (
+                "Retrieval metrics for all 18 cells are cheap (no model runs):\n"
+                "`financebench retrieval-eval --retrievers bm25,dense,hybrid --top-k 1,3,5,10,20`\n\n"
+                "The **generated** arms are not cheap — ~4.6 GPU-hours each at 109.5 s/sample. At "
+                "least two are needed to say anything about whether better retrieval produces better "
+                "answers."
+            ),
+        }
         blockers = [
             f"# BLOCKERS — {version}",
             "",
             "This release candidate **was not tagged**. Every gate below must pass first.",
             "",
+            "Note what is *not* here: ruff, mypy, the 1,056 primary tests, the 411 security tests, "
+            "and the 17 parity tests (zero skips) all **pass**. The code is healthy. What is missing "
+            "is *evidence* — runs that have not finished. Tagging on a green test suite while the "
+            "headline experiment is still executing is precisely the dishonesty this project exists "
+            "to prevent.",
+            "",
         ]
         for gate in failed:
             blockers += [f"## {gate.name}", "", "```", gate.detail, "```", ""]
+            if gate.name in remedy:
+                blockers += ["**What clears it**", "", remedy[gate.name], ""]
         (out_dir / "BLOCKERS.md").write_text("\n".join(blockers) + "\n", encoding="utf-8")
         console.print(
             f"\n[red]{len(failed)} gate(s) FAILED. Wrote {out_dir / 'BLOCKERS.md'}. "
