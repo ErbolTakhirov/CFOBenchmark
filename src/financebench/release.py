@@ -325,26 +325,37 @@ def check_release_gates(out_dir: Path, *, runs_dir: Path) -> list[GateOutcome]:
     # would be exactly the dishonesty this project exists to prevent. A benchmark whose gates only
     # test the benchmark's own source code is testing the wrong thing.
 
-    def run_ids() -> list[str]:
-        if not runs_dir.is_dir():
-            return []
-        return [p.name for p in runs_dir.iterdir() if (p / "environment.json").is_file()]
+    # The runs THIS RELEASE PUBLISHES — read from the manifest that was just written, not from
+    # whatever happens to be lying in runs/.
+    #
+    # This distinction is the gate's whole meaning. An old exploratory run, scored by an evaluator
+    # from three commits ago, is not a release blocker — it is an old run. Gating on "every directory
+    # under runs/" would either block the release forever or, far worse, push somebody to delete
+    # inconvenient history to make a gate go green. The question is whether every run the release
+    # PUTS ITS NAME TO was scored by the same evaluator, because those are the numbers that will sit
+    # next to each other and be compared.
+    published = json.loads(manifest_path.read_text(encoding="utf-8")).get("runs", [])
+    ids = [str(r["run_id"]) for r in published]
 
-    ids = run_ids()
-
-    # Every published run must have been scored by the SAME evaluator, or the comparisons between
-    # them measure our code rather than the models.
-    fingerprints = set()
-    for rid in ids:
-        env = json.loads((runs_dir / rid / "environment.json").read_text(encoding="utf-8"))
-        digest = env.get("evaluator_fingerprint", {}).get("digest")
-        if digest:
-            fingerprints.add(digest)
+    fingerprints = {str(r.get("evaluator_fingerprint")) for r in published}
+    fingerprints.discard("None")
     gates.append(
         GateOutcome(
-            "one evaluator fingerprint across all runs",
-            len(fingerprints) <= 1,
-            f"{len(fingerprints)} distinct: {sorted(fingerprints)}"[:110],
+            "one evaluator fingerprint across published runs",
+            len(fingerprints) == 1,
+            f"{len(published)} published run(s), {len(fingerprints)} distinct fingerprint(s): "
+            f"{sorted(fingerprints)}"[:110],
+        )
+    )
+
+    # A mock run reads the gold answers. It measures the pipeline, never a model, and it may not be
+    # published under any circumstances.
+    mocks = [r["run_id"] for r in published if r.get("run_type") != "real"]
+    gates.append(
+        GateOutcome(
+            "no mock run is published",
+            not mocks,
+            f"{len(mocks)} mock run(s) in the release: {mocks[:2]}" if mocks else "none",
         )
     )
 

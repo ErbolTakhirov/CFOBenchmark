@@ -1853,7 +1853,36 @@ def release_build(
 
     ids = list(run_id or [])
     if not ids:
-        ids = sorted(p.name for p in runs_dir.iterdir() if (p / "environment.json").is_file())
+        # A release publishes the runs it MEANS to publish, not every directory that happens to be
+        # under runs/. Left to sweep the whole directory it would hoover up old exploratory runs — a
+        # 6-sample smoke, a 9-sample spike, superseded 40-sample probes — and stand them next to a
+        # 220-sample frozen evaluation as though they said comparable things about a model.
+        #
+        # The rule: a run is published if it is REAL and was scored by the CURRENT evaluator.
+        # Everything else stays on disk, unpublished, and is listed — excluded visibly, not silently.
+        current = current_fingerprint().digest
+        ids = []
+        skipped: list[tuple[str, str, str]] = []
+        for path in sorted(runs_dir.iterdir()):
+            env_path = path / "environment.json"
+            if not env_path.is_file():
+                continue
+            env = json.loads(env_path.read_text(encoding="utf-8"))
+            digest = str(env.get("evaluator_fingerprint", {}).get("digest"))
+            if env.get("run_type") == "real" and digest == current:
+                ids.append(path.name)
+            else:
+                skipped.append((path.name, digest, str(env.get("run_type"))))
+        if skipped:
+            console.print(
+                f"[yellow]Excluding {len(skipped)} run(s) from the release[/yellow] — "
+                "not scored by the current evaluator, or not a real run:"
+            )
+            for name, digest, run_type in skipped[:8]:
+                console.print(f"  [dim]{digest[:16]:16s} {run_type:9s} {name[:56]}[/dim]")
+            if len(skipped) > 8:
+                console.print(f"  [dim]... and {len(skipped) - 8} more[/dim]")
+            console.print()
 
     console.print(f"[bold]Building release {version}[/bold] from {len(ids)} run(s)\n")
     payload = build_release(
