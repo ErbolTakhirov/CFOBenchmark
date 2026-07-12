@@ -572,17 +572,26 @@ def rescore_from_artifacts(
         for line in (out_dir / "predictions.jsonl").read_text(encoding="utf-8").splitlines()
         if line.strip()
     )
-    by_id = {prediction.sample_id: prediction for prediction in predictions}
-    missing = [s.sample_id for s in samples if s.sample_id not in by_id]
-    if missing:
+    # A run scores the questions IT ASKED — which for a `--max-samples 80` run is 80 of SECQUE's
+    # 565, not all 565. So the direction of the check is: every stored prediction must map to a
+    # sample we can still find. A sample with no prediction was simply never run, and is not an
+    # error; a PREDICTION with no sample means the dataset moved underneath us, and is.
+    samples_by_id = {sample.sample_id: sample for sample in samples}
+    orphaned = [p.sample_id for p in predictions if p.sample_id not in samples_by_id]
+    if orphaned:
         raise ConfigError(
-            f"cannot re-score {run_id}: {len(missing)} sample(s) have no stored response, so there "
-            f"is nothing to re-read.\n  first missing: {missing[:3]}\n"
-            "Run the evaluation rather than re-scoring it."
+            f"cannot re-score {run_id}: {len(orphaned)} stored response(s) belong to sample ids "
+            f"that no longer exist in the dataset — the data has moved underneath this run, and "
+            f"re-scoring it would grade answers against questions that were never asked.\n"
+            f"  first orphaned: {orphaned[:3]}\n"
+            "Re-run the evaluation rather than re-scoring it."
         )
-    # Score against the samples in the ORDER THEY WERE RUN, 1:1 with their predictions.
-    ordered = tuple(s for s in samples if s.sample_id in by_id)
-    aligned = tuple(by_id[s.sample_id] for s in ordered)
+    # Score in the ORDER THE RUN ACTUALLY RAN — which is the order of its predictions, not the order
+    # of the dataset. A `--max-samples` run over a stratified adapter does not take a prefix of the
+    # dataset's natural order, and zipping the two would grade every answer against the wrong
+    # question while raising nothing at all.
+    ordered = tuple(samples_by_id[p.sample_id] for p in predictions)
+    aligned = predictions
 
     # A tool run's metrics are computed from its traces, which live in their own artifact. Without
     # them the tool metrics would all return "no trace" — not-applicable — and a re-score would

@@ -58,6 +58,39 @@ own family is not evidence.
 The judge is also **not wired into `eval`** (`judge_config: null`); the only entry point is
 `financebench calibrate-judge`. So SECQUE reports deterministic diagnostics only.
 
+## `secque_comparison_direction` grades only the unambiguous questions — and says so
+
+It reports **1.000 on n=12 of 80** for the 7B, and it is flagged `underpowered`. That 1.000 is not a
+statement that the model always gets the direction of travel right. It is a statement about the
+**twelve questions where both the expert and the model committed to exactly one direction.**
+
+v2 fixed half of this: the expert states the direction by listing two dated figures (`EBIT 2018:
+$4,379m / EBIT 2017: $4,945m`) at least as often as by writing "decreased", and v1 declared itself
+inapplicable whenever the word was absent. That is repaired — the gold's direction is now derived from
+its own figures.
+
+**The other half is not repaired, deliberately.** The metric still abstains when the *model's* text
+contains conflicting direction words. The case that exposed it:
+
+> gold: EBIT **fell** ($4,945m → $4,379m)
+> model: *"NIKE's EBIT **increased** from $5,192m in 2017 to $5,525m in 2018. EBIT for North America
+> **increased** from $3,875m to $3,600m, which is a **decrease** of $275 million. However, the overall
+> EBIT **increased**…"*
+
+Both figures are invented **and the conclusion is inverted** — and the metric abstains, because the
+answer contains "increased" *and* "decrease" (it discusses a segment alongside the total).
+
+Deciding which of two contradictory directional claims is the *headline* is a judgement, and any
+heuristic for it — take the last one, take the one near "overall", take the first — would manufacture
+a directional verdict the model never clearly gave. **A metric that guesses is worse than one that
+abstains,** so it abstains, and its `n` is printed next to it.
+
+The consequence, stated plainly: **this metric systematically excludes the answers that hedge or
+contradict themselves — which are the interesting ones.** Read `1.000 (n=12)` as "of the twelve
+questions where the model committed to one direction, it got all twelve right", and nothing more.
+
+The hallucination detector *did* catch this answer: both figures are flagged as unsupported.
+
 ## SECQUE's denominators differ between models
 
 `secque_filing_identification` is graded on **62 of 80** samples for the 7B but **56** for the 3B — the
