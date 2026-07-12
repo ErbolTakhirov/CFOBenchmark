@@ -22,7 +22,7 @@ from typing import Any
 from financebench import __version__
 from financebench.evaluation.fingerprint import current_fingerprint
 from financebench.schemas.sample_manifest import load_sample_manifest
-from financebench.utils.gitmeta import git_commit, git_is_dirty
+from financebench.utils.gitmeta import git_commit
 
 __all__ = [
     "GateOutcome",
@@ -54,6 +54,18 @@ def validate_release_manifest(manifest: dict[str, Any]) -> list[str]:
         f"{'/'.join(str(p) for p in error.absolute_path) or '<root>'}: {error.message}"
         for error in sorted(validator.iter_errors(manifest), key=lambda e: list(e.absolute_path))
     ]
+
+
+def _dirty_excluding_release() -> bool:
+    """Uncommitted SOURCE changes. The release directory is excluded, because `build_release` is
+    writing into it as this is called, and a flag that is permanently true is a flag nobody reads."""
+    proc = subprocess.run(
+        ["git", "status", "--porcelain", "--", ":!release/"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    return bool(proc.stdout.strip())
 
 
 def sha256_file(path: Path) -> str:
@@ -178,7 +190,12 @@ def build_release(
         "release": version,
         "financebench_version": __version__,
         "repository_commit": git_commit(),
-        "repository_dirty": git_is_dirty(),
+        # Dirty *excluding the release directory*, which this very function is in the middle of
+        # writing. Including it makes the flag permanently true and the gate permanently red — and a
+        # gate that can never go green teaches people to ignore gates. What the flag is FOR is
+        # "were there uncommitted SOURCE changes when this was built", because those are what make a
+        # release irreproducible from the commit it names.
+        "repository_dirty": _dirty_excluding_release(),
         "evaluator_fingerprint": fingerprint.to_json(),
         "sample_manifests": [
             {

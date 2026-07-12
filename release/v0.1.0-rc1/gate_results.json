@@ -1,9 +1,9 @@
 {
   "version": "v0.1.0-rc1",
-  "evaluated_at": "2026-07-12T13:27:10.687825Z",
+  "evaluated_at": "2026-07-12T13:33:54.831684Z",
   "n_gates": 23,
-  "n_passed": 18,
-  "n_failed": 5,
+  "n_passed": 20,
+  "n_failed": 3,
   "n_not_applicable": 0,
   "tagged": false,
   "gates": [
@@ -25,27 +25,27 @@
     {
       "name": "primary tests",
       "result": "PASS",
-      "detail": "1072 passed in 24.83s"
+      "detail": "1072 passed in 23.14s"
     },
     {
       "name": "security tests",
       "result": "PASS",
-      "detail": "411 passed in 1.19s"
+      "detail": "411 passed in 1.03s"
     },
     {
       "name": "parity tests",
       "result": "PASS",
-      "detail": "17 passed in 6.62s"
+      "detail": "17 passed in 6.03s"
     },
     {
       "name": "clean working tree",
-      "result": "FAIL",
-      "detail": "M src/financebench/cli.py"
+      "result": "PASS",
+      "detail": "clean"
     },
     {
       "name": "HEAD == origin/main",
       "result": "PASS",
-      "detail": "local cd719a45 vs remote cd719a45"
+      "detail": "local f8cc09a6 vs remote f8cc09a6"
     },
     {
       "name": "release manifest exists",
@@ -80,7 +80,7 @@
     {
       "name": "one evaluator fingerprint across published runs",
       "result": "PASS",
-      "detail": "4 published run(s), 1 distinct fingerprint(s): ['80ca8a678b1c4fa1']"
+      "detail": "5 published run(s), 1 distinct fingerprint(s): ['80ca8a678b1c4fa1']"
     },
     {
       "name": "no mock run is published",
@@ -89,8 +89,8 @@
     },
     {
       "name": "paired direct-vs-tools run complete",
-      "result": "FAIL",
-      "detail": "missing: ['7B direct']"
+      "result": "PASS",
+      "detail": "all 4 variants present"
     },
     {
       "name": "release-group run complete (both models)",
