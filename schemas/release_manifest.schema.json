@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ErbolTakhirov/CFOBenchmark/schemas/release_manifest.schema.json",
+  "title": "FinanceBench release manifest",
+  "description": "Everything that could change a number in this release. A number that cannot be reproduced is an anecdote; this file is what makes it a measurement.",
+  "type": "object",
+  "required": [
+    "release",
+    "financebench_version",
+    "repository_commit",
+    "evaluator_fingerprint",
+    "sample_manifests",
+    "models",
+    "runs",
+    "hardware"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "release": { "type": "string", "examples": ["v0.1.0-rc1"] },
+    "financebench_version": { "type": "string" },
+    "repository_commit": { "type": ["string", "null"] },
+    "repository_dirty": {
+      "type": "boolean",
+      "description": "True means the working tree had uncommitted changes when this was built. A dirty release cannot be reproduced from its commit, and is a release gate failure."
+    },
+    "evaluator_fingerprint": {
+      "type": "object",
+      "description": "The versions of OUR code that can move a score without the model changing. Two runs with different digests are NOT comparable, and `compare` refuses them.",
+      "required": [
+        "digest",
+        "parser_version",
+        "metric_versions",
+        "dataset_adapters",
+        "retrieval_version",
+        "scoring_version"
+      ],
+      "properties": {
+        "digest": { "type": "string" },
+        "parser_version": { "type": "string" },
+        "prompt_profiles": { "type": "object" },
+        "metric_versions": { "type": "object" },
+        "dataset_adapters": {
+          "type": "object",
+          "description": "Each adapter pinned to the upstream commit its data comes from."
+        },
+        "retrieval_version": { "type": "string" },
+        "scoring_version": { "type": "string" },
+        "scoring_config_hash": { "type": "string" }
+      }
+    },
+    "sample_manifests": {
+      "type": "array",
+      "description": "The frozen question sets. `id_hash` is order-independent: two runs sharing it asked the same questions.",
+      "items": {
+        "type": "object",
+        "required": ["path", "name", "id_hash", "n_samples", "sha256"],
+        "properties": {
+          "path": { "type": "string" },
+          "name": { "type": "string" },
+          "id_hash": { "type": "string" },
+          "n_samples": { "type": "integer", "minimum": 1 },
+          "sha256": { "type": "string" }
+        }
+      }
+    },
+    "models": {
+      "type": "object",
+      "description": "Keyed by model_ref. Digest and quantization come from the RUNTIME (`ollama show`), not from a config file — a config file records an intention.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "digest": { "type": "string" },
+          "quantization": { "type": "string", "examples": ["Q4_K_M"] },
+          "parameters": { "type": "string" },
+          "architecture": { "type": "string" }
+        }
+      }
+    },
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "run_id",
+          "model_ref",
+          "provider",
+          "run_type",
+          "evaluator_fingerprint",
+          "n_samples",
+          "sample_id_set_hash"
+        ],
+        "properties": {
+          "run_id": { "type": "string" },
+          "model_ref": { "type": "string" },
+          "provider": { "type": "string" },
+          "run_type": {
+            "enum": ["real", "mock_test"],
+            "description": "A mock run used a simulator holding the answer key. It measures the pipeline, never a model, and is barred from the leaderboard."
+          },
+          "benchmark_or_group": { "type": "string" },
+          "eval_mode": { "enum": ["context_given", "retrieval_required", "tool_assisted"] },
+          "prompt_profile": { "type": "string" },
+          "seed": { "type": "integer" },
+          "temperature": { "type": "number" },
+          "retriever": { "type": ["string", "null"] },
+          "top_k": { "type": ["integer", "null"] },
+          "document_scoped": { "type": ["boolean", "null"] },
+          "evaluator_fingerprint": { "type": ["string", "null"] },
+          "n_samples": { "type": "integer" },
+          "sample_id_set_hash": {
+            "type": "string",
+            "description": "Two runs over 'finqa test' are not comparable if one used 40 samples and the other used all 1,147."
+          },
+          "coverage": { "type": "object" }
+        }
+      }
+    },
+    "hardware": {
+      "type": "object",
+      "required": ["platform", "python"],
+      "properties": {
+        "platform": { "type": "string" },
+        "python": { "type": "string" },
+        "processor": { "type": "string" },
+        "gpu": { "type": ["string", "null"] },
+        "note": {
+          "type": "string",
+          "description": "Stated because it is the biggest confound in every latency number here: a 7B model on a 4 GB card spills to CPU."
+        }
+      }
+    }
+  }
+}

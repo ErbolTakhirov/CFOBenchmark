@@ -34,6 +34,7 @@ from financebench.execution.orchestration import EvalRequest, run_eval, run_id_f
 from financebench.models.base import create_provider, describe_providers, get_provider_class
 from financebench.models.verification import ProviderVerification, verify_all_providers
 from financebench.prompts.profiles import available_prompt_profiles
+from financebench.release import build_release, check_release_gates, sha256_file
 from financebench.reporting import build_mission_report, load_runs
 from financebench.retrieval.ablation import run_ablation
 from financebench.schemas.common import (
@@ -1489,6 +1490,78 @@ def freeze_manifest(
         f"\n[bold green]Frozen[/bold green] {len(manifest.all_sample_ids)} samples -> {output}"
         f"\n  id_hash = [cyan]{manifest.id_hash}[/cyan]"
     )
+
+
+# --------------------------------------------------------------------------- release
+
+
+@app.command(name="release-build")
+def release_build(
+    version: Annotated[str, typer.Option("--version")] = "v0.1.0-rc1",
+    runs_dir: Annotated[Path, typer.Option("--runs-dir")] = Path("runs"),
+    run_id: Annotated[
+        list[str] | None, typer.Option("--run-id", help="Repeat. The runs this release publishes.")
+    ] = None,
+    manifest: Annotated[
+        list[Path] | None, typer.Option("--manifest", help="Repeat. The frozen sample manifests.")
+    ] = None,
+) -> None:
+    """Assemble the release manifest + checksums, then run every mandatory release gate.
+
+    Exits non-zero if any gate fails — and writes `BLOCKERS.md` rather than a tag.
+    """
+    out_dir = Path("release") / version
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    ids = list(run_id or [])
+    if not ids:
+        ids = sorted(p.name for p in runs_dir.iterdir() if (p / "environment.json").is_file())
+
+    console.print(f"[bold]Building release {version}[/bold] from {len(ids)} run(s)\n")
+    payload = build_release(
+        version,
+        runs_dir=runs_dir,
+        run_ids=ids,
+        manifests=list(manifest or []),
+        out_dir=out_dir,
+    )
+    console.print(f"  evaluator fingerprint: {payload['evaluator_fingerprint']['digest']}")
+    console.print(f"  commit: {payload['repository_commit']}  dirty={payload['repository_dirty']}")
+
+    # Checksums over every artifact in the release directory.
+    lines = []
+    for path in sorted(out_dir.rglob("*")):
+        if path.is_file() and path.name != "checksums.txt":
+            lines.append(f"{sha256_file(path)}  {path.relative_to(out_dir)}")
+    (out_dir / "checksums.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    console.print(f"  checksums: {len(lines)} file(s)")
+
+    console.print("\n[bold]Release gates[/bold]")
+    gates = check_release_gates(out_dir, runs_dir=runs_dir)
+    table = Table("Gate", "Result", "Detail")
+    for gate in gates:
+        colour = {"PASS": "green", "FAIL": "red", "NOT APPLICABLE": "yellow"}[gate.label]
+        table.add_row(gate.name, f"[{colour}]{gate.label}[/{colour}]", gate.detail[:60])
+    console.print(table)
+
+    failed = [g for g in gates if g.passed is False]
+    if failed:
+        blockers = [
+            f"# BLOCKERS — {version}",
+            "",
+            "This release candidate **was not tagged**. Every gate below must pass first.",
+            "",
+        ]
+        for gate in failed:
+            blockers += [f"## {gate.name}", "", "```", gate.detail, "```", ""]
+        (out_dir / "BLOCKERS.md").write_text("\n".join(blockers) + "\n", encoding="utf-8")
+        console.print(
+            f"\n[red]{len(failed)} gate(s) FAILED. Wrote {out_dir / 'BLOCKERS.md'}. "
+            "The release is NOT tagged.[/red]"
+        )
+        raise typer.Exit(code=1)
+
+    console.print("\n[bold green]Every mandatory gate passed.[/bold green]")
 
 
 if __name__ == "__main__":
