@@ -1858,8 +1858,17 @@ def release_build(
         # 6-sample smoke, a 9-sample spike, superseded 40-sample probes — and stand them next to a
         # 220-sample frozen evaluation as though they said comparable things about a model.
         #
-        # The rule: a run is published if it is REAL and was scored by the CURRENT evaluator.
-        # Everything else stays on disk, unpublished, and is listed — excluded visibly, not silently.
+        # The rule: a run is published if it is REAL, was scored by the CURRENT evaluator, and asked
+        # a FROZEN SET OF QUESTIONS — that is, it names a sample manifest.
+        #
+        # The manifest requirement is what makes this safe over time. "Real and current" alone is
+        # not enough: every old exploratory run becomes real-and-current the moment it is migrated
+        # onto the new evaluator, and a 6-sample smoke would quietly walk into the release on the
+        # back of a routine re-score. A run that cannot name the frozen question set it answered has
+        # no business in a release that claims to be reproducible from one.
+        #
+        # Runs without a manifest that the release genuinely needs — SECQUE, the retrieval arms —
+        # are named explicitly with --run-id. Explicit, and therefore auditable.
         current = current_fingerprint().digest
         ids = []
         skipped: list[tuple[str, str, str]] = []
@@ -1868,11 +1877,18 @@ def release_build(
             if not env_path.is_file():
                 continue
             env = json.loads(env_path.read_text(encoding="utf-8"))
+            config = json.loads((path / "run_config.json").read_text(encoding="utf-8"))
             digest = str(env.get("evaluator_fingerprint", {}).get("digest"))
-            if env.get("run_type") == "real" and digest == current:
+            frozen = bool(config.get("sample_manifest_id_hash"))
+            if env.get("run_type") == "real" and digest == current and frozen:
                 ids.append(path.name)
             else:
-                skipped.append((path.name, digest, str(env.get("run_type"))))
+                why = (
+                    "no frozen manifest"
+                    if env.get("run_type") == "real" and digest == current
+                    else str(env.get("run_type"))
+                )
+                skipped.append((path.name, digest, why))
         if skipped:
             console.print(
                 f"[yellow]Excluding {len(skipped)} run(s) from the release[/yellow] — "
