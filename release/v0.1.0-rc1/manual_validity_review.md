@@ -1,11 +1,11 @@
 # Manual validity review — v0.1.0-rc1
 
-**38 cases**, read individually from real run artifacts, and classified by hand against the automatic
+**43 cases**, read individually from real run artifacts, and classified by hand against the automatic
 label. The point of this exercise is not to confirm the evaluator. It is to find the cases where the
 evaluator is confidently wrong — which is the only failure mode that matters, because a benchmark that
 crashes gets fixed and a benchmark that quietly reports a plausible number gets cited.
 
-**Agreement: 34 / 38 = 89.5%.**
+**Agreement: 39 / 43 = 90.7%.**
 
 Of the four disagreements, **two were genuine evaluator defects and are fixed in this release**; two
 are tolerance judgements that I deliberately did **not** change, for a reason given below.
@@ -21,7 +21,8 @@ are tolerance judgements that I deliberately did **not** change, for a reason gi
 | Unsupported claims | 5 | 4 | **1** — a metric failed to fire on an inverted direction |
 | Refusals | 6 | 6 | 0 |
 | Retrieval-success / generation-failure | 5 | 5 | 0 |
-| Tool traces | 6 | 5 | **1** — `arguments_valid` was recorded as True for malformed args |
+| Tool traces (3B smoke) | 6 | 5 | **1** — `arguments_valid` recorded True for malformed args |
+| Tool traces (7B, addendum) | 5 | 5 | 0 |
 
 ---
 
@@ -74,9 +75,29 @@ for the 7B, computed over the twelve easy questions where the expert did use a d
 **A 1.000 computed only over the questions a metric finds easy is not a lenient score. It is an
 artifact of the metric's own coverage.**
 
-Fixed: the gold's direction is now derived from its own dated figures when no direction word is
-present, conservatively (two distinct years, one unambiguous figure each, actually differing —
-otherwise `None`). `secque_comparison_direction` v1 → v2; both SECQUE runs re-scored.
+Fixed — **half of it.** The gold's direction is now derived from its own dated figures when no
+direction word is present, conservatively (two distinct years, one unambiguous figure each, actually
+differing — otherwise `None`). `secque_comparison_direction` v1 → v2; both SECQUE runs re-scored.
+
+**And re-scoring proved the fix does not rescue this case.** `n` is still 12 of 80, because the
+binding constraint moved to the *other* side of the comparison. The model's full answer reads:
+
+> *"NIKE's EBIT **increased** from $5,192m in 2017 to $5,525m in 2018. EBIT for North America
+> **increased** from $3,875m to $3,600m, which is a **decrease** of $275 million. However, the overall
+> EBIT **increased**…"*
+
+It contains an up-word **and** a down-word, because it discusses a segment alongside the total. So the
+metric abstains — not on the gold now, but on the model.
+
+**I am not fixing that, and the refusal is the point.** Deciding which of two contradictory directional
+claims is the *headline* is a judgement. Any rule for it — take the last one, take the one nearest the
+word "overall", take the first — would manufacture a directional verdict the model never clearly gave.
+**A metric that guesses is worse than one that abstains.**
+
+So `secque_comparison_direction = 1.000 (n=12)` means: *of the twelve questions where the model
+committed to one direction, it got all twelve right.* Nothing more. It systematically excludes the
+answers that hedge or contradict themselves — which are the interesting ones — and `known_limitations.md`
+now says so. The hallucination detector **did** catch this answer; both invented figures are flagged.
 
 ### 4. `arguments_valid` was read off English prose — FIXED
 
@@ -160,8 +181,56 @@ failure than the true one.
 
 | finding | action |
 |---|---|
-| `secque_comparison_direction` missed an inverted direction | **Metric fixed**, v1→v2, runs re-scored |
+| `secque_comparison_direction` missed an inverted direction | **Half-fixed**, v1→v2. The gold side is repaired; the model side abstains on self-contradictory answers, deliberately. Documented. |
 | `arguments_valid` inferred from prose | **Fixed**, v1→v2, `ToolErrorKind` added |
 | 1% tolerance credits a $27M error | **Documented, NOT changed** — changing it after seeing the score is the manipulation this project exists to refuse |
 | `wrong_number` label on yes/no questions | Documented; no score affected |
 | PDF extraction strips spaces from line items | Documented as a corpus limitation |
+
+---
+
+## Addendum: five tool traces from the 7B, read individually
+
+The original review had only the 6-sample smoke run to look at, in which the model called no tool at
+all. The 7B invokes tools on **29 of 150** questions, so there is finally something to inspect.
+
+**It works the protocol competently.** Three of the five below execute and the result reaches the
+answer:
+
+```
+adi-2011-page_61   percent_change(old=139.9, new=153.7) -> 9.864188706...   result_used=True
+tt-2007-page_111   percent_change(old=4926,  new=4711)  -> -4.364596021...  result_used=True
+mas-2017-page_27   formula(percent_change, {old:132.04, ...})               result_used=True
+```
+
+`tool_result_utilization = 0.688` (n=16) is real behaviour, not an artifact.
+
+**And two show exactly where the orchestration costs it.**
+
+`sa-2015-page_112` — the model *tries to recover*, across two turns, and cannot:
+
+```
+turn 1  csv_query(table_id="balance sheet data")  -> no table 'balance sheet data'. Available: ['table_1']
+turn 2  csv_query(table_id="table_1", where={"year": "2015, 2014"})
+                                               -> no column 'year'. Columns: ['( in millions )','2015','2014']
+```
+
+The recovery attempt is *correct behaviour* — it read the error and fixed the table id. It then failed
+on a genuine schema mismatch: **the table's columns ARE the years.** There is no `year` column to
+filter on, because year is the axis. That is a data-shape problem, not a reasoning failure, and
+`tool_error_recovery = 0.188` is measuring it honestly.
+
+`uaa-2016-page_42` — a failed call, and then **nothing**:
+
+```
+formula(debt_to_equity, {total_debt_including_...})  -> formula 'debt_to_equity' needs ['total_debt','total_equity']
+final answer: ""
+```
+
+The model invented a longer argument name, was told the correct ones, and **produced an empty final
+answer**. Under the old substring-matching logic this call was recorded as `arguments_valid=True` —
+the error says "needs", not "requires". It is now correctly `arguments_valid=False`.
+
+This is the tool tax made concrete: a question the model might have answered in one shot instead
+consumed a turn on a malformed call and ended with silence. **Human classification agrees with the
+automatic labels on all five.**
