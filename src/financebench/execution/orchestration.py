@@ -29,7 +29,7 @@ from financebench.evaluation.refusal import declined
 from financebench.evaluation.scoring import RunCoverage, compute_scores
 from financebench.execution.cache import ResponseCache
 from financebench.execution.engine import RunEngine, RunResult
-from financebench.models.base import ModelProvider, get_provider_class
+from financebench.models.base import ModelProvider, ProviderCapabilities, get_provider_class
 from financebench.models.mock import MockProvider, build_mock_oracle
 from financebench.retrieval.metrics import attribute_retrieval_failure, score_retrieval
 from financebench.retrieval.pipeline import RetrievalPipeline, build_pipeline
@@ -43,6 +43,7 @@ from financebench.schemas.manifest import DatasetManifest
 from financebench.schemas.metric import MetricResult
 from financebench.schemas.model_io import ModelSpec
 from financebench.schemas.prediction import Prediction
+from financebench.schemas.run import RunConfig
 from financebench.schemas.sample import CanonicalSample
 from financebench.schemas.sample_manifest import SampleManifest
 from financebench.storage.artifacts import ArtifactInputs, write_run_artifacts
@@ -50,7 +51,14 @@ from financebench.utils.errors import ConfigError, ManifestError
 from financebench.utils.ids import make_run_id
 from financebench.utils.timing import RealClock
 
-__all__ = ["EvalOutcome", "EvalRequest", "resolve_samples", "run_eval"]
+__all__ = [
+    "EvalOutcome",
+    "EvalRequest",
+    "rescore_from_artifacts",
+    "resolve_samples",
+    "run_eval",
+    "score_and_write",
+]
 
 
 def _score_or_excuse(
@@ -298,6 +306,39 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
     finally:
         await provider.aclose()
 
+    return score_and_write(
+        run_result,
+        out_dir=out_dir,
+        run_id=run_id,
+        label=request.label,
+        model=model,
+        config=config,
+        run_type=run_type,
+        provider_capabilities=provider_capabilities,
+        dataset_manifests=dataset_manifests,
+        pipeline=pipeline,
+    )
+
+
+def score_and_write(
+    run_result: RunResult,
+    *,
+    out_dir: Path,
+    run_id: str,
+    label: str,
+    model: ModelSpec,
+    config: RunConfig,
+    run_type: RunType,
+    provider_capabilities: ProviderCapabilities,
+    dataset_manifests: tuple[DatasetManifest, ...],
+    pipeline: RetrievalPipeline | None = None,
+) -> EvalOutcome:
+    """Score a completed run and write its artifacts.
+
+    Split out of :func:`run_eval` so that **re-scoring an existing run under a new evaluator uses
+    exactly this code, and not a second copy of it.** A migration path that re-implements the scoring
+    it is migrating cannot be trusted to agree with it, and the disagreement would look like a result.
+    """
     # run_result.samples is the (possibly --max-samples-truncated) list actually run, 1:1 with
     # run_result.predictions — score and report against *that*, not the pre-truncation `samples`.
     evaluated_samples = run_result.samples
@@ -473,7 +514,7 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
     clock = RealClock()
     inputs = ArtifactInputs(
         run_id=run_id,
-        benchmark_or_group=request.label,
+        benchmark_or_group=label,
         model=model,
         provider_capabilities=provider_capabilities,
         config=config,
@@ -495,3 +536,105 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
     )
     write_run_artifacts(out_dir, inputs)
     return EvalOutcome(run_id=run_id, out_dir=out_dir, run_result=run_result, run_type=run_type)
+
+
+def rescore_from_artifacts(
+    out_dir: Path,
+    *,
+    run_id: str,
+    label: str,
+    model: ModelSpec,
+    config: RunConfig,
+    samples: tuple[CanonicalSample, ...],
+    dataset_manifests: tuple[DatasetManifest, ...],
+    provider_capabilities: ProviderCapabilities,
+    run_type: RunType = RunType.REAL,
+) -> EvalOutcome:
+    """Re-score a completed run from its **stored raw responses**, under the current evaluator.
+
+    No provider is constructed. No request is sent. Nothing here can reach a model — which is the
+    entire point, and it is enforced by construction rather than by intention: the predictions are
+    read off disk and handed straight to the same :func:`score_and_write` that a live run uses.
+
+    This is the migration Step 3 of the release process asks for. When an evaluator change touches
+    only *our* code — a parser, a metric, a rollup — the model's answers have not changed, and
+    re-running inference to obtain them again would be both wasteful and *wrong*: it would introduce
+    fresh sampling noise into a comparison whose whole purpose is to isolate the effect of our own
+    change. It would also make the migration unfalsifiable, because a moved number could then be
+    blamed on either side.
+
+    It matters most for **tool-assisted runs**, which are deliberately uncached (an agent run is a
+    conversation, not one hashable request). For those, ``resume`` re-runs every turn against the
+    model. This does not.
+    """
+    predictions = tuple(
+        Prediction.model_validate_json(line)
+        for line in (out_dir / "predictions.jsonl").read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    )
+    by_id = {prediction.sample_id: prediction for prediction in predictions}
+    missing = [s.sample_id for s in samples if s.sample_id not in by_id]
+    if missing:
+        raise ConfigError(
+            f"cannot re-score {run_id}: {len(missing)} sample(s) have no stored response, so there "
+            f"is nothing to re-read.\n  first missing: {missing[:3]}\n"
+            "Run the evaluation rather than re-scoring it."
+        )
+    # Score against the samples in the ORDER THEY WERE RUN, 1:1 with their predictions.
+    ordered = tuple(s for s in samples if s.sample_id in by_id)
+    aligned = tuple(by_id[s.sample_id] for s in ordered)
+
+    # A tool run's metrics are computed from its traces, which live in their own artifact. Without
+    # them the tool metrics would all return "no trace" — not-applicable — and a re-score would
+    # silently erase every tool number in the run it was migrating.
+    traces: dict[str, object] = {}
+    trace_path = out_dir / "tool_traces.jsonl"
+    if trace_path.is_file():
+        from financebench.evaluation.native.tool_use import register_trace
+        from financebench.tools.trace import ToolTrace
+
+        for line in trace_path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            trace = ToolTrace.model_validate_json(line)
+            traces[trace.sample_id] = trace
+            register_trace(trace)
+
+    run_result = RunResult(
+        samples=ordered,
+        predictions=aligned,
+        n_samples=len(aligned),
+        n_errors=sum(1 for p in aligned if p.response is None),
+        n_cache_hits=len(aligned),  # every answer came from disk. None of it was re-generated.
+        # Preserved from the original run's costs.json — a re-score spends nothing, and
+        # reporting zero tokens for a run that really did cost 207,473 of them would be a lie
+        # about the experiment, not just about the bill.
+        total_tokens=_stored_total_tokens(out_dir),
+        total_estimated_cost_usd=None,
+        budget_exceeded=False,
+        tool_traces=traces,
+    )
+
+    return score_and_write(
+        run_result,
+        out_dir=out_dir,
+        run_id=run_id,
+        label=label,
+        model=model,
+        config=config,
+        run_type=run_type,
+        provider_capabilities=provider_capabilities,
+        dataset_manifests=dataset_manifests,
+        pipeline=None,
+    )
+
+
+def _stored_total_tokens(out_dir: Path) -> int | None:
+    """The token count the ORIGINAL run paid. A re-score re-reads; it does not re-generate."""
+    import json
+
+    path = out_dir / "costs.json"
+    if not path.is_file():
+        return None
+    value = json.loads(path.read_text(encoding="utf-8")).get("total_tokens")
+    return int(value) if isinstance(value, int) else None

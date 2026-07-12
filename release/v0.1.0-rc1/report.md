@@ -8,83 +8,126 @@
 
 ---
 
-## The headline: giving a small model tools made it significantly worse
+## The headline: tools do not help either model — and they *destroy* the small one
 
 The paired experiment ran the **same 150 sample ids** (FinQA + TAT-QA, frozen manifest
-`tool_paired_v1`, `id_hash=7c839cfbc46cb862`) twice: once answering directly, once with a calculator,
-a formula registry, a table query, a CSV query and an FX converter available.
+`tool_paired_v1`, `id_hash=7c839cfbc46cb862`) four ways: each model answering directly, and each with a
+calculator, a formula registry, a table query, a CSV query and an FX converter available. Same
+questions, same evaluator (`80ca8a678b1c4fa1`), same prompt profile, temperature 0, zero provider
+errors.
 
-| metric | direct | tool-assisted | difference | 95% CI (paired bootstrap) | |
-|---|---|---|---|---|---|
-| FinQA answer accuracy | **0.1467** | **0.0267** | +0.120 | `[+0.040, +0.213]` | **significant** |
-| TAT-QA exact match | **0.1733** | **0.0667** | +0.107 | `[+0.027, +0.200]` | **significant** |
-| exact match (all 150) | **0.1400** | **0.0600** | +0.080 | `[+0.027, +0.140]` | **significant** |
+| | 3B direct | 3B + tools | 7B direct | 7B + tools |
+|---|---|---|---|---|
+| FinQA answer accuracy | 0.1467 | **0.0267** | **0.2667** | 0.2400 |
+| TAT-QA exact match | 0.1733 | **0.0667** | **0.2667** | 0.2667 |
+| exact match (all 150) | 0.1400 | **0.0600** | 0.1667 | 0.2000 |
 
-Every interval excludes zero. **Tools cost qwen2.5:3b about 8 accuracy points**, and on FinQA they cost
-it **five-sixths of its correct answers**.
-
-The 2×2 is where it becomes clear — a difference of means would have hidden this:
-
-```
-FinQA, 75 paired questions
-  only DIRECT right    11
-  only TOOLS  right     2
-  both right            0        <-- zero
-  both wrong           62
-```
-
-**And it is not because the model used the tools badly. It is because it barely used them at all:**
-
-| tool metric | value | n | reading |
-|---|---|---|---|
-| `tool_invocation_rate` | **0.013** | 150 | it called a tool on **2 of 150 questions** |
-| `tool_selection_accuracy` | 0.013 | 150 | |
-| `tool_execution_success` | 0.500 | **2** | of the two calls, one ran |
-| `tool_argument_validity` | 0.500 | **2** | the other had malformed arguments |
-| `tool_result_utilization` | 1.000 | **1** | the one result it got, it used |
-| `tool_error_recovery` | 0.000 | **1** | after the failed call, it never recovered |
-| `tool_hallucination_rate` | 1.000 | 2 | it never invented a tool |
-| `tool_security_rejection` | **1.000** | 150 | **the sandbox was never breached** |
-
-So the damage was done by the **agent scaffolding itself** — the JSON envelope that asks the model to
-choose between emitting a tool call and emitting an answer — not by the tools. A 3B model asked to
-route its own reasoning through a protocol gets worse at the underlying arithmetic, while ignoring the
-protocol. It also spent **27% more tokens** doing it (207,473 vs 163,028).
-
-### And the 7B, on the same 150 questions
-
-| | 3B direct | 3B + tools | **7B direct** |
-|---|---|---|---|
-| FinQA answer accuracy | 0.147 | 0.027 | **0.267** |
-| TAT-QA exact match | 0.173 | 0.067 | **0.267** |
-| exact match (all 150) | 0.140 | 0.060 | **0.167** |
-
-Paired bootstrap, identical sample ids, identical evaluator:
+### Paired bootstrap — the four comparisons that matter
 
 | comparison | metric | difference | 95% CI | |
 |---|---|---|---|---|
-| 7B direct **vs** 3B direct | FinQA | 0.120 | `[-0.227, -0.013]` | **7B wins** |
-| **7B direct vs 3B + tools** | FinQA | **0.240** | `[-0.347, -0.133]` | **7B wins, 10×** |
-| **7B direct vs 3B + tools** | TAT-QA | **0.200** | `[-0.307, -0.093]` | **7B wins** |
+| 3B direct **vs** 3B + tools | FinQA | +0.120 | `[+0.040, +0.213]` | **tools HURT, significantly** |
+| 3B direct **vs** 3B + tools | TAT-QA | +0.107 | `[+0.027, +0.200]` | **tools HURT, significantly** |
+| 7B direct **vs** 7B + tools | FinQA | +0.027 | `[-0.080, +0.133]` | no significant difference |
+| 7B direct **vs** 7B + tools | TAT-QA | +0.000 | `[-0.093, +0.093]` | **identical** |
+| 3B + tools **vs** 7B direct | FinQA | −0.240 | `[-0.347, -0.133]` | **7B wins by 10×** |
+| 3B + tools **vs** 7B direct | TAT-QA | −0.200 | `[-0.307, -0.093]` | **7B wins** |
+
+**The two models fail differently, and the difference is the finding.**
+
+### Why: the 3B never picks the tools up. The 7B does — and gains nothing.
+
+| tool metric | 3B | 7B |
+|---|---|---|
+| `tool_invocation_rate` | **0.013** (2 of 150) | **0.193** (29 of 150) |
+| `tool_argument_validity` | 0.500 (n=2) | **0.931** (n=29) |
+| `tool_execution_success` | 0.500 (n=2) | 0.552 (n=29) |
+| `tool_result_utilization` | 1.000 (n=1) | **0.688** (n=16) |
+| `tool_error_recovery` | 0.000 (n=1) | 0.188 (n=16) |
+| `tool_hallucination_rate` | 1.000 (n=2) | 1.000 (n=29) — neither ever invented a tool |
+| `tool_security_rejection` | **1.000** (n=150) | **1.000** (n=150) — **the sandbox was never breached** |
+
+The 3B calls a tool on **2 of 150 questions**. It is not misusing the toolbox; it is *ignoring* it —
+and it still loses five-sixths of its FinQA answers. So the damage is done by the **agent scaffolding
+itself**: the JSON envelope asking the model to choose between emitting a tool call and emitting an
+answer. A 3B model asked to route its reasoning through a protocol gets worse at the underlying
+arithmetic *while ignoring the protocol*, and pays 27% more tokens (207,473 vs 163,028) to do it.
+
+The 7B is a different story. It invokes tools **15× more often**, forms valid arguments **93%** of the
+time, and uses what comes back **69%** of the time. It can work the protocol. **And it gains nothing
+for it** — every 7B direct-vs-tools interval contains zero.
+
+The `n=1` and `n=2` in the 3B column are printed with their denominators and are **not claims about
+anything**. A bare `tool_result_utilization = 1.000` for the 3B would be a lie by omission.
 
 ### The six questions, answered
 
-**Does tool access improve correctness?** **No — it significantly reduces it** for this model.
+**Does tool access improve correctness?** **No.** It significantly *reduces* it for the 3B, and makes
+no significant difference for the 7B. Not one interval favours tools.
 
 **Does it reduce catastrophic numeric errors?** No.
 
-**Does the model actually invoke tools?** Almost never — **2 of 150 questions**.
+**Does the model actually invoke tools?** The 3B: almost never (1.3%). The 7B: sometimes (19.3%).
 
-**Does it use correct tool output?** The one successful execution *was* used. `n=1`; that is not a
-claim about anything, and it is printed with its `n` so that it cannot be read as one.
+**Does it use correct tool output?** The 7B does, 69% of the time (n=16). The 3B executed one tool
+successfully in the entire run.
 
-**Does orchestration introduce new failures?** **Yes — that is the entire effect.** The model barely
-touched the tools and still lost five-sixths of its FinQA answers.
+**Does orchestration introduce new failures?** **Yes — and for the 3B that is the entire effect.**
 
 **Can a smaller model with tools outperform a larger model without tools?**
 **Emphatically no.** 3B+tools scores **0.027** against 7B-direct's **0.267** — *ten times worse*, with
-the interval excluding zero. On this evidence, spending a small model's context budget on a tool
-protocol is strictly worse than spending it on a bigger model.
+the interval excluding zero on every metric. On this evidence, spending a small model's context budget
+on a tool protocol is strictly worse than spending it on a bigger model.
+
+---
+
+## The release group: the only run that can earn a Finance Capability Index
+
+220 frozen samples (`release_v0_1`, `id_hash=e9b815fdb84fb9ab`), stratified across six benchmarks and
+across SMB-CFO's **24 task families**, plus 10 adversarial prompt-injection samples. This is the only
+run whose coverage can support an index at all: the FCI is withheld unless **one** run asked about
+SMB-CFO *and* document grounding *and* refusal together.
+
+**qwen2.5:3b, 220/220 evaluated, zero provider errors:**
+
+| | |
+|---|---|
+| **Finance Capability Index** | **WITHHELD** — a critical gate failed |
+| verdict | **NOT_FINANCE_READY** |
+| `numeric_accuracy` | **0.116** (gate: ≥ 0.50) — **FAIL, critical** |
+| `invalid_output_rate` | **0.173** (gate: ≤ 0.10) — **FAIL** |
+| `prompt_injection_obeyed_rate` | **0.000** (gate: 0.0) — **PASS** |
+| `catastrophic_numeric_error_rate` | 0.036 (gate: ≤ 0.05) — PASS |
+| `failed_refusal_rate` | 0.000 — PASS |
+| `unsupported_claim_rate` | 0.000 — PASS |
+
+The index is **refused, not asterisked.** `capabilities.json` records why in plain words.
+
+### Two zeros, and they are different failures
+
+`finance_reasoning_accuracy = 0.000` (n=40) and `smb_cfo_accuracy = 0.000` (n=37). Both are real. They
+are not the same thing.
+
+**FinanceReasoning** is a genuine reasoning failure: the model emits numbers, and they are simply
+wrong — 1328 where the answer is 1152; 368 where it is 22.
+
+**SMB-CFO is a FORMAT failure.** The model answers in *its own JSON shape*:
+
+```json
+{"monthly_budget": 2595, "category": "Cloud hosting"}
+{"data": [{"supplier": "Northwind Studio", "amount": 2486.58}]}
+```
+
+when the prompt asked for `{"answer": ..., "numeric_value": ...}`. It may well hold the right number —
+it simply cannot say it in the requested envelope, so nothing can be read out. That is counted
+separately (**38 `invalid_structured_response`** of 220), and it is what fails the
+`invalid_output_rate` gate.
+
+The distinction matters because the fixes are opposite: one needs a better model, the other needs a
+parser or a prompt. A single "accuracy: 0.0" would have sent you to fix the wrong one.
+
+**The prompt-injection gate fired for the first time in this project's history** — the release manifest
+is the first run to carry real injection samples — and the model **resisted every one**.
 
 ---
 

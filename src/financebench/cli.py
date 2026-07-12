@@ -31,8 +31,19 @@ from financebench.evaluation.benchmark_metrics import preferred_metric_name
 from financebench.evaluation.fingerprint import current_fingerprint
 from financebench.evaluation.stats import paired_bootstrap
 from financebench.execution.cache import ResponseCache
-from financebench.execution.orchestration import EvalRequest, run_eval, run_id_for
-from financebench.models.base import create_provider, describe_providers, get_provider_class
+from financebench.execution.orchestration import (
+    EvalRequest,
+    rescore_from_artifacts,
+    resolve_samples,
+    run_eval,
+    run_id_for,
+)
+from financebench.models.base import (
+    ProviderCapabilities,
+    create_provider,
+    describe_providers,
+    get_provider_class,
+)
 from financebench.models.verification import ProviderVerification, verify_all_providers
 from financebench.prompts.profiles import available_prompt_profiles
 from financebench.release import build_release, check_release_gates, sha256_file
@@ -1965,6 +1976,146 @@ def release_build(
         raise typer.Exit(code=1)
 
     console.print("\n[bold green]Every mandatory gate passed.[/bold green]")
+
+
+@app.command(name="rescore")
+def rescore(
+    run_id: Annotated[str, typer.Option("--run-id")],
+    model_config: Annotated[Path, typer.Option("--model-config", exists=True)],
+    runs_dir: Annotated[Path, typer.Option("--runs-dir")] = Path("runs"),
+) -> None:
+    """Re-score a completed run from its STORED responses, under the current evaluator.
+
+    No provider is constructed, no request is sent, and nothing here can reach a model. That is the
+    difference between this and `resume`, and it is the difference that makes a migration auditable:
+    when an evaluator change touches only OUR code, the model's answers have not changed, and
+    re-running inference to obtain them again would introduce fresh sampling noise into a comparison
+    whose entire purpose is to isolate the effect of our own change.
+
+    It matters most for TOOL runs, which are deliberately uncached — `resume` re-runs every turn of
+    the agent loop against the model. This does not.
+    """
+    out_dir = runs_dir / run_id
+    environment_path = out_dir / "environment.json"
+    if not environment_path.is_file():
+        _fail(f"No existing run found at {out_dir}")
+        return
+
+    environment = json.loads(environment_path.read_text(encoding="utf-8"))
+    run_config = json.loads((out_dir / "run_config.json").read_text(encoding="utf-8"))
+    config_file = load_model_config(model_config)
+    if config_file.to_model_spec().ref != environment["model_ref"]:
+        _fail(
+            f"--model-config resolves to {config_file.to_model_spec().ref!r}, but {run_id} was "
+            f"recorded against {environment['model_ref']!r}"
+        )
+        return
+    if environment.get("run_type") != RunType.REAL.value:
+        _fail(f"{run_id} is not a real run (run_type={environment.get('run_type')!r}).")
+        return
+
+    old_fingerprint = str(environment.get("evaluator_fingerprint", {}).get("digest", "unknown"))
+    old_hashes = _raw_response_hashes(out_dir)
+
+    # The same questions the run actually asked — from its frozen manifest where it had one, and
+    # otherwise from the splits its own predictions record.
+    manifest_path = run_config.get("sample_manifest_path")
+    sample_manifest = None
+    if manifest_path:
+        sample_manifest = load_sample_manifest(Path(manifest_path))
+        recorded = run_config.get("sample_manifest_id_hash")
+        if recorded and sample_manifest.id_hash != recorded:
+            _fail(
+                f"cannot re-score {run_id}: its manifest has CHANGED "
+                f"({sample_manifest.id_hash} != recorded {recorded})."
+            )
+            return
+        benchmark_splits = sample_manifest.benchmark_splits
+    else:
+        splits: dict[str, str] = {}
+        for record in read_jsonl(out_dir / "predictions.jsonl"):
+            splits.setdefault(str(record["benchmark"]), str(record["split"]))
+        benchmark_splits = tuple(sorted(splits.items()))
+
+    try:
+        samples, dataset_manifests = resolve_samples(benchmark_splits, sample_manifest)
+    except (ConfigError, ManifestError) as exc:
+        _fail(str(exc))
+        return
+
+    model = config_file.to_model_spec()
+    config = config_file.to_run_config(
+        seed=int(run_config["seed"]),
+        limit=run_config.get("limit"),
+        max_cost_usd=run_config.get("max_cost_usd"),
+        prompt_profile=str(run_config.get("prompt_profile", DEFAULT_PROMPT_PROFILE)),
+        eval_mode=EvalMode(run_config.get("eval_mode", EvalMode.CONTEXT_GIVEN.value)),
+        conversation_protocol=ConversationProtocol(
+            run_config.get("conversation_protocol", ConversationProtocol.GOLD_HISTORY.value)
+        ),
+        retriever=str(run_config.get("retriever") or "bm25"),
+        top_k=int(run_config.get("top_k") or 5),
+        document_scoped=bool(run_config.get("document_scoped") or False),
+        sample_manifest_path=manifest_path,
+        sample_manifest_id_hash=run_config.get("sample_manifest_id_hash"),
+    )
+
+    try:
+        rescore_from_artifacts(
+            out_dir,
+            run_id=run_id,
+            label=str(environment["benchmark_or_group"]),
+            model=model,
+            config=config,
+            samples=samples,
+            dataset_manifests=dataset_manifests,
+            # Read from the run's OWN model_manifest.json. Not re-derived, and above all not
+            # obtained by constructing a provider — a re-score that builds a provider is one call
+            # away from making one, and the guarantee "this cannot reach a model" is worth more
+            # than the two lines it costs to keep.
+            provider_capabilities=ProviderCapabilities(
+                **json.loads((out_dir / "model_manifest.json").read_text(encoding="utf-8"))[
+                    "capabilities"
+                ]
+            ),
+        )
+    except ConfigError as exc:
+        _fail(str(exc))
+        return
+
+    new_environment = json.loads(environment_path.read_text(encoding="utf-8"))
+    new_fingerprint = str(new_environment.get("evaluator_fingerprint", {}).get("digest", "unknown"))
+    new_hashes = _raw_response_hashes(out_dir)
+    preserved = bool(old_hashes) and old_hashes == new_hashes
+
+    record = {
+        "source_run_id": run_id,
+        "migration_type": "reparse_rescore",
+        "old_fingerprint": old_fingerprint,
+        "new_fingerprint": new_fingerprint,
+        "reason": (
+            "The evaluator changed; the model did not. Every raw response was re-read from disk — "
+            "no provider was constructed and no request was sent, so no inference could have run."
+        ),
+        "raw_response_hashes_preserved": preserved,
+        "n_samples": len(old_hashes),
+        "migrated_at": RealClock().now_iso(),
+    }
+    (out_dir / "migration.json").write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+
+    if not preserved:
+        _fail(
+            f"A re-score MUST NOT change the raw responses, and this one did. {run_id} is now "
+            "inconsistent — investigate before trusting any number from it."
+        )
+        return
+
+    console.print(
+        f"[bold green]Re-scored[/bold green] {run_id}\n"
+        f"  {old_fingerprint} -> {new_fingerprint}\n"
+        f"  {len(old_hashes)} raw responses re-read, [bold]0 model calls[/bold], "
+        "every response hash preserved."
+    )
 
 
 if __name__ == "__main__":
