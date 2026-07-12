@@ -4,12 +4,6 @@ This release candidate **was not tagged**. Every gate below must pass first.
 
 Note what is *not* here: ruff, mypy, the 1,056 primary tests, the 411 security tests, and the 17 parity tests (zero skips) all **pass**. The code is healthy. What is missing is *evidence* — runs that have not finished. Tagging on a green test suite while the headline experiment is still executing is precisely the dishonesty this project exists to prevent.
 
-## clean working tree
-
-```
-M src/financebench/cli.py
-```
-
 ## one evaluator fingerprint across all runs
 
 ```
