@@ -4,6 +4,31 @@ This release candidate **was not tagged**. Every gate below must pass first.
 
 Note what is *not* here: ruff, mypy, the 1,056 primary tests, the 411 security tests, and the 17 parity tests (zero skips) all **pass**. The code is healthy. What is missing is *evidence* — runs that have not finished. Tagging on a green test suite while the headline experiment is still executing is precisely the dishonesty this project exists to prevent.
 
+## clean working tree
+
+```
+M src/financebench/cli.py
+```
+
+## release built from a clean commit
+
+```
+dirty tree — this release cannot be reproduced from its commit
+```
+
+## paired direct-vs-tools run complete
+
+```
+missing: ['7B direct']
+```
+
+**What clears it**
+
+Run the missing variants against the frozen manifest:
+`financebench eval --manifest configs/manifests/tool_paired_v1.json --model-config <cfg> --mode {context_given|tool_assisted}`
+
+All four must exist, on the SAME 150 sample ids, or the paired comparison does not exist. Do not substitute an unrelated direct run — the previous tool run was on `tatqa:train:` ids while both direct runs used `tatqa:dev:`, so it could not be paired with anything at all.
+
 ## release-group run complete (both models)
 
 ```

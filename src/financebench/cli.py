@@ -1911,6 +1911,18 @@ def release_build(
     console.print(f"  evaluator fingerprint: {payload['evaluator_fingerprint']['digest']}")
     console.print(f"  commit: {payload['repository_commit']}  dirty={payload['repository_dirty']}")
 
+    # The release is a SELF-CONTAINED bundle. A manifest that points at a schema living elsewhere in
+    # the repo, and limitations that live in docs/, are attached to the REPOSITORY, not to the
+    # release — and the two drift the moment either moves. Copy them in, so that what a reader
+    # downloads carries its own contract and its own caveats.
+    for source, target in (
+        (Path("schemas/release_manifest.schema.json"), "release_manifest.schema.json"),
+        (Path("docs/known_limitations.md"), "known_limitations.md"),
+    ):
+        if source.is_file():
+            (out_dir / target).write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
+    console.print("  bundled: release_manifest.schema.json, known_limitations.md")
+
     console.print("\n[bold]Release gates[/bold]")
     gates = check_release_gates(out_dir, runs_dir=runs_dir)
     table = Table("Gate", "Result", "Detail")

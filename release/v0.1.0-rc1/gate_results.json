@@ -1,9 +1,9 @@
 {
   "version": "v0.1.0-rc1",
-  "evaluated_at": "2026-07-12T13:24:49.174648Z",
+  "evaluated_at": "2026-07-12T13:27:10.687825Z",
   "n_gates": 23,
-  "n_passed": 21,
-  "n_failed": 2,
+  "n_passed": 18,
+  "n_failed": 5,
   "n_not_applicable": 0,
   "tagged": false,
   "gates": [
@@ -25,27 +25,27 @@
     {
       "name": "primary tests",
       "result": "PASS",
-      "detail": "1072 passed in 22.70s"
+      "detail": "1072 passed in 24.83s"
     },
     {
       "name": "security tests",
       "result": "PASS",
-      "detail": "411 passed in 1.17s"
+      "detail": "411 passed in 1.19s"
     },
     {
       "name": "parity tests",
       "result": "PASS",
-      "detail": "17 passed in 6.91s"
+      "detail": "17 passed in 6.62s"
     },
     {
       "name": "clean working tree",
-      "result": "PASS",
-      "detail": "clean"
+      "result": "FAIL",
+      "detail": "M src/financebench/cli.py"
     },
     {
       "name": "HEAD == origin/main",
       "result": "PASS",
-      "detail": "local ed784988 vs remote ed784988"
+      "detail": "local cd719a45 vs remote cd719a45"
     },
     {
       "name": "release manifest exists",
@@ -59,8 +59,8 @@
     },
     {
       "name": "release built from a clean commit",
-      "result": "PASS",
-      "detail": "ed7849882a7d"
+      "result": "FAIL",
+      "detail": "dirty tree \u2014 this release cannot be reproduced from its commit"
     },
     {
       "name": "checksums exist",
@@ -80,7 +80,7 @@
     {
       "name": "one evaluator fingerprint across published runs",
       "result": "PASS",
-      "detail": "5 published run(s), 1 distinct fingerprint(s): ['80ca8a678b1c4fa1']"
+      "detail": "4 published run(s), 1 distinct fingerprint(s): ['80ca8a678b1c4fa1']"
     },
     {
       "name": "no mock run is published",
@@ -89,8 +89,8 @@
     },
     {
       "name": "paired direct-vs-tools run complete",
-      "result": "PASS",
-      "detail": "all 4 variants present"
+      "result": "FAIL",
+      "detail": "missing: ['7B direct']"
     },
     {
       "name": "release-group run complete (both models)",
