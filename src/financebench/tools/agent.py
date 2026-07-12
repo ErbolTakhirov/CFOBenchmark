@@ -35,7 +35,12 @@ from financebench.schemas.model_io import (
 )
 from financebench.schemas.run import RunConfig
 from financebench.schemas.sample import CanonicalSample
-from financebench.tools.registry import ToolExecutionError, execute_tool, tools_for_sample
+from financebench.tools.registry import (
+    ToolErrorKind,
+    ToolExecutionError,
+    execute_tool,
+    tools_for_sample,
+)
 from financebench.tools.trace import ToolCallRecord, ToolTrace
 
 __all__ = ["MAX_TOOL_TURNS", "run_agent"]
@@ -149,6 +154,11 @@ async def run_agent(
     calls: list[ToolCallRecord] = []
     outputs: list[str] = []
     last: ModelResponse | None = None
+    # Summed across EVERY turn. The engine only sees the final response, so if these are not
+    # accumulated here they are gone — and "what did the tools cost?" becomes unanswerable.
+    prompt_tokens = 0
+    completion_tokens = 0
+    latency_ms = 0.0
 
     for turn in range(max_turns):
         request = ModelRequest(
@@ -165,6 +175,10 @@ async def run_agent(
         )
         response = await provider.generate(request)
         last = response
+        if response.token_usage is not None:
+            prompt_tokens += response.token_usage.prompt_tokens or 0
+            completion_tokens += response.token_usage.completion_tokens or 0
+        latency_ms += response.latency_ms or 0.0
 
         parsed = _extract_json(response.content)
         if parsed is None or "tool" not in parsed:
@@ -190,19 +204,25 @@ async def run_agent(
             feedback = f'{{"tool_result": {json.dumps(output)}}}'
         except ToolExecutionError as exc:
             message = str(exc)
+            # The error states its own kind. This used to be inferred by substring-matching the
+            # English of the message — `"must be an object" not in message and "requires" not in
+            # message` — which silently mislabelled anything phrased differently: `formula 'roe'
+            # needs [...] — got [...]` contains neither substring, so a call with plainly wrong
+            # arguments was recorded as arguments_valid=True. We were reading a reported metric off
+            # prose, and it under-reported failures.
             record = ToolCallRecord(
                 turn=turn,
                 tool_name=name,
                 arguments=arguments,
                 # "It invented a tool" and "it used a real tool badly" are different failures with
                 # different fixes. A single `tool_error` would hide the difference.
-                tool_exists="no such tool" not in message,
-                arguments_valid="must be an object" not in message and "requires" not in message,
+                tool_exists=exc.kind is not ToolErrorKind.NO_SUCH_TOOL,
+                arguments_valid=exc.kind is not ToolErrorKind.BAD_ARGUMENTS,
                 executed=False,
                 error=message,
                 latency_ms=(time.perf_counter() - started) * 1000,
                 # A model probing the sandbox is a security event; `1/0` is not.
-                security_refused=message.startswith("security_refused:"),
+                security_refused=exc.kind is ToolErrorKind.SECURITY_REFUSED,
             )
             # The error goes BACK to the model. A model that is told "no column 'amt'" and then asks
             # for 'amount' is demonstrating recovery — which is a measured behaviour, and a harness
@@ -227,5 +247,8 @@ async def run_agent(
         turns=len(calls),
         result_used=_result_was_used(outputs, answer_text) if outputs else False,
         final_answer=answer_text[:500],
+        total_prompt_tokens=prompt_tokens,
+        total_completion_tokens=completion_tokens,
+        total_latency_ms=latency_ms,
     )
     return last, trace

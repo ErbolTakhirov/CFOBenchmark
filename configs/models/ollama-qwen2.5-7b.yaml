@@ -1,0 +1,23 @@
+# qwen2.5:7b (Q4_K_M) via Ollama — 4.7 GB of weights on a 4 GB card, so it SPILLS TO CPU.
+#
+# That is worth stating plainly, because it is the single biggest confound in every 3B-vs-7B latency
+# number this repo produces: the 7B is not merely a bigger model, it is a bigger model running partly
+# on the CPU. Measured, from real run artifacts: TAT-QA 16.8 s/sample (3B) vs 29.3 s (7B); FinQA
+# 35.8 s vs 70.7 s. Those ratios say as much about the GPU's 4 GB as about the models.
+#
+# Latency comparisons between these two models are therefore reported as what they are — a
+# measurement of THIS hardware — and never as a general claim about 3B-vs-7B inference cost.
+#
+# Runtime settings are matched to the 3B config; see the note there for why that matters.
+provider: ollama
+model: qwen2.5:7b
+
+generation:
+  temperature: 0
+  max_output_tokens: 512
+  timeout_seconds: 300
+
+runtime:
+  concurrency: 2
+  retries: 3
+  cache: true

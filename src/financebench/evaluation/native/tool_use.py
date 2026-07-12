@@ -233,3 +233,132 @@ class ToolSecurityRejection(Metric):
                 ),
             },
         )
+
+
+@register_metric("tool_invocation_rate")
+class ToolInvocationRate(Metric):
+    """Did the model call ANY tool — real or invented?
+
+    Distinct from ``tool_selection_accuracy``, which conflates "called nothing" with "called
+    something that does not exist". Those have opposite fixes: a model that never reaches for the
+    toolbox needs a better prompt, and a model that invents `compute_ratio()` needs a better schema.
+    A single number that says "0.167" cannot tell you which one you have.
+    """
+
+    name = "tool_invocation_rate"
+
+    def score(self, sample: CanonicalSample, prediction: Prediction) -> MetricResult:
+        trace = _trace(sample)
+        if trace is None:
+            return _no_trace(sample, self.name)
+        called = trace.called_any
+        return MetricResult(
+            sample_id=sample.sample_id,
+            metric_name=self.name,
+            value=called,
+            passed=called,
+            details={"n_calls": len(trace.calls), "turns": trace.turns},
+        )
+
+
+@register_metric("tool_argument_validity")
+class ToolArgumentValidity(Metric):
+    """Of the calls it made, how many had arguments the tool could actually accept?
+
+    NOT APPLICABLE when it called nothing — a model that never picked up the calculator has not
+    passed an argument-validity test, and scoring it 0.0 would blame it for a mistake it never made,
+    while scoring it 1.0 would credit it for a competence it never showed.
+    """
+
+    name = "tool_argument_validity"
+
+    def score(self, sample: CanonicalSample, prediction: Prediction) -> MetricResult:
+        trace = _trace(sample)
+        if trace is None:
+            return _no_trace(sample, self.name)
+        real = [c for c in trace.calls if c.tool_exists]
+        if not real:
+            return _not_applicable(sample, self.name, "no real tool was ever called")
+        valid = [c for c in real if c.arguments_valid]
+        rate = len(valid) / len(real)
+        return MetricResult(
+            sample_id=sample.sample_id,
+            metric_name=self.name,
+            value=rate,
+            passed=rate == 1.0,
+            details={
+                "n_calls": len(real),
+                "n_valid": len(valid),
+                "invalid": [
+                    {"tool": c.tool_name, "args": c.arguments, "error": c.error}
+                    for c in real
+                    if not c.arguments_valid
+                ],
+            },
+        )
+
+
+@register_metric("tool_hallucination_rate")
+class ToolHallucinationRate(Metric):
+    """Did it invent a tool that does not exist?
+
+    A model that calls ``compute_debt_ratio()`` when no such tool was offered is not making an
+    arithmetic error — it is confabulating an API. In an agent wired to real systems, that call is
+    either a crash or, worse, a silent no-op the model then narrates a result for.
+    """
+
+    name = "tool_hallucination_rate"
+
+    def score(self, sample: CanonicalSample, prediction: Prediction) -> MetricResult:
+        trace = _trace(sample)
+        if trace is None:
+            return _no_trace(sample, self.name)
+        if not trace.called_any:
+            return _not_applicable(sample, self.name, "no tool was called, so none was invented")
+        invented = list(trace.hallucinated_tools)
+        clean = not invented
+        return MetricResult(
+            sample_id=sample.sample_id,
+            metric_name=self.name,
+            value=clean,
+            passed=clean,
+            details={"invented": invented, "offered": list(trace.tools_offered)},
+        )
+
+
+@register_metric("tool_error_recovery")
+class ToolErrorRecovery(Metric):
+    """After a tool told it "no", did it recover — or give up / repeat itself?
+
+    The agent loop feeds every tool error back to the model, so a failed call is a chance to fix the
+    arguments and try again. NOT APPLICABLE when nothing ever failed: a model that got everything
+    right first time has demonstrated nothing about recovery, in either direction.
+    """
+
+    name = "tool_error_recovery"
+
+    def score(self, sample: CanonicalSample, prediction: Prediction) -> MetricResult:
+        trace = _trace(sample)
+        if trace is None:
+            return _no_trace(sample, self.name)
+        failed = [c for c in trace.calls if not c.executed]
+        if not failed:
+            return _not_applicable(sample, self.name, "no tool call ever failed")
+        # It recovered if, after the first failure, some LATER call executed successfully.
+        first_failure = min(c.turn for c in failed)
+        recovered = any(c.executed and c.turn > first_failure for c in trace.calls)
+        return MetricResult(
+            sample_id=sample.sample_id,
+            metric_name=self.name,
+            value=recovered,
+            passed=recovered,
+            details={
+                "n_failed_calls": len(failed),
+                "first_failure_turn": first_failure,
+                "verdict": (
+                    "recovered after a tool error"
+                    if recovered
+                    else "never produced a working call after the first error"
+                ),
+            },
+        )

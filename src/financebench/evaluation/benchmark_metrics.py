@@ -104,6 +104,12 @@ _TOOL_METRICS: tuple[str, ...] = (
     "tool_execution_success",
     "tool_result_utilization",  # the one that matters
     "tool_security_rejection",
+    # Each of these separates a failure the others conflate. "Called nothing" and "invented a tool"
+    # both show up as tool_selection_accuracy=0, and they have opposite fixes.
+    "tool_invocation_rate",
+    "tool_argument_validity",
+    "tool_hallucination_rate",
+    "tool_error_recovery",
 )
 
 

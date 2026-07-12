@@ -1,0 +1,25 @@
+# qwen2.5:3b (Q4_K_M) via Ollama — the small local model. Fits entirely in a 4 GB GPU.
+#
+# The runtime settings here are MATCHED to the 7B config on purpose. They are not part of the run id,
+# the cache key, or the evaluator fingerprint — so they cannot be caught by any of the machinery that
+# guards comparability — and yet they change the results: the first SECQUE 3B run used a 180 s timeout
+# at concurrency 4 and recorded three ProviderTimeoutErrors, while the 7B ran at 300 s / concurrency 2
+# and recorded none. Those three timeouts were being scored as the 3B getting three financial
+# questions wrong. Half of that comparison was measuring our own timeout budget.
+#
+# So: same timeout, same concurrency, both models. If one of them times out, that is a fact about the
+# model, not about how we happened to configure the run.
+provider: ollama
+model: qwen2.5:3b
+
+generation:
+  temperature: 0
+  max_output_tokens: 512
+  timeout_seconds: 300
+
+runtime:
+  # 2, not 4. A 4 GB card running a model that spills to CPU does not get faster when you ask it for
+  # four things at once; it gets slower, and then it times out.
+  concurrency: 2
+  retries: 3
+  cache: true

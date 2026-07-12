@@ -82,9 +82,17 @@ METRIC_VERSIONS: dict[str, str] = {
     # receives 40.55, and writes "approximately 38" has made a TRUST error, not an arithmetic one —
     # and every end-to-end metric misattributes it to the sums, which is the thing it got right.
     "tool_selection_accuracy": "1",
-    "tool_execution_success": "1",
+    # v2: `arguments_valid` is read from the error's own kind, not substring-matched out of its
+    # English. `formula 'roe' needs [...] — got [...]` matched neither "must be an object" nor
+    # "requires", so a call with plainly wrong arguments was recorded as VALID. Every v1
+    # argument-validity number is an overstatement.
+    "tool_execution_success": "2",
     "tool_result_utilization": "1",
     "tool_security_rejection": "1",
+    "tool_invocation_rate": "1",
+    "tool_argument_validity": "1",
+    "tool_hallucination_rate": "1",
+    "tool_error_recovery": "1",
 }
 
 #: Dataset adapters, pinned to the upstream commit their data comes from. A locally *generated*

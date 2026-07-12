@@ -44,9 +44,14 @@ from financebench.schemas.common import (
 )
 from financebench.schemas.leaderboard import LeaderboardRecord
 from financebench.schemas.model_io import ChatMessage, ModelRequest, ModelResponse, ModelSpec, Role
+from financebench.schemas.sample_manifest import (
+    ManifestBenchmark,
+    SampleManifest,
+    load_sample_manifest,
+)
 from financebench.storage.jsonl import read_jsonl, write_model_list_json
-from financebench.utils.errors import ConfigError, ProviderError
-from financebench.utils.gitmeta import python_version
+from financebench.utils.errors import ConfigError, ManifestError, ProviderError
+from financebench.utils.gitmeta import git_commit, python_version
 from financebench.utils.timing import RealClock
 
 __all__ = ["app"]
@@ -439,6 +444,15 @@ def eval_(
         "configs/models/mock.yaml"
     ),
     split: Annotated[str | None, typer.Option(help="Split to use with --benchmark.")] = None,
+    manifest: Annotated[
+        Path | None,
+        typer.Option(
+            "--manifest",
+            exists=True,
+            help="A frozen sample manifest naming the exact sample ids to evaluate. "
+            "Supersedes --benchmark/--group/--split/--max-samples.",
+        ),
+    ] = None,
     max_samples: Annotated[
         int | None, typer.Option(help="Cap the number of samples evaluated.")
     ] = None,
@@ -525,11 +539,28 @@ def eval_(
             f"unknown --prompt-profile {prompt_profile!r}; available: {available_prompt_profiles()}"
         )
         return
-    try:
-        label, benchmark_splits = _resolve_benchmark_splits(benchmark, group, split)
-    except ConfigError as exc:
-        _fail(str(exc))
-        return
+
+    sample_manifest = None
+    if manifest is not None:
+        try:
+            sample_manifest = load_sample_manifest(manifest)
+        except (ConfigError, ManifestError) as exc:
+            _fail(str(exc))
+            return
+        if max_samples is not None:
+            _fail(
+                "--max-samples cannot be combined with --manifest. A manifest names the exact "
+                "questions to ask; truncating it would ask a different set under its name."
+            )
+            return
+        label = sample_manifest.name
+        benchmark_splits = sample_manifest.benchmark_splits
+    else:
+        try:
+            label, benchmark_splits = _resolve_benchmark_splits(benchmark, group, split)
+        except ConfigError as exc:
+            _fail(str(exc))
+            return
 
     config_file = load_model_config(model_config)
     config_file = _apply_overrides(
@@ -557,7 +588,13 @@ def eval_(
         retriever=retriever,
         top_k=top_k,
         document_scoped=document_scoped,
+        sample_manifest=sample_manifest,
     )
+    if sample_manifest is not None:
+        console.print(
+            f"[bold]Frozen manifest:[/bold] {sample_manifest.name} "
+            f"({len(sample_manifest.all_sample_ids)} samples, id_hash={sample_manifest.id_hash})"
+        )
 
     # One definition of the run id, shared with run_eval — see orchestration.run_id_for().
     out_dir = output_dir / run_id_for(request)
@@ -1373,6 +1410,85 @@ def calibrate_judge(
     }
     output.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     console.print(f"\nWritten to [bold]{output}[/bold]")
+
+
+# --------------------------------------------------------------------------- freeze-manifest
+
+
+@app.command(name="freeze-manifest")
+def freeze_manifest(
+    spec: Annotated[
+        list[str],
+        typer.Option(
+            "--take",
+            help="benchmark:split:n — repeat per benchmark. e.g. --take finqa:test:75",
+        ),
+    ],
+    name: Annotated[str, typer.Option("--name", help="The manifest's name.")],
+    output: Annotated[Path, typer.Option("--output")] = Path("configs/manifests/manifest.json"),
+    description: Annotated[str | None, typer.Option("--description")] = None,
+) -> None:
+    """Freeze an exact set of sample ids into a manifest, STRATIFIED by task family.
+
+    The sampling is deterministic and stratified — a round-robin across each benchmark's task
+    families — for a reason found the hard way: ``--max-samples 80`` on SECQUE returned 72 Analysis
+    questions and 8 Comparison ones, zero Ratio and zero Risk, and reported the result as "SECQUE".
+    It was a different benchmark wearing SECQUE's name. A head-truncation of a file whose rows are
+    grouped by category is not a sample of that benchmark; it is a sample of its first category.
+    """
+    entries: list[ManifestBenchmark] = []
+    for item in spec:
+        try:
+            bench, split_name, count_text = item.split(":")
+            count = int(count_text)
+        except ValueError:
+            _fail(f"--take must be benchmark:split:n — got {item!r}")
+            return
+        try:
+            samples = list(create_dataset(bench).load(split_name))
+        except ConfigError as exc:
+            _fail(str(exc))
+            return
+
+        # Round-robin across task families, so any prefix is balanced.
+        by_family: dict[str, list[str]] = {}
+        for sample in samples:
+            by_family.setdefault(sample.task_family, []).append(sample.sample_id)
+
+        picked: list[str] = []
+        families = sorted(by_family)
+        index = 0
+        while len(picked) < count and any(by_family[f] for f in families):
+            family = families[index % len(families)]
+            if by_family[family]:
+                picked.append(by_family[family].pop(0))
+            index += 1
+
+        if len(picked) < count:
+            console.print(
+                f"[yellow]{bench}:{split_name} has only {len(picked)} samples; asked for "
+                f"{count}.[/yellow]"
+            )
+        entries.append(ManifestBenchmark(name=bench, split=split_name, sample_ids=tuple(picked)))
+        console.print(
+            f"  {bench}:{split_name} -> {len(picked)} samples across {len(families)} task families"
+        )
+
+    manifest = SampleManifest(
+        name=name,
+        description=description,
+        created_at=RealClock().now_iso(),
+        frozen_at_commit=git_commit(),
+        benchmarks=tuple(entries),
+    )
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(
+        json.dumps(manifest.model_dump(mode="json"), indent=2) + "\n", encoding="utf-8"
+    )
+    console.print(
+        f"\n[bold green]Frozen[/bold green] {len(manifest.all_sample_ids)} samples -> {output}"
+        f"\n  id_hash = [cyan]{manifest.id_hash}[/cyan]"
+    )
 
 
 if __name__ == "__main__":

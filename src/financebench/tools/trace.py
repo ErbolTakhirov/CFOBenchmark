@@ -86,6 +86,21 @@ class ToolTrace(BaseModel):
     result_used: bool = False
     final_answer: str = ""
 
+    #: Tokens and wall-clock across EVERY turn of the agent loop, not just the last one.
+    #:
+    #: The engine records the cost of the final response only — which is the right thing for a
+    #: single-shot run, and exactly wrong for an agent: a model that took five turns to answer spent
+    #: five prompts' worth of tokens, and reporting the fifth as the total makes an agent look as
+    #: cheap as a direct call. "Tools cost 1.4x the tokens" is one of the questions the paired
+    #: experiment exists to answer, and it cannot be answered from a number that was never summed.
+    total_prompt_tokens: int = 0
+    total_completion_tokens: int = 0
+    total_latency_ms: float = 0.0
+
+    @property
+    def total_tokens(self) -> int:
+        return self.total_prompt_tokens + self.total_completion_tokens
+
     @property
     def called_any(self) -> bool:
         return bool(self.calls)

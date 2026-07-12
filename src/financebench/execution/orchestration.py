@@ -44,8 +44,9 @@ from financebench.schemas.metric import MetricResult
 from financebench.schemas.model_io import ModelSpec
 from financebench.schemas.prediction import Prediction
 from financebench.schemas.sample import CanonicalSample
+from financebench.schemas.sample_manifest import SampleManifest
 from financebench.storage.artifacts import ArtifactInputs, write_run_artifacts
-from financebench.utils.errors import ConfigError
+from financebench.utils.errors import ConfigError, ManifestError
 from financebench.utils.ids import make_run_id
 from financebench.utils.timing import RealClock
 
@@ -110,6 +111,9 @@ class EvalRequest:
     retriever: str = "bm25"
     top_k: int = 5
     document_scoped: bool = False
+    #: A frozen sample manifest. When set, the run asks EXACTLY the questions it names, and a
+    #: named question that no longer resolves fails the run rather than being quietly replaced.
+    sample_manifest: SampleManifest | None = None
 
 
 @dataclass(frozen=True)
@@ -122,15 +126,40 @@ class EvalOutcome:
 
 def resolve_samples(
     benchmark_splits: Sequence[tuple[str, str]],
+    manifest: SampleManifest | None = None,
 ) -> tuple[tuple[CanonicalSample, ...], tuple[DatasetManifest, ...]]:
-    """Load every requested (dataset, split) pair's samples and manifests, in order."""
+    """Load every requested (dataset, split) pair's samples and manifests, in order.
+
+    With a frozen ``manifest``, the run is restricted to exactly the sample ids it names — and a
+    named id that no longer resolves is a **hard error**, not a warning. That is the whole point: if
+    an upstream dataset shifts by one row, "the first 40 samples" becomes a different 40 while every
+    artifact still reads ``limit: 40``, and nothing anywhere notices. A manifest turns that silent
+    substitution into a failed run.
+    """
     samples: list[CanonicalSample] = []
     manifests: list[DatasetManifest] = []
     for name, split in benchmark_splits:
         adapter = create_dataset(name)
         manifests.append(adapter.manifest())
         samples.extend(adapter.load(split))
-    return tuple(samples), tuple(manifests)
+
+    if manifest is None:
+        return tuple(samples), tuple(manifests)
+
+    by_id = {sample.sample_id: sample for sample in samples}
+    wanted = manifest.all_sample_ids
+    missing = [sid for sid in wanted if sid not in by_id]
+    if missing:
+        raise ManifestError(
+            f"frozen manifest {manifest.name!r} names {len(missing)} sample id(s) that no longer "
+            f"resolve — the data underneath has moved, and this run would silently evaluate a "
+            f"DIFFERENT set of questions under the manifest's name.\n"
+            f"  first missing: {missing[:3]}\n"
+            f"  re-freeze the manifest, or pin the dataset to the revision it was frozen against."
+        )
+    # Manifest order is the run order, so two runs over the same manifest execute in the same order.
+    selected = tuple(by_id[sid] for sid in wanted)
+    return selected, tuple(manifests)
 
 
 def _build_provider(
@@ -171,11 +200,24 @@ def run_id_for(request: EvalRequest) -> str:
     appended only when it is *not* the default, so that adding conversations to the platform did not
     silently rename every existing single-turn run's directory. ``gold_history`` is the official
     protocol and the default; a run that departs from it says so in its id.
+
+    **The retrieval arm joins them, and for the sharpest reason of the three.** BM25 over one filing
+    at k=10 and hybrid over 12,013 pages at k=20 are not two settings of one experiment — they are
+    two experiments, whose whole purpose is to be *compared against each other*. They were both
+    landing on the same run id, so the second one to run would have overwritten the first, in place,
+    and the resulting directory would have described an arm that no longer existed anywhere. The
+    ablation would have been comparing a run against itself.
+
+    Appended only for ``retrieval_required``, because a ``context_given`` run has no retriever, and
+    stamping ``-bm25-k5`` onto every FinQA run ever written would rename them all for nothing.
     """
     model = request.model_config_file.to_model_spec()
     label = f"{request.label}-{request.prompt_profile}-{request.eval_mode.value}"
     if request.conversation_protocol is not ConversationProtocol.GOLD_HISTORY:
         label = f"{label}-{request.conversation_protocol.value}"
+    if request.eval_mode is EvalMode.RETRIEVAL_REQUIRED:
+        scope = "scoped" if request.document_scoped else "open"
+        label = f"{label}-{request.retriever}-k{request.top_k}-{scope}"
     return make_run_id(label, model.ref, request.seed)
 
 
@@ -190,7 +232,7 @@ async def run_eval(request: EvalRequest, *, out_dir: Path) -> EvalOutcome:
                 f"--offline was set but provider {model.provider!r} requires network access"
             )
 
-    samples, dataset_manifests = resolve_samples(request.benchmark_splits)
+    samples, dataset_manifests = resolve_samples(request.benchmark_splits, request.sample_manifest)
     if not samples:
         raise ConfigError(
             f"no samples resolved for {request.label!r} "

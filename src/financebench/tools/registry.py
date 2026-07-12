@@ -26,6 +26,7 @@ from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from datetime import date
 from decimal import Decimal, InvalidOperation
+from enum import StrEnum
 from typing import Any
 
 from financebench.schemas.sample import CanonicalSample, Table
@@ -46,6 +47,34 @@ __all__ = [
 MAX_OUTPUT_CHARS = 4000
 
 
+class ToolErrorKind(StrEnum):
+    """Why the tool said no. Carried on the exception, because the alternative is guessing.
+
+    The agent loop used to classify a failed call by **substring-matching the error message**::
+
+        arguments_valid = "must be an object" not in message and "requires" not in message
+
+    which quietly mislabelled anything phrased differently. ``formula 'roe' needs ['net_income',
+    'equity'] — got ['revenue']`` contains neither substring, so a call with plainly wrong arguments
+    was recorded as ``arguments_valid=True``. Argument validity — one of the metrics this benchmark
+    reports — was being read off English prose, and it under-reported failures. The exception now
+    states its own kind, and nothing has to infer it.
+    """
+
+    #: The model named a tool that does not exist. A confabulated API, not an arithmetic slip.
+    NO_SUCH_TOOL = "no_such_tool"
+    #: A real tool, called with arguments it cannot accept: missing, malformed, or the wrong type.
+    BAD_ARGUMENTS = "bad_arguments"
+    #: Arguments were well-formed; the data did not support them (no such column, no matching row).
+    #: The model asked a coherent question and the answer was "not here" — that is not a mistake in
+    #: how it called the tool, and scoring it as one would punish a legitimate probe.
+    NOT_FOUND = "not_found"
+    #: The computation itself failed — division by zero, an undefined percentage change.
+    ARITHMETIC = "arithmetic"
+    #: The sandbox refused a construct that is not arithmetic. The security event.
+    SECURITY_REFUSED = "security_refused"
+
+
 class ToolExecutionError(Exception):
     """The tool could not do what was asked.
 
@@ -54,6 +83,10 @@ class ToolExecutionError(Exception):
     recovery behaviour the benchmark is trying to measure — and a harness that crashed instead would
     have measured nothing.
     """
+
+    def __init__(self, message: str, kind: ToolErrorKind = ToolErrorKind.NOT_FOUND) -> None:
+        super().__init__(message)
+        self.kind = kind
 
 
 @dataclass(frozen=True)
@@ -134,7 +167,9 @@ def _decimal(value: Any, field: str) -> Decimal:
     try:
         return Decimal(str(value))
     except (InvalidOperation, ValueError, TypeError) as exc:
-        raise ToolExecutionError(f"{field!r} is not a number: {value!r}") from exc
+        raise ToolExecutionError(
+            f"{field!r} is not a number: {value!r}", ToolErrorKind.BAD_ARGUMENTS
+        ) from exc
 
 
 def _clip(text: str) -> str:
@@ -150,7 +185,9 @@ def _calculator(args: dict[str, Any], sample: CanonicalSample) -> str:
     """Arithmetic, through the AST sandbox. Never `eval`."""
     expression = args.get("expression")
     if not isinstance(expression, str):
-        raise ToolExecutionError("calculator requires an 'expression' string")
+        raise ToolExecutionError(
+            "calculator requires an 'expression' string", ToolErrorKind.BAD_ARGUMENTS
+        )
     try:
         return str(safe_eval(expression).value)
     except SandboxError as exc:
@@ -160,8 +197,9 @@ def _calculator(args: dict[str, Any], sample: CanonicalSample) -> str:
         # The PREFIX carries the classification, because that is all the agent loop can see. A model
         # that wrote `1/0` made a mistake; one that wrote `__import__` executed code. Marking both
         # the same way buried the security signal under a pile of division errors — a test caught it.
+        kind = ToolErrorKind.SECURITY_REFUSED if exc.is_security_event else ToolErrorKind.ARITHMETIC
         prefix = "security_refused" if exc.is_security_event else "error"
-        raise ToolExecutionError(f"{prefix}: {exc}") from exc
+        raise ToolExecutionError(f"{prefix}: {exc}", kind) from exc
 
 
 def _formula(args: dict[str, Any], sample: CanonicalSample) -> str:
@@ -173,11 +211,15 @@ def _formula(args: dict[str, Any], sample: CanonicalSample) -> str:
         )
     values = args.get("values")
     if not isinstance(values, dict):
-        raise ToolExecutionError(f"formula {name!r} requires a 'values' object")
+        raise ToolExecutionError(
+            f"formula {name!r} requires a 'values' object", ToolErrorKind.BAD_ARGUMENTS
+        )
 
     missing = [i for i in spec.inputs if i not in values]
     if missing:
-        raise ToolExecutionError(f"formula {name!r} needs {missing} — got {sorted(values)}")
+        raise ToolExecutionError(
+            f"formula {name!r} needs {missing} — got {sorted(values)}", ToolErrorKind.BAD_ARGUMENTS
+        )
 
     # Substitute into the expression, then hand it to the SAME sandbox. The formula registry is a
     # convenience, not a second evaluator: there is exactly one place in this codebase where a string
@@ -195,7 +237,9 @@ def _percent_change(args: dict[str, Any], sample: CanonicalSample) -> str:
     old = _decimal(args.get("old"), "old")
     new = _decimal(args.get("new"), "new")
     if old == 0:
-        raise ToolExecutionError("percentage change from zero is undefined")
+        raise ToolExecutionError(
+            "percentage change from zero is undefined", ToolErrorKind.ARITHMETIC
+        )
     return str((new - old) / old * 100)
 
 
@@ -207,7 +251,9 @@ def _basis_points(args: dict[str, Any], sample: CanonicalSample) -> str:
         return str(_decimal(args["percent"], "percent") * 100)
     if "basis_points" in args:
         return str(_decimal(args["basis_points"], "basis_points") / 100)
-    raise ToolExecutionError("provide either 'percent' or 'basis_points'")
+    raise ToolExecutionError(
+        "provide either 'percent' or 'basis_points'", ToolErrorKind.BAD_ARGUMENTS
+    )
 
 
 def _find_table(sample: CanonicalSample, table_id: str | None) -> Table:
@@ -228,7 +274,9 @@ def _table_lookup(args: dict[str, Any], sample: CanonicalSample) -> str:
     table = _find_table(sample, args.get("table_id"))
     row_query = str(args.get("row", "")).strip().casefold()
     if not row_query:
-        raise ToolExecutionError("table_lookup requires a 'row' label to search for")
+        raise ToolExecutionError(
+            "table_lookup requires a 'row' label to search for", ToolErrorKind.BAD_ARGUMENTS
+        )
 
     matches = [row for row in table.rows if any(row_query in str(c).casefold() for c in row[:2])]
     if not matches:
@@ -271,7 +319,9 @@ def _csv_query(args: dict[str, Any], sample: CanonicalSample) -> str:
 
     column = args.get("column")
     if not column:
-        raise ToolExecutionError(f"aggregate {aggregate!r} needs a 'column'")
+        raise ToolExecutionError(
+            f"aggregate {aggregate!r} needs a 'column'", ToolErrorKind.BAD_ARGUMENTS
+        )
     index = column_index(str(column))
 
     values: list[Decimal] = []
@@ -297,7 +347,9 @@ def _csv_query(args: dict[str, Any], sample: CanonicalSample) -> str:
         return str(min(values))
     if aggregate == "max":
         return str(max(values))
-    raise ToolExecutionError(f"unknown aggregate {aggregate!r}: use sum|mean|min|max|count")
+    raise ToolExecutionError(
+        f"unknown aggregate {aggregate!r}: use sum|mean|min|max|count", ToolErrorKind.BAD_ARGUMENTS
+    )
 
 
 def _convert_currency(args: dict[str, Any], sample: CanonicalSample) -> str:
@@ -501,11 +553,13 @@ def execute_tool(name: str, arguments: dict[str, Any], sample: CanonicalSample) 
         # used a real tool badly" stay distinguishable — they are different failures with different
         # fixes, and a single "tool error" would hide the difference.
         raise ToolExecutionError(
-            f"no such tool: {name!r}. Available tools: {', '.join(sorted(FINANCE_TOOLS))}"
+            f"no such tool: {name!r}. Available tools: {', '.join(sorted(FINANCE_TOOLS))}",
+            ToolErrorKind.NO_SUCH_TOOL,
         )
     if not isinstance(arguments, dict):
         raise ToolExecutionError(
-            f"{name}: arguments must be an object, got {type(arguments).__name__}"
+            f"{name}: arguments must be an object, got {type(arguments).__name__}",
+            ToolErrorKind.BAD_ARGUMENTS,
         )
     return _clip(tool.run(arguments, sample))
 
