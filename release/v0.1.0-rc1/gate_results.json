@@ -1,6 +1,6 @@
 {
   "version": "v0.1.0-rc1",
-  "evaluated_at": "2026-07-12T13:33:54.831684Z",
+  "evaluated_at": "2026-07-12T14:43:41.306529Z",
   "n_gates": 23,
   "n_passed": 20,
   "n_failed": 3,
@@ -25,27 +25,27 @@
     {
       "name": "primary tests",
       "result": "PASS",
-      "detail": "1072 passed in 23.14s"
+      "detail": "1072 passed in 24.10s"
     },
     {
       "name": "security tests",
       "result": "PASS",
-      "detail": "411 passed in 1.03s"
+      "detail": "411 passed in 1.08s"
     },
     {
       "name": "parity tests",
       "result": "PASS",
-      "detail": "17 passed in 6.03s"
+      "detail": "17 passed in 6.04s"
     },
     {
       "name": "clean working tree",
-      "result": "PASS",
-      "detail": "clean"
+      "result": "FAIL",
+      "detail": "M src/financebench/cli.py"
     },
     {
       "name": "HEAD == origin/main",
       "result": "PASS",
-      "detail": "local f8cc09a6 vs remote f8cc09a6"
+      "detail": "local d0fb39a5 vs remote d0fb39a5"
     },
     {
       "name": "release manifest exists",
@@ -80,7 +80,7 @@
     {
       "name": "one evaluator fingerprint across published runs",
       "result": "PASS",
-      "detail": "5 published run(s), 1 distinct fingerprint(s): ['80ca8a678b1c4fa1']"
+      "detail": "9 published run(s), 1 distinct fingerprint(s): ['80ca8a678b1c4fa1']"
     },
     {
       "name": "no mock run is published",
@@ -94,13 +94,13 @@
     },
     {
       "name": "release-group run complete (both models)",
-      "result": "FAIL",
-      "detail": "1 of 2 present"
+      "result": "PASS",
+      "detail": "2 of 2 present"
     },
     {
       "name": "retrieval ablation complete",
       "result": "FAIL",
-      "detail": "18 cells, 0 generated arm(s)"
+      "detail": "18 cells, 1 generated arm(s)"
     },
     {
       "name": "report generated",

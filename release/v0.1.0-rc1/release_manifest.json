@@ -1,7 +1,7 @@
 {
   "release": "v0.1.0-rc1",
   "financebench_version": "0.1.0-rc1",
-  "repository_commit": "f8cc09a6f1a69fade3962f09043ad705f6ddae74",
+  "repository_commit": "d0fb39a570104410c54d64cfebe49ffd59fcb5b5",
   "repository_dirty": true,
   "evaluator_fingerprint": {
     "digest": "80ca8a678b1c4fa1",
@@ -92,6 +92,38 @@
   },
   "runs": [
     {
+      "run_id": "financebench-structured_financial_v1-retrieval_required-bm25-k10-scoped-ollama-qwen2.5-3b-411f70f5",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "financebench",
+      "eval_mode": "retrieval_required",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": "bm25",
+      "top_k": 10,
+      "document_scoped": true,
+      "evaluator_fingerprint": "80ca8a678b1c4fa1",
+      "n_samples": 150,
+      "sample_id_set_hash": "1a8c01b17958981d",
+      "coverage": {
+        "requested_benchmarks": [
+          "financebench"
+        ],
+        "supported_benchmarks": [
+          "financebench"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 150,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
       "run_id": "release_v0_1-structured_financial_v1-context_given-ollama-qwen2.5-3b-ca23b163",
       "model_ref": "ollama/qwen2.5:3b",
       "provider": "ollama",
@@ -126,6 +158,112 @@
         ],
         "unavailable_benchmarks": [],
         "evaluated_samples": 220,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "release_v0_1-structured_financial_v1-context_given-ollama-qwen2.5-7b-8b4bdf35",
+      "model_ref": "ollama/qwen2.5:7b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "release_v0_1",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": "bm25",
+      "top_k": 5,
+      "document_scoped": false,
+      "evaluator_fingerprint": "80ca8a678b1c4fa1",
+      "n_samples": 220,
+      "sample_id_set_hash": "e9b815fdb84fb9ab",
+      "coverage": {
+        "requested_benchmarks": [
+          "convfinqa",
+          "finance_reasoning",
+          "financebench",
+          "finqa",
+          "smb_cfo",
+          "tatqa"
+        ],
+        "supported_benchmarks": [
+          "convfinqa",
+          "finance_reasoning",
+          "financebench",
+          "finqa",
+          "smb_cfo",
+          "tatqa"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 220,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "secque-structured_financial_v1-context_given-ollama-qwen2.5-3b-273a5ad4",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "secque",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": "bm25",
+      "top_k": 5,
+      "document_scoped": false,
+      "evaluator_fingerprint": "80ca8a678b1c4fa1",
+      "n_samples": 80,
+      "sample_id_set_hash": "f9b659f9dca2cdbb",
+      "coverage": {
+        "requested_benchmarks": [
+          "secque"
+        ],
+        "supported_benchmarks": [
+          "secque"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 80,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "secque-structured_financial_v1-context_given-ollama-qwen2.5-7b-78a363b8",
+      "model_ref": "ollama/qwen2.5:7b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "secque",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": "bm25",
+      "top_k": 5,
+      "document_scoped": false,
+      "evaluator_fingerprint": "80ca8a678b1c4fa1",
+      "n_samples": 80,
+      "sample_id_set_hash": "f9b659f9dca2cdbb",
+      "coverage": {
+        "requested_benchmarks": [
+          "secque"
+        ],
+        "supported_benchmarks": [
+          "secque"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 80,
         "skipped_samples": 0,
         "text_only_coverage": 1.0,
         "multimodal_coverage": 0.0,

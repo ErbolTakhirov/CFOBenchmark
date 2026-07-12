@@ -1851,54 +1851,68 @@ def release_build(
     out_dir = Path("release") / version
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    ids = list(run_id or [])
-    if not ids:
-        # A release publishes the runs it MEANS to publish, not every directory that happens to be
-        # under runs/. Left to sweep the whole directory it would hoover up old exploratory runs — a
-        # 6-sample smoke, a 9-sample spike, superseded 40-sample probes — and stand them next to a
-        # 220-sample frozen evaluation as though they said comparable things about a model.
-        #
-        # The rule: a run is published if it is REAL, was scored by the CURRENT evaluator, and asked
-        # a FROZEN SET OF QUESTIONS — that is, it names a sample manifest.
-        #
-        # The manifest requirement is what makes this safe over time. "Real and current" alone is
-        # not enough: every old exploratory run becomes real-and-current the moment it is migrated
-        # onto the new evaluator, and a 6-sample smoke would quietly walk into the release on the
-        # back of a routine re-score. A run that cannot name the frozen question set it answered has
-        # no business in a release that claims to be reproducible from one.
-        #
-        # Runs without a manifest that the release genuinely needs — SECQUE, the retrieval arms —
-        # are named explicitly with --run-id. Explicit, and therefore auditable.
-        current = current_fingerprint().digest
-        ids = []
-        skipped: list[tuple[str, str, str]] = []
-        for path in sorted(runs_dir.iterdir()):
-            env_path = path / "environment.json"
-            if not env_path.is_file():
-                continue
-            env = json.loads(env_path.read_text(encoding="utf-8"))
-            config = json.loads((path / "run_config.json").read_text(encoding="utf-8"))
-            digest = str(env.get("evaluator_fingerprint", {}).get("digest"))
-            frozen = bool(config.get("sample_manifest_id_hash"))
-            if env.get("run_type") == "real" and digest == current and frozen:
-                ids.append(path.name)
-            else:
-                why = (
-                    "no frozen manifest"
-                    if env.get("run_type") == "real" and digest == current
-                    else str(env.get("run_type"))
-                )
-                skipped.append((path.name, digest, why))
-        if skipped:
-            console.print(
-                f"[yellow]Excluding {len(skipped)} run(s) from the release[/yellow] — "
-                "not scored by the current evaluator, or not a real run:"
+    # --run-id is ADDITIVE, not a replacement. The default sweep finds every run that answered a
+    # frozen manifest; the explicit ids name the runs the release also needs but that legitimately
+    # have no manifest — the retrieval arms, which evaluate the COMPLETE 150-sample split rather
+    # than a subset of it, and SECQUE. Making --run-id replace the default meant that naming one
+    # extra run silently dropped all six manifest runs, which is the opposite of what "add this run
+    # to the release" should do.
+    named = list(run_id or [])
+    ids: list[str] = []
+    # A release publishes the runs it MEANS to publish, not every directory that happens to be
+    # under runs/. Left to sweep the whole directory it would hoover up old exploratory runs — a
+    # 6-sample smoke, a 9-sample spike, superseded 40-sample probes — and stand them next to a
+    # 220-sample frozen evaluation as though they said comparable things about a model.
+    #
+    # The rule: a run is published if it is REAL, was scored by the CURRENT evaluator, and asked
+    # a FROZEN SET OF QUESTIONS — that is, it names a sample manifest.
+    #
+    # The manifest requirement is what makes this safe over time. "Real and current" alone is
+    # not enough: every old exploratory run becomes real-and-current the moment it is migrated
+    # onto the new evaluator, and a 6-sample smoke would quietly walk into the release on the
+    # back of a routine re-score. A run that cannot name the frozen question set it answered has
+    # no business in a release that claims to be reproducible from one.
+    #
+    # Runs without a manifest that the release genuinely needs — SECQUE, the retrieval arms —
+    # are named explicitly with --run-id. Explicit, and therefore auditable.
+    current = current_fingerprint().digest
+    ids = []
+    skipped: list[tuple[str, str, str]] = []
+    for path in sorted(runs_dir.iterdir()):
+        env_path = path / "environment.json"
+        if not env_path.is_file():
+            continue
+        env = json.loads(env_path.read_text(encoding="utf-8"))
+        config = json.loads((path / "run_config.json").read_text(encoding="utf-8"))
+        digest = str(env.get("evaluator_fingerprint", {}).get("digest"))
+        frozen = bool(config.get("sample_manifest_id_hash"))
+        if env.get("run_type") == "real" and digest == current and frozen:
+            ids.append(path.name)
+        else:
+            why = (
+                "no frozen manifest"
+                if env.get("run_type") == "real" and digest == current
+                else str(env.get("run_type"))
             )
-            for name, digest, run_type in skipped[:8]:
-                console.print(f"  [dim]{digest[:16]:16s} {run_type:9s} {name[:56]}[/dim]")
-            if len(skipped) > 8:
-                console.print(f"  [dim]... and {len(skipped) - 8} more[/dim]")
-            console.print()
+            skipped.append((path.name, digest, why))
+    if skipped:
+        console.print(
+            f"[yellow]Excluding {len(skipped)} run(s) from the release[/yellow] — "
+            "not scored by the current evaluator, or not a real run:"
+        )
+        for name, digest, run_type in skipped[:8]:
+            console.print(f"  [dim]{digest[:16]:16s} {run_type:9s} {name[:56]}[/dim]")
+        if len(skipped) > 8:
+            console.print(f"  [dim]... and {len(skipped) - 8} more[/dim]")
+        console.print()
+
+    for extra in named:
+        if extra not in ids:
+            if not (runs_dir / extra / "environment.json").is_file():
+                _fail(f"--run-id {extra!r} does not exist under {runs_dir}")
+                return
+            ids.append(extra)
+    ids.sort()
 
     console.print(f"[bold]Building release {version}[/bold] from {len(ids)} run(s)\n")
     payload = build_release(
