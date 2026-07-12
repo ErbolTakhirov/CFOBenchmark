@@ -1,0 +1,2 @@
+model_ref,run_id,fci,verdict,critical_gate_failed,n_samples
+ollama/qwen2.5:3b,tool_paired_v1-structured_financial_v1-context_given-ollama-qwen2.5-3b-c3de9553,,NOT_FINANCE_READY,True,150

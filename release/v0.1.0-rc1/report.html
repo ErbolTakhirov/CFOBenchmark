@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>FinanceBench v0.1.0-rc1 — release report</title>
+<style>
+ body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+        max-width: 1100px; margin: 2rem auto; color: #1a1a1a; line-height: 1.55; }
+ table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+ th, td { border: 1px solid #ddd; padding: .45rem .7rem; text-align: left; }
+ th { background: #f4f4f4; }
+ .withheld { color: #8a6d3b; font-style: italic; }
+ .warn { background: #fff8e1; border-left: 4px solid #f0ad4e; padding: 1rem; }
+</style></head><body>
+<h1>FinanceBench v0.1.0-rc1</h1>
+<p>Evaluator fingerprint <code>80ca8a678b1c4fa1</code>.
+Hardware: NVIDIA GeForce GTX 1650, 4096 MiB.</p>
+<div class="warn">
+<p><strong>A dash means NOT MEASURED. It never means zero.</strong> An
+<code>INSUFFICIENT_COVERAGE</code> index is a refusal, not a missing number.</p>
+<p><strong>SECQUE analytical correctness is <code>NOT_EVALUATED</code></strong> &mdash; no available
+judge passes calibration (41% false-positive rate against a 20% bar). That is a measurement.</p>
+<p><strong>No API provider is live-verified.</strong> No API key has ever been used here.</p>
+</div>
+<h2>Verdict</h2>
+<table><tr><th>model</th><th>run</th><th>FCI</th><th>verdict</th></tr>
+<tr><td><code>ollama/qwen2.5:3b</code></td><td><code>tool_paired_v1-structured_financial_v1-conte</code></td><td class='withheld'>**INSUFFICIENT_COVERAGE** — a critical gate failed — a single index would let a strong ave</td><td>NOT_FINANCE_READY</td></tr>
+</table>
+<p><em>A good score does not certify that a model is safe to run unsupervised against real money.</em></p>
+</body></html>

@@ -28,6 +28,7 @@ from financebench.config.benchmark_group import load_benchmark_group
 from financebench.config.model_config import ModelConfigFile, load_model_config
 from financebench.datasets.base import available_datasets, create_dataset
 from financebench.evaluation.benchmark_metrics import preferred_metric_name
+from financebench.evaluation.fingerprint import current_fingerprint
 from financebench.evaluation.stats import paired_bootstrap
 from financebench.execution.cache import ResponseCache
 from financebench.execution.orchestration import EvalRequest, run_eval, run_id_for
@@ -36,6 +37,7 @@ from financebench.models.verification import ProviderVerification, verify_all_pr
 from financebench.prompts.profiles import available_prompt_profiles
 from financebench.release import build_release, check_release_gates, sha256_file
 from financebench.reporting import build_mission_report, load_runs
+from financebench.reporting.release_report import ModelResult, build_release_report, load_run
 from financebench.retrieval.ablation import run_ablation
 from financebench.schemas.common import (
     DEFAULT_PROMPT_PROFILE,
@@ -1519,6 +1521,94 @@ def freeze_manifest(
 
 
 # --------------------------------------------------------------------------- release
+
+
+@app.command(name="release-report")
+def release_report(
+    version: Annotated[str, typer.Option("--version")] = "v0.1.0-rc1",
+    runs_dir: Annotated[Path, typer.Option("--runs-dir")] = Path("runs"),
+) -> None:
+    """Build the public release report from every run scored by the CURRENT evaluator.
+
+    Runs scored by a different evaluator are **excluded**, not averaged in. Two runs with different
+    fingerprints are not comparable, and putting them on one page would make the page a lie.
+    """
+    current = current_fingerprint().digest
+    by_model: dict[str, ModelResult] = {}
+    excluded: list[tuple[str, str]] = []
+
+    for path in sorted(runs_dir.iterdir()) if runs_dir.is_dir() else []:
+        artifacts = load_run(runs_dir, path.name)
+        if artifacts is None:
+            continue
+        env = artifacts.get("environment", {})
+        if env.get("run_type") != "real":
+            continue
+        digest = env.get("evaluator_fingerprint", {}).get("digest")
+        if digest != current:
+            excluded.append((path.name, str(digest)))
+            continue
+        model_ref = str(env["model_ref"])
+        by_model.setdefault(model_ref, ModelResult(model_ref=model_ref)).runs[path.name] = artifacts
+
+    if excluded:
+        console.print(
+            f"[yellow]Excluded {len(excluded)} run(s) scored by a DIFFERENT evaluator — they are not "
+            f"comparable with the rest and are not averaged in:[/yellow]"
+        )
+        for rid, digest in excluded[:6]:
+            console.print(f"  [dim]{digest}  {rid[:60]}[/dim]")
+        console.print(
+            "[dim]  Re-score them: financebench resume --run-id <id> --model-config <cfg>[/dim]\n"
+        )
+
+    if not by_model:
+        _fail(
+            f"No runs are scored by the current evaluator ({current}). "
+            "Nothing can be published until at least one is."
+        )
+        return
+
+    out_dir = Path("release") / version
+    limitations = Path("docs/known_limitations.md")
+    build_release_report(
+        out_dir,
+        version=version,
+        models=list(by_model.values()),
+        paired=[],
+        fingerprint=current,
+        hardware=_hardware_summary(),
+        limitations=(
+            "See [`docs/known_limitations.md`](../../docs/known_limitations.md)."
+            if limitations.is_file()
+            else "NOT DOCUMENTED — this is itself a release blocker."
+        ),
+    )
+    total = sum(len(m.runs) for m in by_model.values())
+    console.print(
+        f"[bold green]Wrote[/bold green] {out_dir}/report.html, results.json, leaderboard.csv "
+        f"({total} run(s), {len(by_model)} model(s), fingerprint {current})"
+    )
+
+
+def _hardware_summary() -> dict[str, object]:
+    import platform
+
+    gpu = None
+    if shutil.which("nvidia-smi"):
+        import subprocess
+
+        gpu = subprocess.run(
+            ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader"],
+            capture_output=True,
+            text=True,
+            check=False,
+        ).stdout.strip()
+    return {
+        "platform": platform.platform(),
+        "python": platform.python_version(),
+        "gpu": gpu or None,
+    }
 
 
 @app.command(name="release-build")

@@ -107,11 +107,23 @@ def build_release_report(
     hardware: dict[str, Any],
     limitations: str,
 ) -> None:
-    """Write ``report.md``, ``report.html``, ``results.json`` and ``leaderboard.csv``."""
+    """Write ``results_tables.md``, ``report.html``, ``results.json`` and ``leaderboard.csv``.
+
+    It deliberately does **not** write ``report.md``. That file is the narrative — the one a human
+    reads, carrying the findings and the caveats — and it is authored, not generated. A generator
+    that overwrites it turns a report into a table dump, and the tables are the part of a benchmark
+    report that means least on its own: `0.027` is a number, and "giving the model a calculator made
+    it five times worse, and it called the calculator twice in 150 questions" is a finding.
+
+    The tables here are generated so that the numbers *in* them cannot drift from the artifacts.
+    """
     out_dir.mkdir(parents=True, exist_ok=True)
 
     md: list[str] = [
-        f"# FinanceBench {version} — release report",
+        f"# FinanceBench {version} — generated result tables",
+        "",
+        "Generated from the run artifacts. The narrative report, with the findings, is "
+        "[`report.md`](report.md).",
         "",
         f"Evaluator fingerprint `{fingerprint}`. Every run below was scored by **this** evaluator; "
         "runs scored by a different one are not on this page, because they are not comparable and "
@@ -190,7 +202,7 @@ def build_release_report(
         "money.** It means it did well on these questions, on this hardware, on this date.",
         "",
     ]
-    (out_dir / "report.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    (out_dir / "results_tables.md").write_text("\n".join(md) + "\n", encoding="utf-8")
 
     # ---- results.json
     payload = {
