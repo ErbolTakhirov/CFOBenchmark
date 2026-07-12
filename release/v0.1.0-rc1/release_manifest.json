@@ -1,0 +1,684 @@
+{
+  "release": "v0.1.0-rc1",
+  "financebench_version": "0.1.0-rc1",
+  "repository_commit": "55dc739a62a2f0d8d0a3fdc4de5f58fd349be024",
+  "repository_dirty": false,
+  "evaluator_fingerprint": {
+    "digest": "80ca8a678b1c4fa1",
+    "parser_version": "2",
+    "prompt_profiles": {
+      "analyst_memo_v1": "a026f06a",
+      "conversation_v1": "a026f06a",
+      "direct_numeric_v1": "188c3fb7",
+      "grounded_citations_v1": "a026f06a",
+      "program_v1": "668ca98d",
+      "structured_financial_v1": "a026f06a",
+      "tool_agent_v1": "a026f06a"
+    },
+    "metric_versions": {
+      "exact_match": "1",
+      "finqa_execution_accuracy": "1",
+      "finqa_program_accuracy": "1",
+      "finqa_answer_accuracy": "2",
+      "tatqa_exact_match": "2",
+      "tatqa_f1": "2",
+      "tatqa_scale_accuracy": "1",
+      "finance_reasoning_accuracy": "1",
+      "financebench_answer_accuracy": "1",
+      "financebench_unsupported_numeric_claim": "3",
+      "financebench_citation_accuracy": "1",
+      "smb_cfo_accuracy": "1",
+      "smb_cfo_refusal_correctness": "2",
+      "smb_cfo_injection_resistance": "1",
+      "convfinqa_turn_accuracy": "1",
+      "convfinqa_execution_accuracy": "1",
+      "convfinqa_program_accuracy": "1",
+      "secque_numeric_agreement": "1",
+      "secque_unsupported_numeric_claim": "1",
+      "secque_comparison_direction": "2",
+      "secque_filing_identification": "1",
+      "tool_selection_accuracy": "1",
+      "tool_execution_success": "2",
+      "tool_result_utilization": "1",
+      "tool_security_rejection": "1",
+      "tool_invocation_rate": "1",
+      "tool_argument_validity": "1",
+      "tool_hallucination_rate": "1",
+      "tool_error_recovery": "1"
+    },
+    "dataset_adapters": {
+      "finqa": "official@0f16e286",
+      "tatqa": "official@870accc4",
+      "finance_reasoning": "official@b0fe6455",
+      "financebench": "open_source@cc39aeb4",
+      "convfinqa": "official@cf3eed2d",
+      "secque": "hf@894196b8",
+      "smb_cfo": "generated@1",
+      "smoke": "in-repo@1"
+    },
+    "retrieval_version": "2",
+    "scoring_version": "3",
+    "scoring_config_hash": "77009b5f8887b3d8"
+  },
+  "sample_manifests": [
+    {
+      "path": "configs/manifests/tool_paired_v1.json",
+      "name": "tool_paired_v1",
+      "id_hash": "7c839cfbc46cb862",
+      "n_samples": 150,
+      "sha256": "dc8ba6b4419db0bfdff79232c914851655335f93de5f9cc71d444ff2e2f0786c"
+    },
+    {
+      "path": "configs/manifests/release_v0_1.json",
+      "name": "release_v0_1",
+      "id_hash": "e9b815fdb84fb9ab",
+      "n_samples": 220,
+      "sha256": "3684854509b70790ed5fd3d87dabc2ce397c2e438edf016cad4305663b4a758b"
+    }
+  ],
+  "models": {
+    "ollama/qwen2.5:3b": {
+      "architecture": "qwen2",
+      "parameters": "3.1B",
+      "quantization": "Q4_K_M",
+      "digest": "357c53fb659c"
+    },
+    "ollama/qwen2.5:7b": {
+      "architecture": "qwen2",
+      "parameters": "7.6B",
+      "quantization": "Q4_K_M",
+      "digest": "845dbda0ea48"
+    }
+  },
+  "runs": [
+    {
+      "run_id": "convfinqa-structured_financial_v1-context_given-model_history-ollama-qwen2.5-3b-9496e179",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "convfinqa",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": null,
+      "top_k": null,
+      "document_scoped": null,
+      "evaluator_fingerprint": "ec3447250b3cd087",
+      "n_samples": 120,
+      "sample_id_set_hash": "7e951c1b8589ba4b",
+      "coverage": {
+        "requested_benchmarks": [
+          "convfinqa"
+        ],
+        "supported_benchmarks": [
+          "convfinqa"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 120,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "convfinqa-structured_financial_v1-context_given-ollama-qwen2.5-3b-42cef1f9",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "convfinqa",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": null,
+      "top_k": null,
+      "document_scoped": null,
+      "evaluator_fingerprint": "ec3447250b3cd087",
+      "n_samples": 120,
+      "sample_id_set_hash": "7e951c1b8589ba4b",
+      "coverage": {
+        "requested_benchmarks": [
+          "convfinqa"
+        ],
+        "supported_benchmarks": [
+          "convfinqa"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 120,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "core_real-structured_financial_v1-context_given-ollama-qwen2.5-3b-b2a54a41",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "core_real",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": null,
+      "top_k": null,
+      "document_scoped": null,
+      "evaluator_fingerprint": null,
+      "n_samples": 9,
+      "sample_id_set_hash": "82e5611a1beb4480",
+      "coverage": {
+        "requested_benchmarks": [
+          "finance_reasoning",
+          "finqa",
+          "tatqa"
+        ],
+        "supported_benchmarks": [
+          "finqa"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 9,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "finance_reasoning-structured_financial_v1-context_given-ollama-qwen2.5-3b-6fdd075c",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "finance_reasoning",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": null,
+      "top_k": null,
+      "document_scoped": null,
+      "evaluator_fingerprint": null,
+      "n_samples": 40,
+      "sample_id_set_hash": "fb11d4042183a60f",
+      "coverage": {
+        "requested_benchmarks": [
+          "finance_reasoning"
+        ],
+        "supported_benchmarks": [
+          "finance_reasoning"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 40,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "finance_reasoning-structured_financial_v1-context_given-ollama-qwen2.5-7b-8227b883",
+      "model_ref": "ollama/qwen2.5:7b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "finance_reasoning",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": null,
+      "top_k": null,
+      "document_scoped": null,
+      "evaluator_fingerprint": null,
+      "n_samples": 40,
+      "sample_id_set_hash": "fb11d4042183a60f",
+      "coverage": {
+        "requested_benchmarks": [
+          "finance_reasoning"
+        ],
+        "supported_benchmarks": [
+          "finance_reasoning"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 40,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "financebench-structured_financial_v1-context_given-ollama-qwen2.5-3b-56183cfb",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "financebench",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": null,
+      "top_k": null,
+      "document_scoped": null,
+      "evaluator_fingerprint": "5135fb2b8b97a8d8",
+      "n_samples": 150,
+      "sample_id_set_hash": "1a8c01b17958981d",
+      "coverage": {
+        "requested_benchmarks": [
+          "financebench"
+        ],
+        "supported_benchmarks": [
+          "financebench"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 150,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "financebench-structured_financial_v1-retrieval_required-ollama-qwen2.5-3b-84b1da71",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "financebench",
+      "eval_mode": "retrieval_required",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": null,
+      "top_k": null,
+      "document_scoped": null,
+      "evaluator_fingerprint": "ec3447250b3cd087",
+      "n_samples": 150,
+      "sample_id_set_hash": "1a8c01b17958981d",
+      "coverage": {
+        "requested_benchmarks": [
+          "financebench"
+        ],
+        "supported_benchmarks": [
+          "financebench"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 150,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "finqa-program_v1-context_given-ollama-qwen2.5-3b-0b50533c",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "finqa",
+      "eval_mode": "context_given",
+      "prompt_profile": "program_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": null,
+      "top_k": null,
+      "document_scoped": null,
+      "evaluator_fingerprint": null,
+      "n_samples": 12,
+      "sample_id_set_hash": "0b1190cd8578701a",
+      "coverage": {
+        "requested_benchmarks": [
+          "finqa"
+        ],
+        "supported_benchmarks": [
+          "finqa"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 12,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "finqa-structured_financial_v1-context_given-ollama-qwen2.5-3b-62bc0ec0",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "finqa",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": null,
+      "top_k": null,
+      "document_scoped": null,
+      "evaluator_fingerprint": null,
+      "n_samples": 40,
+      "sample_id_set_hash": "bf03d6ddb92f5a1d",
+      "coverage": {
+        "requested_benchmarks": [
+          "finqa"
+        ],
+        "supported_benchmarks": [
+          "finqa"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 40,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "finqa-structured_financial_v1-context_given-ollama-qwen2.5-7b-fb168ffc",
+      "model_ref": "ollama/qwen2.5:7b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "finqa",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": null,
+      "top_k": null,
+      "document_scoped": null,
+      "evaluator_fingerprint": null,
+      "n_samples": 40,
+      "sample_id_set_hash": "bf03d6ddb92f5a1d",
+      "coverage": {
+        "requested_benchmarks": [
+          "finqa"
+        ],
+        "supported_benchmarks": [
+          "finqa"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 40,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "secque-structured_financial_v1-context_given-ollama-qwen2.5-3b-273a5ad4",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "secque",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": "bm25",
+      "top_k": 5,
+      "document_scoped": false,
+      "evaluator_fingerprint": "fb80c7c093e6a190",
+      "n_samples": 80,
+      "sample_id_set_hash": "f9b659f9dca2cdbb",
+      "coverage": {
+        "requested_benchmarks": [
+          "secque"
+        ],
+        "supported_benchmarks": [
+          "secque"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 80,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "secque-structured_financial_v1-context_given-ollama-qwen2.5-7b-78a363b8",
+      "model_ref": "ollama/qwen2.5:7b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "secque",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": "bm25",
+      "top_k": 5,
+      "document_scoped": false,
+      "evaluator_fingerprint": "fb80c7c093e6a190",
+      "n_samples": 80,
+      "sample_id_set_hash": "f9b659f9dca2cdbb",
+      "coverage": {
+        "requested_benchmarks": [
+          "secque"
+        ],
+        "supported_benchmarks": [
+          "secque"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 80,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "smb_cfo-structured_financial_v1-context_given-ollama-qwen2.5-3b-ddda1ed3",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "smb_cfo",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": null,
+      "top_k": null,
+      "document_scoped": null,
+      "evaluator_fingerprint": "5135fb2b8b97a8d8",
+      "n_samples": 30,
+      "sample_id_set_hash": "689cfee03eeff239",
+      "coverage": {
+        "requested_benchmarks": [
+          "smb_cfo"
+        ],
+        "supported_benchmarks": [
+          "smb_cfo"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 30,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "tatqa-structured_financial_v1-context_given-ollama-qwen2.5-3b-3dd38d48",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "tatqa",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": null,
+      "top_k": null,
+      "document_scoped": null,
+      "evaluator_fingerprint": null,
+      "n_samples": 40,
+      "sample_id_set_hash": "6666dd76df488cf0",
+      "coverage": {
+        "requested_benchmarks": [
+          "tatqa"
+        ],
+        "supported_benchmarks": [
+          "tatqa"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 40,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "tatqa-structured_financial_v1-context_given-ollama-qwen2.5-7b-16c8eb64",
+      "model_ref": "ollama/qwen2.5:7b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "tatqa",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": null,
+      "top_k": null,
+      "document_scoped": null,
+      "evaluator_fingerprint": null,
+      "n_samples": 40,
+      "sample_id_set_hash": "6666dd76df488cf0",
+      "coverage": {
+        "requested_benchmarks": [
+          "tatqa"
+        ],
+        "supported_benchmarks": [
+          "tatqa"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 40,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "tatqa-structured_financial_v1-tool_assisted-ollama-qwen2.5-3b-ecf8911d",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "tatqa",
+      "eval_mode": "tool_assisted",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": null,
+      "top_k": null,
+      "document_scoped": null,
+      "evaluator_fingerprint": "e3af8137742105dc",
+      "n_samples": 6,
+      "sample_id_set_hash": "59dfbf6804b3148c",
+      "coverage": {
+        "requested_benchmarks": [
+          "tatqa"
+        ],
+        "supported_benchmarks": [
+          "tatqa"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 6,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "tool_paired_v1-structured_financial_v1-context_given-ollama-qwen2.5-3b-c3de9553",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "tool_paired_v1",
+      "eval_mode": "context_given",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": "bm25",
+      "top_k": 5,
+      "document_scoped": false,
+      "evaluator_fingerprint": "80ca8a678b1c4fa1",
+      "n_samples": 150,
+      "sample_id_set_hash": "7c839cfbc46cb862",
+      "coverage": {
+        "requested_benchmarks": [
+          "finqa",
+          "tatqa"
+        ],
+        "supported_benchmarks": [
+          "finqa",
+          "tatqa"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 150,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    },
+    {
+      "run_id": "tool_paired_v1-structured_financial_v1-tool_assisted-ollama-qwen2.5-3b-29fa8863",
+      "model_ref": "ollama/qwen2.5:3b",
+      "provider": "ollama",
+      "run_type": "real",
+      "benchmark_or_group": "tool_paired_v1",
+      "eval_mode": "tool_assisted",
+      "prompt_profile": "structured_financial_v1",
+      "seed": 42,
+      "temperature": 0.0,
+      "retriever": "bm25",
+      "top_k": 5,
+      "document_scoped": false,
+      "evaluator_fingerprint": "5e86dc70b21b2966",
+      "n_samples": 150,
+      "sample_id_set_hash": "7c839cfbc46cb862",
+      "coverage": {
+        "requested_benchmarks": [
+          "finqa",
+          "tatqa"
+        ],
+        "supported_benchmarks": [
+          "finqa",
+          "tatqa"
+        ],
+        "unavailable_benchmarks": [],
+        "evaluated_samples": 150,
+        "skipped_samples": 0,
+        "text_only_coverage": 1.0,
+        "multimodal_coverage": 0.0,
+        "ru_coverage": 0.0,
+        "agentic_coverage": 0.0
+      }
+    }
+  ],
+  "hardware": {
+    "platform": "Linux-6.19.14+kali-amd64-x86_64-with-glibc2.42",
+    "python": "3.13.12",
+    "processor": "",
+    "gpu": "NVIDIA GeForce GTX 1650, 4096 MiB",
+    "note": "The 7B model does not fit in this GPU's 4 GB and partly runs on CPU. Latency comparisons between the 3B and 7B measure this hardware, not the models in general."
+  }
+}

@@ -258,4 +258,88 @@ def check_release_gates(out_dir: Path, *, runs_dir: Path) -> list[GateOutcome]:
     code, out = run([".venv/bin/python", "scripts/secret_scan_repo.py"])
     gates.append(GateOutcome("no secrets", code == 0, out.strip().splitlines()[-1] if out else ""))
 
+    # ---------------------------------------------------------------- the gates that actually matter
+    #
+    # Everything above checks that the CODE is healthy. None of it checks that the EVALUATION was
+    # finished, and a release that tags on a green test suite while half its runs are still executing
+    # would be exactly the dishonesty this project exists to prevent. A benchmark whose gates only
+    # test the benchmark's own source code is testing the wrong thing.
+
+    def run_ids() -> list[str]:
+        if not runs_dir.is_dir():
+            return []
+        return [p.name for p in runs_dir.iterdir() if (p / "environment.json").is_file()]
+
+    ids = run_ids()
+
+    # Every published run must have been scored by the SAME evaluator, or the comparisons between
+    # them measure our code rather than the models.
+    fingerprints = set()
+    for rid in ids:
+        env = json.loads((runs_dir / rid / "environment.json").read_text(encoding="utf-8"))
+        digest = env.get("evaluator_fingerprint", {}).get("digest")
+        if digest:
+            fingerprints.add(digest)
+    gates.append(
+        GateOutcome(
+            "one evaluator fingerprint across all runs",
+            len(fingerprints) <= 1,
+            f"{len(fingerprints)} distinct: {sorted(fingerprints)}"[:110],
+        )
+    )
+
+    # The paired tool experiment: all FOUR variants, or the comparison does not exist.
+    wanted = {
+        "3B direct": ("tool_paired_v1", "context_given", "3b"),
+        "3B tools": ("tool_paired_v1", "tool_assisted", "3b"),
+        "7B direct": ("tool_paired_v1", "context_given", "7b"),
+        "7B tools": ("tool_paired_v1", "tool_assisted", "7b"),
+    }
+    missing = [
+        label
+        for label, (group, mode, model) in wanted.items()
+        if not any(group in r and mode in r and model in r for r in ids)
+    ]
+    gates.append(
+        GateOutcome(
+            "paired direct-vs-tools run complete",
+            not missing,
+            f"missing: {missing}" if missing else "all 4 variants present",
+        )
+    )
+
+    # The release group is the ONLY run that can produce an FCI (it covers SMB-CFO + grounding +
+    # refusal together). Without it the report has no headline.
+    release_runs = [r for r in ids if "release_v0_1" in r]
+    gates.append(
+        GateOutcome(
+            "release-group run complete (both models)",
+            len(release_runs) >= 2,
+            f"{len(release_runs)} of 2 present",
+        )
+    )
+
+    # The retrieval ablation: retrieval metrics for every arm, AND at least one generated arm beyond
+    # the two we already had — otherwise "does better retrieval improve answers?" is unanswered.
+    ablation = Path("reports/retrieval_ablation.json")
+    cells = 0
+    if ablation.is_file():
+        cells = len(json.loads(ablation.read_text(encoding="utf-8")).get("cells", []))
+    generated_arms = [r for r in ids if "retrieval_required" in r]
+    gates.append(
+        GateOutcome(
+            "retrieval ablation complete",
+            cells >= 18 and len(generated_arms) >= 2,
+            f"{cells} cells, {len(generated_arms)} generated arm(s)",
+        )
+    )
+
+    for label, path in (
+        ("report generated", Path("release") / out_dir.name / "report.md"),
+        ("manual validity review", Path("release") / out_dir.name / "manual_validity_review.md"),
+        ("limitations documented", Path("docs/known_limitations.md")),
+        ("reproduction guide", Path("release") / out_dir.name / "reproduction.md"),
+    ):
+        gates.append(GateOutcome(label, path.is_file(), str(path)))
+
     return gates
