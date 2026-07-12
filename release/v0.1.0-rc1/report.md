@@ -163,10 +163,21 @@ same evaluator.
 | `secque_numeric_agreement` | 0.080 (n=62, 18 n/a) | **0.115** (n=62, 18 n/a) |
 | `secque_filing_identification` | 0.607 (n=56) | 0.494 (n=62) |
 | `secque_unsupported_numeric_claim` | 0.938 (n=80) | 0.900 (n=80) |
+| `secque_comparison_direction` | 1.000 (**n=17 of 80**) | 1.000 (**n=12 of 80**) |
 | `exact_match` | 0.000 | 0.000 |
 | **Financial Core Score** | **0.354** | **0.307** |
 | **analytical correctness** | **`NOT_EVALUATED`** | **`NOT_EVALUATED`** |
 | verdict | **NOT_FINANCE_READY** | **NOT_FINANCE_READY** |
+
+> ⚠️ **`comparison_direction = 1.000` is not what it looks like.** It is graded on 12 of 80 samples
+> for the 7B, and it **abstains precisely when a model contradicts itself** — which is when the
+> question is interesting. On the Nike EBIT question the model invented both figures *and inverted the
+> conclusion*, and the metric returned not-applicable, because the answer contained "increased" *and*
+> "decrease" (it discussed a segment alongside the total). Deciding which of two contradictory
+> directional claims is the headline is a guess, and **a metric that guesses is worse than one that
+> abstains** — so it abstains, and its `n` is printed beside it. Read it as *"of the twelve questions
+> where the model committed to one direction, it got all twelve right"*, and nothing more. The
+> hallucination detector **did** catch that answer: both invented figures are flagged.
 
 **Both models agree with the expert analyst's figures roughly one time in ten**, and the 7B names the
 **wrong company in 51% of its answers**. These are not models that can read a 10-K.
